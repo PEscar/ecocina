@@ -15,6 +15,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+
+                    <all-products></all-products>
                 </div>
             </div>
         </div>
