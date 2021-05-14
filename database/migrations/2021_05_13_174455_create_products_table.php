@@ -16,11 +16,12 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('detail');
-            $table->float('stock', 16, 3);
-            $table->boolean('sales');
-            $table->boolean('shoppings');
-            $table->boolean('productions');
+            $table->text('detail')->nullable();
+            $table->tinyInteger('measure');
+            $table->float('stock', 16, 3)->default(0);
+            $table->boolean('sales')->default(false);
+            $table->boolean('shoppings')->default(false);
+            $table->boolean('productions')->default(false);
             $table->timestamps();
         });
     }

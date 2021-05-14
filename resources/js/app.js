@@ -10,6 +10,7 @@ window.Vue = require('vue');
 
 import VueAxios from 'vue-axios';
 import axios from 'axios';
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,6 +18,7 @@ import axios from 'axios';
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+Vue.use(ClientTable);
 Vue.use(VueAxios, axios);
 
 /**
@@ -30,8 +32,8 @@ Vue.use(VueAxios, axios);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('all-products', require('./components/AllProducts.vue').default);
+Vue.component('product-list', require('./components/ProductList.vue').default);
+Vue.component('product-form', require('./components/ProductForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -41,4 +43,8 @@ Vue.component('all-products', require('./components/AllProducts.vue').default);
 
 const app = new Vue({
     el: '#app',
+    data: () => ({
+		csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+		base_url: document.querySelector('meta[name="base-url"]').getAttribute('content'),
+	})
 });

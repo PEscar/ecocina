@@ -20,4 +20,17 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('products', ProductController::class);
+
+Route::prefix('products')->group(function () {
+
+	Route::get('/', 'ProductController@index');
+	Route::post('/', 'ProductController@store');
+
+	Route::post('/{id}', 'ProductController@update');
+	Route::delete('/{id}', 'ProductController@destroy');
+
+	Route::get('/create', 'ProductController@create');	
+	Route::get('/{id}/edit', 'ProductController@edit');
+
+	Route::get('/{id}/recipes', 'RecipeController@index');
+});

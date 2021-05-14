@@ -10,5 +10,8 @@ $factory->define(Product::class, function (Faker $faker) {
         'name' => $faker->name(),
         'detail' => $faker->sentence(10, 20),
         'stock' => $faker->randomFloat(),
+        'sales' => $faker->boolean(),
+        'shoppings' => $faker->boolean(),
+        'productions' => $faker->boolean(),
     ];
 });
