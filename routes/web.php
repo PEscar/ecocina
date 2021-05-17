@@ -32,6 +32,8 @@ Route::prefix('products')->group(function () {
 	Route::get('/create', 'ProductController@create');	
 	Route::get('/{id}/edit', 'ProductController@edit');
 
+	// Recipes
+	Route::post('/{id}/recipes', 'RecipeController@store');
 	Route::get('/{id}/recipes', 'RecipeController@index');
 	Route::get('/{id}/recipes/create', 'RecipeController@create');
 	Route::delete('/{id}/recipes/{id_recipe}', 'RecipeController@destroy');

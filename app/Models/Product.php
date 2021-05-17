@@ -27,4 +27,16 @@ class Product extends Model
     }
 
     // END RELATIONS
+
+    // SCOPES
+
+    public function scopeSearch($query, $search) {
+        if(empty($search))
+            return;
+
+        $query->where('name', 'like', '%'.$search.'%');
+        $query->orWhere('detail', 'like', '%'.$search.'%');
+    }
+
+    // END SCOPES
 }

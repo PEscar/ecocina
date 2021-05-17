@@ -11,6 +11,7 @@ window.Vue = require('vue');
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import {ServerTable, ClientTable, Event} from 'vue-tables-2';
+import vSelect from 'vue-select';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -20,6 +21,7 @@ import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 
 Vue.use(ClientTable);
 Vue.use(VueAxios, axios);
+Vue.component('v-select', vSelect)
 
 /**
  * The following block of code may be used to automatically register your

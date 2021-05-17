@@ -39,6 +39,7 @@ class RecipeController extends Controller
 
     public function store(RecipeRequest $request)
     {
+        dd($request->all());
         // $product = Product::create($request->all());
 
         // return redirect('home')->with('success','Producto "' . $request->name . '" creado exitosamente !');

@@ -24,9 +24,15 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return json_encode(Product::orderBy('name', 'asc')->get());
+        $products = Product::orderBy('name', 'asc');
+
+        if ( isset($request->q) && !empty($request->q) )
+        {
+            $products->search($request->q);
+        }
+        return json_encode($products->get());
     }
 
     public function create()
