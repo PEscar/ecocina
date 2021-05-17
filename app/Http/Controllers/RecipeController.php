@@ -26,8 +26,27 @@ class RecipeController extends Controller
      */
     public function index($product_id)
     {
-        $product = Product::with('recipes')->findOrFail($product_id);
+        $product = Product::with('recipes.lines')->findOrFail($product_id);
 
-        return view('recipes_form', ['product' => $product]);
+        return view('recipes', ['product' => $product]);
+    }
+
+    public function create($product_id)
+    {
+        $product = Product::findOrFail($product_id);
+        return view('recipe_form', ['product' => $product, 'recipe' => null ]);
+    }
+
+    public function store(RecipeRequest $request)
+    {
+        // $product = Product::create($request->all());
+
+        // return redirect('home')->with('success','Producto "' . $request->name . '" creado exitosamente !');
+    }
+
+    public function destroy($product_id, $id)
+    {
+        $recipe = Product::findOrFail($product_id)->recipes()->where('id', $id)->firstOrFail();
+        return json_encode($recipe->delete());
     }
 }

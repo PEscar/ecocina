@@ -34,6 +34,9 @@ Vue.use(VueAxios, axios);
 
 Vue.component('product-list', require('./components/ProductList.vue').default);
 Vue.component('product-form', require('./components/ProductForm.vue').default);
+Vue.component('recipe-list', require('./components/RecipeList.vue').default);
+Vue.component('recipe-form', require('./components/RecipeForm.vue').default);
+// Vue.component('product-form', require('./components/ProductForm.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

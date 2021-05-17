@@ -9,7 +9,7 @@
                     
                 <div class="card-body">
                 	<product-form
-                		v-bind:edit-product="<?=htmlentities(json_encode($product ? $product : null))?>"
+                		v-bind:edit-product="<?=htmlentities(json_encode($product))?>"
                 	></product-form>
                 </div>
             </div>

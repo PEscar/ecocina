@@ -18,4 +18,13 @@ class Product extends Model
         'productions',
         'measure',
     ];
+
+    // RELATIONS
+
+    public function recipes()
+    {
+		return $this->hasMany(Recipe::class);
+    }
+
+    // END RELATIONS
 }

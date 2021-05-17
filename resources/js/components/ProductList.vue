@@ -96,7 +96,6 @@
                 {
                     e.preventDefault()
                 }
-                
             }
         }
     }

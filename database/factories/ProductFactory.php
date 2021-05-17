@@ -13,5 +13,6 @@ $factory->define(Product::class, function (Faker $faker) {
         'sales' => $faker->boolean(),
         'shoppings' => $faker->boolean(),
         'productions' => $faker->boolean(),
+        'measure' => 1,
     ];
 });

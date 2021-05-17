@@ -33,4 +33,6 @@ Route::prefix('products')->group(function () {
 	Route::get('/{id}/edit', 'ProductController@edit');
 
 	Route::get('/{id}/recipes', 'RecipeController@index');
+	Route::get('/{id}/recipes/create', 'RecipeController@create');
+	Route::delete('/{id}/recipes/{id_recipe}', 'RecipeController@destroy');
 });
