@@ -61,6 +61,31 @@
                             </div>
                         </div>
 
+                        <hr>
+
+                        <div class="form-group row">
+                            <label for="entity" class="col-md-4 col-form-label text-md-right">Nombre del Emprendimiento</label>
+
+                            <div class="col-md-6">
+                                <input id="entity" type="text" class="form-control" name="entity" required value="{{ old('entity') }}">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="precision" class="col-md-4 col-form-label text-md-right">Decimales para Precios (0 a 3)</label>
+
+                            <div class="col-md-6">
+                                <vue-numeric
+                                    v-model="precision"
+                                    v-bind:minus="false"
+                                    class="form-control"
+                                    v-bind:min="0"
+                                    v-bind:max="3"
+                                    name="precision"
+                                ></vue-numeric>
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

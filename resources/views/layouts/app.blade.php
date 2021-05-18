@@ -10,7 +10,10 @@
     <!-- BASE Url -->
     <meta name="base-url" content="{{ url('') }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <!-- Decimals -->
+    <meta name="precision" content="{{ auth()->user() ? auth()->user()->entity->precision : 2 }}">
+
+    <title>{{ config('app.name', 'Laravel') . ' - ' . ( auth()->user() ? auth()->user()->entity->name : '' ) }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -37,7 +40,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        @if ( auth()->user() )
+                            <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('home') }}">Productos</a></li>
+                            <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('purchases') }}">Compras</a></li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

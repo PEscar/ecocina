@@ -53,11 +53,13 @@
                         id: 'ID',
                         measure: 'U. Medida',
                         actions: 'Acciones',
+                        detail: 'Descripción',
                     }
                 },
                 columns: [
                     'id',
                     'name',
+                    'detail',
                     'measure',
                     'stock',
                     'sales',
@@ -86,7 +88,7 @@
                 if ( confirm )
                 {
                     this.axios
-                        .delete(`products/${id}`)
+                        .delete(this.$root.base_url + '/products/' + id)
                         .then(response => {
                             let i = this.products.map(data => data.id).indexOf(id);
                             this.products.splice(i, 1)

@@ -25,7 +25,11 @@ class RecipeRequest extends FormRequest
     {
         return [
             'quantity' => 'required|gt:0',
-            'ingredientes.id' => 'required|exists:products'
+            'extra_cost' => '',
+            'products.*' => 'required|exists:products,id',
+            'qttys.*' => 'required|gt:0',
+            'name' => 'required',
+            'detial' => '',
         ];
     }
 }

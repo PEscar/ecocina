@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RecipeRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
@@ -37,17 +38,40 @@ class RecipeController extends Controller
         return view('recipe_form', ['product' => $product, 'recipe' => null ]);
     }
 
-    public function store(RecipeRequest $request)
+    public function store($id = null, RecipeRequest $request)
     {
-        dd($request->all());
-        // $product = Product::create($request->all());
+        if ( $id )
+        {
+            $recipe = Recipe::findOrFail($id);
+            $recipe->update($request->except(['product_id']));
+        }
+        else
+        {
+            $product = Product::findOrFail($request->product_id);
+            $recipe = $product->recipes()->create($request->all());
+        }
 
-        // return redirect('home')->with('success','Producto "' . $request->name . '" creado exitosamente !');
+        $lines = [];
+
+        foreach ($request->products as $key => $value) {
+            $lines[$value] = ['quantity' => $request->qttys[$key], 'detail' => $request->details[$key], 'entity_id' => session('user.entity_id')];
+        }
+
+        $recipe->lines()->sync($lines);
+
+        return redirect('products/' . $recipe->product_id . '/recipes')->with('success','Receta "' . $recipe->name . '" ' . ( $id ? 'actualizada' : 'creada' ) . ' exitosamente !');
     }
 
-    public function destroy($product_id, $id)
+    public function edit($id)
     {
-        $recipe = Product::findOrFail($product_id)->recipes()->where('id', $id)->firstOrFail();
+        $recipe = Recipe::with(['lines'])->findOrFail($id);
+
+        return view('recipe_form', ['product' => new ProductResource($recipe->product), 'recipe' => $recipe]);
+    }
+
+    public function destroy($id)
+    {
+        $recipe = Recipe::findOrFail($id);
         return json_encode($recipe->delete());
     }
 }

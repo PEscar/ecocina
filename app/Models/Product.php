@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\GlobalModel;
 
-class Product extends Model
+class Product extends GlobalModel
 {
 	const MU_UNIT = 1;
 	const MU_KG = 2;
@@ -18,6 +18,8 @@ class Product extends Model
         'productions',
         'measure',
     ];
+
+    protected static $entityField = 'entity_id';
 
     // RELATIONS
 

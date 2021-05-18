@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\Entity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -36,4 +37,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // RELATIONS
+
+    public function entity()
+    {
+        return $this->hasOne(Entity::class);
+    }
+
+    // END RELATIONS
 }

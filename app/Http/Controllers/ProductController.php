@@ -40,11 +40,19 @@ class ProductController extends Controller
         return view('product_form', ['product' => null ]);
     }
 
-    public function store(ProductRequest $request)
+    public function store(ProductRequest $request, $id = null)
     {
-        $product = Product::create($request->all());
+        if ( $id )
+        {
+            $product = Product::findOrFail($id);
+            $product->update($request->all());
+        }
+        else
+        {
+            $product = Product::create($request->all());
+        }
 
-        return redirect('home')->with('success','Producto "' . $request->name . '" creado exitosamente !');
+        return redirect('home')->with('success','Producto "' . $request->name . '" ' . ( $id ? 'actualizado' : 'creado' ) . ' exitosamente !');
     }
 
     public function edit($id)
@@ -52,14 +60,6 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         return view('product_form', ['product' => new ProductResource($product)]);
-    }
-
-    public function update(ProductRequest $request, $id)
-    {
-        $product = Product::findOrFail($id);
-        $product = $product->update($request->all());
-
-        return redirect('home')->with('success','Producto "' . $request->name . '" actualizado exitosamente !');
     }
 
     public function destroy($id)

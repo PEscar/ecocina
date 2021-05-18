@@ -12,6 +12,7 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 import vSelect from 'vue-select';
+import VueNumeric from 'vue-numeric'
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -22,7 +23,7 @@ import vSelect from 'vue-select';
 Vue.use(ClientTable);
 Vue.use(VueAxios, axios);
 Vue.component('v-select', vSelect)
-
+Vue.use(VueNumeric)
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -51,5 +52,6 @@ const app = new Vue({
     data: () => ({
 		csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 		base_url: document.querySelector('meta[name="base-url"]').getAttribute('content'),
+		precision: parseInt(document.querySelector('meta[name="precision"]').getAttribute('content')), // For qttys
 	})
 });

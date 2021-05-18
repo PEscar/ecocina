@@ -24,17 +24,22 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('products')->group(function () {
 
 	Route::get('/', 'ProductController@index');
-	Route::post('/', 'ProductController@store');
 
-	Route::post('/{id}', 'ProductController@update');
+	Route::post('/{id?}', 'ProductController@store');
 	Route::delete('/{id}', 'ProductController@destroy');
 
 	Route::get('/create', 'ProductController@create');	
 	Route::get('/{id}/edit', 'ProductController@edit');
 
 	// Recipes
-	Route::post('/{id}/recipes', 'RecipeController@store');
 	Route::get('/{id}/recipes', 'RecipeController@index');
+
 	Route::get('/{id}/recipes/create', 'RecipeController@create');
-	Route::delete('/{id}/recipes/{id_recipe}', 'RecipeController@destroy');
+});
+
+Route::prefix('recipes')->group(function () {
+
+	Route::get('/{id}/edit', 'RecipeController@edit');
+	Route::post('/{id?}', 'RecipeController@store');
+	Route::delete('/{id}', 'RecipeController@destroy');
 });

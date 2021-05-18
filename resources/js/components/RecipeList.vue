@@ -15,15 +15,47 @@
                             'text-success': line.stock >= line.pivot.quantity,
                             'fa-times': line.stock < line.pivot.quantity,
                             'text-danger': line.stock < line.pivot.quantity
-                        }"></i><strong>{{ line.name }}: </strong> {{ line.pivot.quantity }} <small v-if="line.stock < line.pivot.quantity">(faltan {{ line.pivot.quantity - line.stock }} )</small>
+                        }"></i><strong>{{ line.name }}: </strong> <vue-numeric
+                    separator="."
+                    decimal-separator=","
+                    v-bind:precision="$root.precision"
+                    read-only
+                    :value=line.pivot.quantity
+                ></vue-numeric> <small v-if="line.stock < line.pivot.quantity">(faltan <vue-numeric
+                    separator="."
+                    decimal-separator=","
+                    v-bind:precision="$root.precision"
+                    read-only
+                    :value="line.pivot.quantity - line.stock"
+                ></vue-numeric> )</small>
                     </li>
                 </ul>
             </template>
 
             <template slot="actions" slot-scope="data">
-                <a class="btn btn-primary btn-sm" :href="$root.base_url + '/recipes/' + data.row.id + '/edit/'">Editar</a>
+                <a class="btn btn-primary btn-sm" :href="$root.base_url + '/recipes/' + data.row.id + '/edit'">Editar</a>
 
                 <a @click="deleteRecipe(data.row.id, $event)" class="btn btn-danger btn-sm">Borar</a>
+            </template>
+
+            <template slot="quantity" slot-scope="data">
+                <vue-numeric
+                    separator="."
+                    decimal-separator=","
+                    v-bind:precision="$root.precision"
+                    read-only
+                    :value=data.row.quantity
+                ></vue-numeric>
+            </template>
+
+            <template slot="extra_cost" slot-scope="data">
+                <vue-numeric
+                    separator="."
+                    decimal-separator=","
+                    v-bind:precision="$root.precision"
+                    read-only
+                    :value=data.row.extra_cost
+                ></vue-numeric>
             </template>
 
         </v-client-table>
@@ -38,6 +70,8 @@
                 options: {
                     headings: {
                         id: 'ID',
+                        name: 'Nombre',
+                        detail: 'Descripción',
                         quantity: 'Cantidad Producida',
                         extra_cost: 'Costo Extra',
                         actions: 'Acciones',
@@ -45,6 +79,8 @@
                 },
                 columns: [
                     'id',
+                    'name',
+                    'detail',
                     'quantity',
                     'extra_cost',
                     'actions',
@@ -67,7 +103,7 @@
                 if ( confirm )
                 {
                     this.axios
-                        .delete(`recipes/${id}`)
+                        .delete(this.$root.base_url + '/recipes/' + id)
                         .then(response => {
                             let i = this.product.recipes.map(data => data.id).indexOf(id);
                             this.product.recipes.splice(i, 1)

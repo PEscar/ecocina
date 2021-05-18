@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('entity_id');
             $table->string('name');
             $table->text('detail')->nullable();
             $table->tinyInteger('measure');
@@ -23,6 +24,8 @@ class CreateProductsTable extends Migration
             $table->boolean('shoppings')->default(false);
             $table->boolean('productions')->default(false);
             $table->timestamps();
+
+            $table->foreign('entity_id')->references('id')->on('entities')->onDelete('cascade');
         });
     }
 

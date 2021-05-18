@@ -7,9 +7,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Recipe::class, function (Faker $faker) {
     return [
+		'entity_id' => null,
     	'detail' => $faker->sentence(10, 20),
-        'total_cost' => $faker->randomFloat(),
         'extra_cost' => $faker->randomFloat(),
         'quantity' => $faker->randomFloat(),
+        'name' => $faker->name,
     ];
 });

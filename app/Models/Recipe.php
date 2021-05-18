@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\GlobalModel;
 
-class Recipe extends Model
+class Recipe extends GlobalModel
 {
     protected $fillable = [
-        'total_cost',
         'extra_cost',
         'quantity',
+        'name',
+        'detail',
     ];
+
+    protected static $entityField = 'entity_id';
 
     // RELATIONS
 
@@ -21,7 +24,7 @@ class Recipe extends Model
 
     public function lines()
     {
-        return $this->belongsToMany(Product::class, 'recipe_line')->withPivot('quantity', 'detail')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'recipe_line')->withPivot('quantity', 'detail', 'entity_id')->withTimestamps();
     }
 
     // END RELATIONS
