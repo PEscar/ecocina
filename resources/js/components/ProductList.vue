@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-client-table ref="myTable" :data="products" :columns="columns" :options="options">
+        <v-server-table ref="myTable" :url="this.$root.base_url + '/data'" :columns="columns" :options="options">
 
             <template slot="measure" slot-scope="data">
                 <span v-if="data.row.measure == 1" class="badge badge-secondary">Unidades</span>
@@ -35,7 +35,7 @@
                 <a v-if="data.row.productions" class="btn btn-warning btn-sm" :href="$root.base_url + '/products/' + data.row.id + '/recipes/'">Recetas</a>
             </template>
 
-        </v-client-table>
+        </v-server-table>
     </div>
 </template>
  
@@ -45,6 +45,7 @@
             return {
                 products: [],
                 options: {
+                    perPage: 10,
                     headings: {
                         sales: 'Ventas',
                         shoppings: 'Compras',
@@ -54,7 +55,18 @@
                         measure: 'U. Medida',
                         actions: 'Acciones',
                         detail: 'Descripción',
-                    }
+                    },
+                    requestFunction(data) {
+
+                        data.model = 'Product'
+                        data.orderBy = 'name'
+
+                        return axios.get(this.url, {
+                            params: data
+                        }).catch(function (e) {
+                            this.dispatch('error', e);
+                        });
+                    },
                 },
                 columns: [
                     'id',
@@ -68,15 +80,6 @@
                     'actions',
                 ]
             }
-        },
-
-        async mounted() {
-            this.$refs.myTable.setLoadingState(true);
-            const {data} = await axios.get('products');
-            this.products = data;
-            this.$refs.myTable.setLoadingState(false);
-
-            $(".VueTables__search").removeClass('form-inline')
         },
 
         methods: {

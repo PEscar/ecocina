@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-client-table ref="myTable" :data="recipes" :columns="columns" :options="options">
+        <v-server-table ref="myTable" :url="this.$root.base_url + '/data'" :columns="columns" :options="options">
 
             <template v-slot:child_row="data">
                 <div><b>Ingredientes:</b></div>
@@ -58,7 +58,7 @@
                 ></vue-numeric>
             </template>
 
-        </v-client-table>
+        </v-server-table>
     </div>
 </template>
  
@@ -68,6 +68,7 @@
             return {
                 recipes: [],
                 options: {
+                    perPage: 10,
                     headings: {
                         id: 'ID',
                         name: 'Nombre',
@@ -75,7 +76,8 @@
                         quantity: 'Cantidad Producida',
                         extra_cost: 'Costo Extra',
                         actions: 'Acciones',
-                    }
+                    },
+
                 },
                 columns: [
                     'id',
@@ -92,6 +94,14 @@
         async mounted() {
             this.recipes = this.product.recipes
             $(".VueTables__search").removeClass('form-inline')
+
+            this.$refs.myTable.setRequestParams({
+                order:{column:'name',ascending:true},
+                customFilters:{
+                    model: 'Recipe',
+                    filters: '{"product_id":"1"}'
+                }
+            })
         },
 
         methods: {

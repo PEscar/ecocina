@@ -74,7 +74,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        $user->entity()->create(['name' => $data['name'], 'precision' => $data['precision']]);
+        $user->entity()->create(['name' => $data['entity'], 'precision' => $data['precision']]);
 
         return $user;
     }

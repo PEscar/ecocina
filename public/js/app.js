@@ -2538,14 +2538,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 //
 //
 //
@@ -2592,6 +2584,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       products: [],
       options: {
+        perPage: 10,
         headings: {
           sales: 'Ventas',
           shoppings: 'Compras',
@@ -2601,56 +2594,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           measure: 'U. Medida',
           actions: 'Acciones',
           detail: 'Descripción'
+        },
+        requestFunction: function requestFunction(data) {
+          data.model = 'Product';
+          data.orderBy = 'name';
+          return axios.get(this.url, {
+            params: data
+          })["catch"](function (e) {
+            this.dispatch('error', e);
+          });
         }
       },
       columns: ['id', 'name', 'detail', 'measure', 'stock', 'sales', 'shoppings', 'productions', 'actions']
     };
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var _yield$axios$get, data;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _this.$refs.myTable.setLoadingState(true);
-
-              _context.next = 3;
-              return axios.get('products');
-
-            case 3:
-              _yield$axios$get = _context.sent;
-              data = _yield$axios$get.data;
-              _this.products = data;
-
-              _this.$refs.myTable.setLoadingState(false);
-
-              $(".VueTables__search").removeClass('form-inline');
-
-            case 8:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }))();
-  },
   methods: {
     deleteProduct: function deleteProduct(id, e) {
-      var _this2 = this;
+      var _this = this;
 
       var confirm = window.confirm('Estás seguro de borrar este producto ? Toda la información asociada al mismo se perderá.');
 
       if (confirm) {
         this.axios["delete"](this.$root.base_url + '/products/' + id).then(function (response) {
-          var i = _this2.products.map(function (data) {
+          var i = _this.products.map(function (data) {
             return data.id;
           }).indexOf(id);
 
-          _this2.products.splice(i, 1);
+          _this.products.splice(i, 1);
         });
       } else {
         e.preventDefault();
@@ -2943,6 +2913,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       recipes: [],
       options: {
+        perPage: 10,
         headings: {
           id: 'ID',
           name: 'Nombre',
@@ -2969,7 +2940,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               _this.recipes = _this.product.recipes;
               $(".VueTables__search").removeClass('form-inline');
 
-            case 2:
+              _this.$refs.myTable.setRequestParams({
+                order: {
+                  column: 'name',
+                  ascending: true
+                },
+                customFilters: {
+                  model: 'Recipe',
+                  filters: '{"product_id":"1"}'
+                }
+              });
+
+            case 3:
             case "end":
               return _context.stop();
           }
@@ -41745,10 +41727,10 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("v-client-table", {
+      _c("v-server-table", {
         ref: "myTable",
         attrs: {
-          data: _vm.products,
+          url: this.$root.base_url + "/data",
           columns: _vm.columns,
           options: _vm.options
         },
@@ -42237,10 +42219,10 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("v-client-table", {
+      _c("v-server-table", {
         ref: "myTable",
         attrs: {
-          data: _vm.recipes,
+          url: this.$root.base_url + "/data",
           columns: _vm.columns,
           options: _vm.options
         },
@@ -62377,6 +62359,7 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
  */
 
 Vue.use(vue_tables_2__WEBPACK_IMPORTED_MODULE_2__["ClientTable"]);
+Vue.use(vue_tables_2__WEBPACK_IMPORTED_MODULE_2__["ServerTable"]);
 Vue.use(vue_axios__WEBPACK_IMPORTED_MODULE_0___default.a, axios__WEBPACK_IMPORTED_MODULE_1___default.a);
 Vue.component('v-select', vue_select__WEBPACK_IMPORTED_MODULE_3___default.a);
 Vue.use(vue_numeric__WEBPACK_IMPORTED_MODULE_4___default.a);
@@ -62410,6 +62393,9 @@ var app = new Vue({
       precision: parseInt(document.querySelector('meta[name="precision"]').getAttribute('content')) // For qttys
 
     };
+  },
+  mounted: function mounted() {
+    $(".VueTables__search").removeClass('form-inline');
   }
 });
 

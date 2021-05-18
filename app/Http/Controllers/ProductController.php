@@ -19,22 +19,6 @@ class ProductController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index(Request $request)
-    {
-        $products = Product::orderBy('name', 'asc');
-
-        if ( isset($request->q) && !empty($request->q) )
-        {
-            $products->search($request->q);
-        }
-        return json_encode($products->get());
-    }
-
     public function create()
     {
         return view('product_form', ['product' => null ]);

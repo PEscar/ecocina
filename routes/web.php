@@ -23,8 +23,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('products')->group(function () {
 
-	Route::get('/', 'ProductController@index');
-
 	Route::post('/{id?}', 'ProductController@store');
 	Route::delete('/{id}', 'ProductController@destroy');
 
@@ -33,7 +31,6 @@ Route::prefix('products')->group(function () {
 
 	// Recipes
 	Route::get('/{id}/recipes', 'RecipeController@index');
-
 	Route::get('/{id}/recipes/create', 'RecipeController@create');
 });
 
@@ -43,3 +40,6 @@ Route::prefix('recipes')->group(function () {
 	Route::post('/{id?}', 'RecipeController@store');
 	Route::delete('/{id}', 'RecipeController@destroy');
 });
+
+// Server table data
+Route::get('/data', 'ServerTablesController@index');

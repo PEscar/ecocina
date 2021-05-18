@@ -21,6 +21,7 @@ import VueNumeric from 'vue-numeric'
  */
 
 Vue.use(ClientTable);
+Vue.use(ServerTable);
 Vue.use(VueAxios, axios);
 Vue.component('v-select', vSelect)
 Vue.use(VueNumeric)
@@ -53,5 +54,9 @@ const app = new Vue({
 		csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 		base_url: document.querySelector('meta[name="base-url"]').getAttribute('content'),
 		precision: parseInt(document.querySelector('meta[name="precision"]').getAttribute('content')), // For qttys
-	})
+	}),
+	mounted: function()
+	{
+		$(".VueTables__search").removeClass('form-inline')
+	}
 });

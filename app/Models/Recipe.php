@@ -28,4 +28,30 @@ class Recipe extends GlobalModel
     }
 
     // END RELATIONS
+
+    // SCOPES
+
+    public function scopeSearch($query, $search) {
+        if(empty($search))
+            return;
+
+        $query->where('name', 'like', '%'.$search.'%');
+        $query->orWhere('detail', 'like', '%'.$search.'%');
+    }
+
+    public function scopeFilters($query, $filters) {
+
+        if ( is_array($filters) )
+        {
+            foreach ($filters as $key => $value) {
+
+                if ( in_array($key, ['product_id']) )
+                {
+                    $query->where($key, $value);
+                }
+            }
+        }
+    }
+
+    // END SCOPES
 }
