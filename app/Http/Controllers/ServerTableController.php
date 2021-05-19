@@ -6,10 +6,11 @@ use App\Http\Requests\ServerTableRequest;
 
 class ServerTableController extends Controller
 {
-    /**
-     * Return data for vue server tables 2.
-     *
-     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(ServerTableRequest $request)
     {
         extract(request()->only(['query', 'limit', 'page', 'model', 'orderBy', 'filters', 'with']));

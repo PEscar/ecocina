@@ -35,7 +35,7 @@ class RecipeController extends Controller
     public function create($product_id)
     {
         $product = Product::findOrFail($product_id);
-        return view('recipe_form', ['product' => $product, 'recipe' => null ]);
+        return view('forms.recipe', ['product' => $product, 'recipe' => null ]);
     }
 
     public function store($id = null, RecipeRequest $request)
@@ -66,7 +66,7 @@ class RecipeController extends Controller
     {
         $recipe = Recipe::with(['lines'])->findOrFail($id);
 
-        return view('recipe_form', ['product' => new ProductResource($recipe->product), 'recipe' => $recipe]);
+        return view('forms.recipe', ['product' => new ProductResource($recipe->product), 'recipe' => $recipe]);
     }
 
     public function destroy($id)

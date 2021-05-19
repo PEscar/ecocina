@@ -77,11 +77,9 @@
             </template>
 
             <template slot="actions" slot-scope="data">
-                <a class="btn btn-primary btn-sm" :href="$root.base_url + '/products/' + data.row.id + '/edit/'">Editar</a>
+                <a class="btn btn-primary btn-sm" :href="$root.base_url + '/purchases/' + data.row.id + '/edit/'">Editar</a>
 
                 <a @click="deletePurchase(data.row.id, $event)" class="btn btn-danger btn-sm">Borar</a>
-
-                <a v-if="data.row.productions" class="btn btn-warning btn-sm" :href="$root.base_url + '/products/' + data.row.id + '/recipes/'">Recetas</a>
             </template>
 
         </v-server-table>

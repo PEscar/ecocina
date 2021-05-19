@@ -7,48 +7,14 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $model = 'App\Models\Product';
+    protected $index_view = 'products';
+    protected $form_view = 'forms.product';
+
+    public function getSuccessStoreMessage(Request $request, $id = null)
     {
-        $this->middleware('auth');
-    }
-
-    public function create()
-    {
-        return view('product_form', ['product' => null ]);
-    }
-
-    public function store(ProductRequest $request, $id = null)
-    {
-        if ( $id )
-        {
-            $product = Product::findOrFail($id);
-            $product->update($request->all());
-        }
-        else
-        {
-            $product = Product::create($request->all());
-        }
-
-        return redirect('home')->with('success','Producto "' . $request->name . '" ' . ( $id ? 'actualizado' : 'creado' ) . ' exitosamente !');
-    }
-
-    public function edit($id)
-    {
-        $product = Product::findOrFail($id);
-
-        return view('product_form', ['product' => new ProductResource($product)]);
-    }
-
-    public function destroy($id)
-    {
-        $product = Product::findOrFail($id);
-        return json_encode($product->delete());
+        return 'Producto "' . $request->name . '" ' . ( $id ? 'actualizado' : 'creado' ) . ' exitosamente !';
     }
 }

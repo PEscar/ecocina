@@ -2762,8 +2762,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -42948,7 +42946,7 @@ var render = function() {
                     attrs: {
                       href:
                         _vm.$root.base_url +
-                        "/products/" +
+                        "/purchases/" +
                         data.row.id +
                         "/edit/"
                     }
@@ -42967,24 +42965,7 @@ var render = function() {
                     }
                   },
                   [_vm._v("Borar")]
-                ),
-                _vm._v(" "),
-                data.row.productions
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-warning btn-sm",
-                        attrs: {
-                          href:
-                            _vm.$root.base_url +
-                            "/products/" +
-                            data.row.id +
-                            "/recipes/"
-                        }
-                      },
-                      [_vm._v("Recetas")]
-                    )
-                  : _vm._e()
+                )
               ]
             }
           }
