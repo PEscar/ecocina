@@ -2,10 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\PurchaseDeliveryNoteLine;
+use App\Models\PurchaseLine;
 use Faker\Generator as Faker;
 
-$factory->define(PurchaseDeliveryNoteLine::class, function (Faker $faker) {
+$factory->define(PurchaseLine::class, function (Faker $faker) {
 
 	$qtty = $faker->randomFloat(3, 0, 100);
 	$price_per_unit = $faker->randomFloat(3, 0, 100);
@@ -14,6 +14,6 @@ $factory->define(PurchaseDeliveryNoteLine::class, function (Faker $faker) {
     	'entity_id' => null,
     	'quantity' => $qtty,
     	'price_per_unit' => $price_per_unit,
-    	'total_cost' => $qtty * $price_per_unit,
+    	'total' => $qtty * $price_per_unit,
     ];
 });

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-class PurchaseDeliveryNoteController extends Controller
+class PurchaseController extends BaseController
 {
+	protected $model = 'App\Models\Purchase';
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -11,6 +13,6 @@ class PurchaseDeliveryNoteController extends Controller
 
     public function index()
     {
-        return view('purchasedeliverynotes');
+        return view('purchases');
     }
 }

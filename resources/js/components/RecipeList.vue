@@ -77,7 +77,16 @@
                         extra_cost: 'Costo Extra',
                         actions: 'Acciones',
                     },
-
+                    cellClasses:{
+                        quantity: [{
+                            class:'text-right',
+                            condition: row => true
+                        }],
+                        extra_cost: [{
+                            class:'text-right',
+                            condition: row => true
+                        }]
+                    }
                 },
                 columns: [
                     'id',
@@ -116,8 +125,7 @@
                     this.axios
                         .delete(this.$root.base_url + '/recipes/' + id)
                         .then(response => {
-                            let i = this.product.recipes.map(data => data.id).indexOf(id);
-                            this.product.recipes.splice(i, 1)
+                            this.$refs.myTable.refresh()
                         });
                 }
                 else

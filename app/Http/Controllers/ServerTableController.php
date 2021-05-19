@@ -2,26 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-// use App\Models\Product;
+use App\Http\Requests\ServerTableRequest;
 
-class ServerTablesController extends Controller
+class ServerTableController extends Controller
 {
     /**
      * Return data for vue server tables 2.
      *
      */
-    public function index(Request $request)
+    public function index(ServerTableRequest $request)
     {
         extract(request()->only(['query', 'limit', 'page', 'model', 'orderBy', 'filters', 'with']));
-
-        if ( !isset($model) )
-        {
-        	return [
-	            'data' => [],
-	            'count' => 0,
-	        ];
-        }
 
         $model = 'App\Models\\' . $model;
 

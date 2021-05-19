@@ -19,4 +19,15 @@ class StockMovement extends GlobalModel
 	}
 
 	// END RELATIONS
+
+	// PERFORMS
+
+	protected function performDeleteOnModel() {
+
+		$this->lines()->each(function($item){
+			$item->delete();
+		});
+    }
+
+	// END PERFORMS
 }

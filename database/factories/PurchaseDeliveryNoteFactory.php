@@ -2,11 +2,12 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\PurchaseDeliveryNote;
+use App\Models\Purchase;
 use Faker\Generator as Faker;
 
-$factory->define(PurchaseDeliveryNote::class, function (Faker $faker) {
+$factory->define(Purchase::class, function (Faker $faker) {
     return [
+    	'supplier' => $faker->name,
     	'date' => $faker->date(),
     	'entity_id' => null,
     ];

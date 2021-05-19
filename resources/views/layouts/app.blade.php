@@ -42,7 +42,7 @@
                     <ul class="navbar-nav mr-auto">
                         @if ( auth()->user() )
                             <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('home') }}">Productos</a></li>
-                            <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('purchasedeliverynotes') }}">Compras</a></li>
+                            <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('purchases') }}">{{ __('all.purchases') }}</a></li>
                         @endif
                     </ul>
 

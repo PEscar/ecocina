@@ -12,18 +12,18 @@ abstract class Document extends GlobalModel
     // RELATIONS
     public function lines()
     {
-        return $this->belongsToMany(Product::class, $this->lines_table)->withPivot('quantity', 'price_per_unit', 'total_cost', 'entity_id')->withTimestamps();
+        return $this->belongsToMany(Product::class, $this->lines_table, 'header_id', 'product_id')->withPivot('id', 'quantity', 'price_per_unit', 'total', 'entity_id')->withTimestamps();
     }
 
     // END RELATIONS
 
     // APPENDS
 
-    protected $appends = ['total_cost'];
+    protected $appends = ['total'];
 
-    public function getTotalCostAttribute()
+    public function getTotalAttribute()
     {
-    	return $this->lines()->sum('total_cost');
+    	return $this->lines()->sum('total');
     }
 
     // APPENDS

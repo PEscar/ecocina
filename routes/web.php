@@ -42,12 +42,12 @@ Route::prefix('recipes')->group(function () {
 });
 
 // Server table data
-Route::get('/data', 'ServerTablesController@index');
+Route::get('/data', 'ServerTableController@index');
 
-Route::prefix('purchasedeliverynotes')->group(function () {
+Route::prefix('purchases')->group(function () {
 
-	Route::get('/', 'PurchaseDeliveryNoteController@index');
-	Route::get('/{id}/edit', 'PurchaseDeliveryNoteController@edit');
-	Route::post('/{id?}', 'PurchaseDeliveryNoteController@store');
-	Route::delete('/{id}', 'PurchaseDeliveryNoteController@destroy');
+	Route::get('/', 'PurchaseController@index');
+	Route::get('/{id}/edit', 'PurchaseController@edit');
+	Route::post('/{id?}', 'PurchaseController@store');
+	Route::delete('/{id}', 'PurchaseController@destroy');
 });

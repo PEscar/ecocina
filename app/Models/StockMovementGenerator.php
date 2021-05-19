@@ -17,11 +17,18 @@ abstract class StockMovementGenerator extends Document implements StockMovementG
     }
     // END RELATIONS
 
-    // INSERT
+    // PERFORMS
 
     protected function performInsert(Builder $query, array $options = []) {
         parent::performInsert($query, $options);
         $this->registerStockMovement();
+    }
+
+    protected function performDeleteOnModel() {
+        dump('performDeleteOnModel StockMovementGenerator');
+        \Log::info('performDeleteOnModel StockMovementGenerator');
+        $this->stockMovement->delete();
+        parent::performDeleteOnModel();
     }
 
     public function registerStockMovement()
@@ -31,5 +38,5 @@ abstract class StockMovementGenerator extends Document implements StockMovementG
     	$sm->date = date('Y-m-d');
     	$this->stockMovement()->save($sm);
     }
-    // END INSERT
+    // END PERFORMS
 }

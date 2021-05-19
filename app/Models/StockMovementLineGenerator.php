@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\StockMovementLineGeneratorInterface;
 use App\Models\Document;
-use App\Models\PurchaseDeliveryNote;
+use App\Models\Purchase;
 use App\Models\StockMovementLine;
 use Illuminate\Database\Eloquent\Builder;
 

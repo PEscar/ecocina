@@ -5,11 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header">Albaranes de Compra<a href="{{ url('purchasedeliverynotes') }}" class="float-right">Nuevo</a></div>
+                <div class="card-header">{{ __('all.purchases') }}<a href="{{ url('purchases') }}" class="float-right">{{ __('all.new_female') }}</a></div>
 
                 <div class="card-body">
-
-                </div>
+                	<purchase-list></purchase-list>
+               	</div>
             </div>
         </div>
     </div>

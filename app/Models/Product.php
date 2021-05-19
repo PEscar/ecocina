@@ -44,6 +44,7 @@ class Product extends GlobalModel
 
     public function inStock($quantity)
     {
+        \Log::info('sumando: ' . $quantity);
         $this->stock += $quantity;
         $this->save();
 
@@ -52,6 +53,7 @@ class Product extends GlobalModel
 
     public function outStock($quantity)
     {
+        \Log::info('quitando: ' . $quantity);
         $this->stock -= $quantity;
         $this->save();
 

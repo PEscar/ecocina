@@ -115,8 +115,7 @@
                     this.axios
                         .delete(this.$root.base_url + '/products/' + id)
                         .then(response => {
-                            let i = this.products.map(data => data.id).indexOf(id);
-                            this.products.splice(i, 1)
+                            this.$refs.myTable.refresh()
                         });
                 }
                 else

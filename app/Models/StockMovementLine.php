@@ -25,20 +25,32 @@ class StockMovementLine extends GlobalModel
 
 	// END RELATIONS
 
-	// INSERT
+	// PERFORMS
 
 	protected function performInsert(Builder $query, array $options = []) {
         parent::performInsert($query, $options);
         $this->updateProductStock();
     }
 
-	// END INSERT
+    protected function performDeleteOnModel() {
+    	dump('performDeleteOnModel StockMovementLine');
+    	\Log::info('performDeleteOnModel StockMovementLine');
+        $this->revertStockMovementLine();
+        parent::performDeleteOnModel();
+    }
+
+	// END PERFORMS
 
     // METHODS
 
     public function updateProductStock()
     {
 		$this->type == self::STOCK_MOVEMENT_TYPE_IN ? $this->product->inStock($this->quantity) : $this->product->outStock($this->quantity);
+    }
+
+    public function revertStockMovementLine()
+    {
+		$this->type == self::STOCK_MOVEMENT_TYPE_IN ? $this->product->outStock($this->quantity) : $this->product->inStock($this->quantity);
     }
 
     // END METHOSS
