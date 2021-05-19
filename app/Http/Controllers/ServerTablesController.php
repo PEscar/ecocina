@@ -13,7 +13,7 @@ class ServerTablesController extends Controller
      */
     public function index(Request $request)
     {
-        extract(request()->only(['query', 'limit', 'page', 'model', 'orderBy', 'filters']));
+        extract(request()->only(['query', 'limit', 'page', 'model', 'orderBy', 'filters', 'with']));
 
         if ( !isset($model) )
         {
@@ -42,6 +42,11 @@ class ServerTablesController extends Controller
 
         $data->limit($limit)
             ->skip($limit * ($page - 1));
+
+        if ( isset($with) && !empty($with) )
+        {
+            $data->with($with);
+        }
 
         $results = $data->orderBy($orderBy, 'asc')->get()->toArray();
 

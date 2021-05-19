@@ -19,8 +19,6 @@ class Product extends GlobalModel
         'measure',
     ];
 
-    protected static $entityField = 'entity_id';
-
     // RELATIONS
 
     public function recipes()

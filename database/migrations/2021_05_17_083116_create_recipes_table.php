@@ -15,7 +15,7 @@ class CreateRecipesTable extends Migration
     {
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entity_id');
+            $table->foreignId('entity_id')->nullable();
             $table->string('name');
             $table->foreignId('product_id');
             $table->float('quantity', 16, 3)->default(0);
@@ -29,7 +29,7 @@ class CreateRecipesTable extends Migration
 
         Schema::create('recipe_line', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entity_id');
+            $table->foreignId('entity_id')->nullable();
             $table->foreignId('recipe_id');
             $table->foreignId('product_id');
             $table->float('quantity', 16, 3)->default(0);

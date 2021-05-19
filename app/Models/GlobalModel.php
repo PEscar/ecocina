@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class GlobalModel extends Model
 {
-    protected static $entityField = NULL;
+    protected static $entityField = 'entity_id';
 
     protected static function boot(){
         parent::boot();

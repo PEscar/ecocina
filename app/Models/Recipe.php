@@ -13,8 +13,6 @@ class Recipe extends GlobalModel
         'detail',
     ];
 
-    protected static $entityField = 'entity_id';
-
     // RELATIONS
 
     public function product()

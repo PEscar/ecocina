@@ -99,7 +99,8 @@
                 order:{column:'name',ascending:true},
                 customFilters:{
                     model: 'Recipe',
-                    filters: '{"product_id":"1"}'
+                    filters: '{"product_id":"' + this.product.id + '"}',
+                    with: 'lines',
                 }
             })
         },
