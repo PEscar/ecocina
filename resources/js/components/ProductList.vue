@@ -23,6 +23,22 @@
                 <span v-else class="badge badge-danger">No</span>
             </template>
 
+            <template slot="stock" slot-scope="data">
+                <div>
+                    <vue-numeric
+                        separator="."
+                        decimal-separator=","
+                        v-bind:precision="$root.precision"
+                        read-only
+                        :value=data.row.stock
+                    ></vue-numeric>
+
+                    <span v-if="data.row.stock == 0">
+                        0
+                    </span>
+                </div>
+            </template>
+
             <template v-slot:child_row="data">
                 <div><b>Descripción:</b> {{data.row.detail}}</div>
             </template>
@@ -67,6 +83,12 @@
                             this.dispatch('error', e);
                         });
                     },
+                    cellClasses:{
+                        stock: [{
+                            class:'text-right',
+                            condition: row => true
+                        }]
+                    }
                 },
                 columns: [
                     'id',

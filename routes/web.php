@@ -43,3 +43,11 @@ Route::prefix('recipes')->group(function () {
 
 // Server table data
 Route::get('/data', 'ServerTablesController@index');
+
+Route::prefix('purchasedeliverynotes')->group(function () {
+
+	Route::get('/', 'PurchaseDeliveryNoteController@index');
+	Route::get('/{id}/edit', 'PurchaseDeliveryNoteController@edit');
+	Route::post('/{id?}', 'PurchaseDeliveryNoteController@store');
+	Route::delete('/{id}', 'PurchaseDeliveryNoteController@destroy');
+});

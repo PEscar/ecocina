@@ -9,8 +9,8 @@ $factory->define(Recipe::class, function (Faker $faker) {
     return [
 		'entity_id' => null,
     	'detail' => $faker->sentence(10, 20),
-        'extra_cost' => $faker->randomFloat(),
-        'quantity' => $faker->randomFloat(),
+        'extra_cost' => $faker->randomFloat(3, 0, 100),
+        'quantity' => $faker->randomFloat(3, 0, 100),
         'name' => $faker->name,
     ];
 });

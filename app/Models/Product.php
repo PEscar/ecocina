@@ -39,4 +39,24 @@ class Product extends GlobalModel
     }
 
     // END SCOPES
+
+    // METHODS
+
+    public function inStock($quantity)
+    {
+        $this->stock += $quantity;
+        $this->save();
+
+        return $this;
+    }
+
+    public function outStock($quantity)
+    {
+        $this->stock -= $quantity;
+        $this->save();
+
+        return $this;
+    }
+
+    // END METHODS
 }

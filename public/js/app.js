@@ -2579,6 +2579,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2603,6 +2619,14 @@ __webpack_require__.r(__webpack_exports__);
           })["catch"](function (e) {
             this.dispatch('error', e);
           });
+        },
+        cellClasses: {
+          stock: [{
+            "class": 'text-right',
+            condition: function condition(row) {
+              return true;
+            }
+          }]
         }
       },
       columns: ['id', 'name', 'detail', 'measure', 'stock', 'sales', 'shoppings', 'productions', 'actions']
@@ -2947,7 +2971,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 },
                 customFilters: {
                   model: 'Recipe',
-                  filters: '{"product_id":"1"}'
+                  filters: '{"product_id":"' + _this.product.id + '"}',
+                  "with": 'lines'
                 }
               });
 
@@ -41798,6 +41823,34 @@ var render = function() {
                   : _c("span", { staticClass: "badge badge-danger" }, [
                       _vm._v("No")
                     ])
+              ]
+            }
+          },
+          {
+            key: "stock",
+            fn: function(data) {
+              return [
+                _c(
+                  "div",
+                  [
+                    _c("vue-numeric", {
+                      attrs: {
+                        separator: ".",
+                        "decimal-separator": ",",
+                        precision: _vm.$root.precision,
+                        "read-only": "",
+                        value: data.row.stock
+                      }
+                    }),
+                    _vm._v(" "),
+                    data.row.stock == 0
+                      ? _c("span", [
+                          _vm._v("\n                    0\n                ")
+                        ])
+                      : _vm._e()
+                  ],
+                  1
+                )
               ]
             }
           },
