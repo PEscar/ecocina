@@ -26,6 +26,20 @@ class Product extends GlobalModel
 		return $this->hasMany(Recipe::class);
     }
 
+    // public function purchasLines()
+    // {
+    //     return $this->hasMany(PurchaseLine::class, 'purchase_lines', 'product_id')->withPivot('id', 'quantity', 'price_per_unit', 'total', 'entity_id')->withTimestamps();
+    // }
+
+    public function lines()
+    {
+        $purchase_lines = $this->belongsToMany(Purchase::class, 'purchase_lines', 'product_id', 'header_id')->withPivot('id', 'quantity', 'price_per_unit', 'total', 'entity_id')->withTimestamps();
+
+        // $recipe_lines = $this->belongsToMany(Recipe::class, 'recipe_line')->withPivot('quantity', 'detail', 'entity_id')->withTimestamps();
+
+        return $purchase_lines;
+    }
+
     // END RELATIONS
 
     // SCOPES

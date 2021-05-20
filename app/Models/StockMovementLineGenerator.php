@@ -17,17 +17,20 @@ abstract class StockMovementLineGenerator extends DocumentLine implements StockM
     }
     // END RELATIONS
 
-    // INSERT
+    // PERFORMS
 
     protected function performInsert(Builder $query, array $options = []) {
         parent::performInsert($query, $options);
         $this->registerStockMovementLine();
     }
 
+    protected function performDeleteOnModel() {
+        $this->stockMovementLine->delete();
+        parent::performDeleteOnModel();
+    }
+
     public function registerStockMovementLine()
     {
-        // dump(get_class($this->header));
-        // dump($this->header->stock_movement_type);
         // Registro moviemiento
         $sml = new StockMovementLine;
         $sml->type = $this->header->stock_movement_type;
@@ -37,5 +40,5 @@ abstract class StockMovementLineGenerator extends DocumentLine implements StockM
         $sml->quantity = $this->quantity;
         $this->stockMovementLine()->save($sml);
     }
-    // END INSERT
+    // END PERFORMS
 }

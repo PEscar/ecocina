@@ -25,8 +25,6 @@ abstract class StockMovementGenerator extends Document implements StockMovementG
     }
 
     protected function performDeleteOnModel() {
-        dump('performDeleteOnModel StockMovementGenerator');
-        \Log::info('performDeleteOnModel StockMovementGenerator');
         $this->stockMovement->delete();
         parent::performDeleteOnModel();
     }

@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Models\Document;
-use App\Models\GlobalModel;
 use App\Models\Purchase;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-abstract class DocumentLine extends GlobalModel
+abstract class DocumentLine extends Pivot
 {
     protected $headerModel = '';
+    public $incrementing = true;
 
     // RELATIONS
     public function header()

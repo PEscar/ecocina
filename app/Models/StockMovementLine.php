@@ -33,8 +33,6 @@ class StockMovementLine extends GlobalModel
     }
 
     protected function performDeleteOnModel() {
-    	dump('performDeleteOnModel StockMovementLine');
-    	\Log::info('performDeleteOnModel StockMovementLine');
         $this->revertStockMovementLine();
         parent::performDeleteOnModel();
     }

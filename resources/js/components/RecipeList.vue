@@ -86,7 +86,11 @@
                             class:'text-right',
                             condition: row => true
                         }]
-                    }
+                    },
+                    orderBy:{
+                        column: 'name',
+                        ascending: true   
+                    },
                 },
                 columns: [
                     'id',

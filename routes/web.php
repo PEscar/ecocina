@@ -13,6 +13,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function(){
+
+	// $posts = App\Models\Purchase::whereHas('lines', function ( $query) {
+
+	// 	dump($query->toSql());
+
+	dd(App\Models\Product::first()->lines);
+
+	// })->get();
+	DB::enableQueryLog();
+	;
+	dd(DB::getQueryLog());
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -44,6 +58,9 @@ Route::prefix('recipes')->group(function () {
 
 // Server table data
 Route::get('/data', 'ServerTableController@index');
+
+// Select search
+Route::get('/search', 'SelectController@index');
 
 Route::prefix('purchases')->group(function () {
 	Route::get('/', 'PurchaseController@index');

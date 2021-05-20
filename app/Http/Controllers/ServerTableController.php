@@ -13,7 +13,7 @@ class ServerTableController extends Controller
 
     public function index(ServerTableRequest $request)
     {
-        extract(request()->only(['query', 'limit', 'page', 'model', 'orderBy', 'filters', 'with']));
+        extract(request()->only(['query', 'limit', 'page', 'model', 'orderBy', 'filters', 'with', 'ascending']));
 
         $model = 'App\Models\\' . $model;
 
@@ -40,7 +40,7 @@ class ServerTableController extends Controller
             $data->with($with);
         }
 
-        $results = $data->orderBy($orderBy, 'asc')->get()->toArray();
+        $results = $data->orderBy($orderBy, $ascending ? 'asc' : 'desc')->get()->toArray();
 
         return [
             'data' => $results,

@@ -7,6 +7,7 @@
         <input type="hidden" name="extra_cost" :value="recipe.extra_cost">
         <input type="hidden" v-for="line in recipe.lines" name="products[]" :value="line.pivot.product_id">
         <input type="hidden" v-for="line in recipe.lines" name="qttys[]" :value="line.pivot.quantity">
+        <input type="hidden" v-for="line in recipe.lines" name="details[]" :value="line.pivot.detail">
 
         <div class="form-group">
             <label for="name">Nombre</label>
@@ -56,7 +57,7 @@
             </template>
 
             <template slot="detail" slot-scope="data">
-                <input type="text" class="form-control" v-model="recipe.lines[data.index - 1].pivot.detail" name="details[]">
+                <input type="text" class="form-control" @change="updateLine($event.target.value, data.row.pivot.product_id, 'detail')" :value="data.row.pivot.detail">
             </template>
 
             <template slot="quantity" slot-scope="data">
@@ -64,16 +65,17 @@
                     v-bind:precision="$root.precision"
                     separator="."
                     decimal-separator=","
-                    v-model="recipe.lines[data.index - 1].pivot.quantity"
+                    :value="data.row.pivot.quantity"
                     v-bind:minus="false"
                     class="form-control w-auto"
-                    :ref="'product_' + recipe.lines[data.index - 1].pivot.product_id"
-                    v-bind:class="{'is-valid': recipe.lines[data.index - 1].pivot.quantity > 0, 'is-invalid': recipe.lines[data.index - 1].pivot.quantity <= 0}"
+                    :ref="'product_' + data.row.pivot.product_id"
+                    v-bind:class="{'is-valid': data.row.pivot.quantity > 0, 'is-invalid': data.row.pivot.quantity <= 0}"
+                    @input="updateLine($event, data.row.pivot.product_id, 'quantity')"
                 ></vue-numeric>
             </template>
 
             <template slot="actions" slot-scope="data">
-                <a @click="deleteProduct(data.index, $event)" class="btn btn-danger btn-sm">Borar</a>
+                <a @click="deleteProduct(data.row.product_id, $event)" class="btn btn-danger btn-sm">Borar</a>
             </template>
 
         </v-client-table>
@@ -101,6 +103,10 @@
                         detail: 'Detalle',
                     },
                     filterable: false,
+                    orderBy:{
+                        column: 'name',
+                        ascending: true
+                    },
                 },
                 columns: [
                     'name',
@@ -180,9 +186,15 @@
 
         methods: {
 
-            deleteProduct: function(index)
+            updateLine: function(value, product_id, key)
             {
-                this.recipe.lines.splice( index - 1, 1 )
+                let line = this.recipe.lines.find(item => item.pivot.product_id == product_id)
+                line.pivot[key] = value
+            },
+
+            deleteProduct: function(product_id)
+            {
+                this.recipe.lines = this.recipe.lines.filter(line => line.id != product_id)
             },
 
             onSearch(search, loading) {
@@ -194,7 +206,7 @@
 
             search: _.debounce((loading, search, vm) => {
               fetch(
-                vm.$root.base_url + '/products/' + '?q=' + encodeURI(search)
+                vm.$root.base_url + '/search/' + '?orderBy=name&order=asc&model=Product&q=' + encodeURI(search)
               ).then(res => {
 
                 res.json().then(json => (vm.searchOptions = json));

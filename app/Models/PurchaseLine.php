@@ -8,4 +8,5 @@ use App\Models\StockMovementLineGenerator;
 class PurchaseLine extends StockMovementLineGenerator
 {
 	protected $headerModel = 'App\Models\Purchase';
+	protected $table = 'purchase_lines';
 }

@@ -3,7 +3,6 @@
 
         <input type="hidden" name="_token" :value="$root.csrf">
 
-
         <div class="form-group">
             <input type="text" name="name" class="form-control" v-model="product.name" v-bind:class="{ 'is-valid' : product.name, 'is-invalid' : !product.name }" placeholder="Carne Picada">
             <small class="form-text text-muted">Nombre del producto.</small>
