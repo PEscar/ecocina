@@ -2599,6 +2599,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       products: [],
       options: {
+        sortable: ['name'],
         perPage: 10,
         headings: {
           sales: 'Ventas',
@@ -2860,6 +2861,8 @@ __webpack_require__.r(__webpack_exports__);
         line.pivot.total = value * line.pivot.quantity;
         line.pivot.price_per_unit = value;
       }
+
+      this.updateTotal();
     },
     updateTotal: function updateTotal() {
       this.purchase.total = this.purchase.lines.reduce(function (a, b) {
@@ -2983,6 +2986,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       options: {
         filterable: false,
+        sortable: ['date'],
         headings: {
           date: 'Fecha',
           supplier: 'Proveedor',

@@ -74,6 +74,7 @@
             return {
                 options: {
                     filterable: false,
+                    sortable: ['date'],
                     headings: {
                         date: 'Fecha',
                         supplier: 'Proveedor',

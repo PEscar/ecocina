@@ -61,6 +61,7 @@
             return {
                 products: [],
                 options: {
+                    sortable: ['name'],
                     perPage: 10,
                     headings: {
                         sales: 'Ventas',

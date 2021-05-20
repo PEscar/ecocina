@@ -216,6 +216,8 @@
                     line.pivot.total = value * line.pivot.quantity
                     line.pivot.price_per_unit = value;
                 }
+
+                this.updateTotal()
             },
 
             updateTotal: function()
