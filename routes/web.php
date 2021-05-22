@@ -37,23 +37,20 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::prefix('products')->group(function () {
 
-	Route::get('/', 'ProductController@index');
-	Route::post('/{id?}', 'ProductController@store');
 	Route::delete('/{id}', 'ProductController@destroy');
-
+	Route::get('/', 'ProductController@index');
 	Route::get('/create', 'ProductController@create');
 	Route::get('/{id}/edit', 'ProductController@edit');
-
-	// Product Recipes
-	Route::get('/{id}/recipes', 'RecipeController@index');
-	Route::get('/{id}/recipes/create', 'RecipeController@create');
+	Route::post('/{id?}', 'ProductController@store');
 });
 
 Route::prefix('recipes')->group(function () {
 
+	Route::delete('/{id}', 'RecipeController@destroy');
+	Route::get('/', 'RecipeController@index');
+	Route::get('/create', 'RecipeController@create');
 	Route::get('/{id}/edit', 'RecipeController@edit');
 	Route::post('/{id?}', 'RecipeController@store');
-	Route::delete('/{id}', 'RecipeController@destroy');
 });
 
 // Server table data
@@ -63,9 +60,9 @@ Route::get('/data', 'ServerTableController@index');
 Route::get('/search', 'SelectController@index');
 
 Route::prefix('purchases')->group(function () {
+	Route::delete('/{id}', 'PurchaseController@destroy');
 	Route::get('/', 'PurchaseController@index');
 	Route::get('/create', 'PurchaseController@create');	
 	Route::get('/{id}/edit', 'PurchaseController@edit');
 	Route::post('/{id?}', 'PurchaseController@store');
-	Route::delete('/{id}', 'PurchaseController@destroy');
 });

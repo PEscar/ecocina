@@ -48,7 +48,7 @@
 
                 <a @click="deleteProduct(data.row.id, $event)" class="btn btn-danger btn-sm">Borar</a>
 
-                <a v-if="data.row.productions" class="btn btn-warning btn-sm" :href="$root.base_url + '/products/' + data.row.id + '/recipes/'">Recetas</a>
+                <a v-if="data.row.productions" class="btn btn-warning btn-sm" :href="$root.base_url + '/recipes?product=' + data.row.id">Recetas</a>
             </template>
 
         </v-server-table>

@@ -3070,7 +3070,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 },
                 customFilters: {
                   model: 'Purchase',
-                  "with": 'lines'
+                  "with": ['lines']
                 }
               });
 
@@ -3196,9 +3196,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      product: null,
       measures: [],
       // Labels
       recipe: {
@@ -3225,8 +3234,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   props: {
-    editRecipe: Object,
-    product: Object
+    editRecipe: Object
   },
   computed: {
     validForm: function validForm() {
@@ -3273,8 +3281,9 @@ __webpack_require__.r(__webpack_exports__);
     this.recipe = this.editRecipe ? this.editRecipe : {
       lines: [],
       quantity: 0,
-      product_id: this.product.id
-    }; // Etiquetas de unidades de medida.
+      product_id: null
+    };
+    this.product = this.editRecipe ? this.editRecipe.product : this.$attrs.product; // Etiquetas de unidades de medida.
 
     this.measures[1] = 'Unidad/es';
     this.measures[2] = 'Kilo/s';
@@ -3392,11 +3401,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      filter_q: '',
+      filter_products: [],
+      product: null,
       recipes: [],
       options: {
+        filterable: false,
         perPage: 10,
         headings: {
           id: 'ID',
@@ -3404,7 +3437,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           detail: 'Descripción',
           quantity: 'Cantidad Producida',
           extra_cost: 'Costo Extra',
-          actions: 'Acciones'
+          actions: 'Acciones',
+          'product.name': 'Producto'
         },
         cellClasses: {
           quantity: [{
@@ -3425,11 +3459,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           ascending: true
         }
       },
-      columns: ['id', 'name', 'detail', 'quantity', 'extra_cost', 'actions']
+      columns: ['id', 'product.name', 'name', 'detail', 'quantity', 'extra_cost', 'actions']
     };
-  },
-  props: {
-    product: Object
   },
   mounted: function mounted() {
     var _this = this;
@@ -3439,20 +3470,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _this.recipes = _this.product.recipes;
+              _this.product = _this.$attrs.product;
               $(".VueTables__search").removeClass('form-inline');
 
-              _this.$refs.myTable.setRequestParams({
-                order: {
-                  column: 'name',
-                  ascending: true
-                },
-                customFilters: {
-                  model: 'Recipe',
-                  filters: '{"product_id":"' + _this.product.id + '"}',
-                  "with": 'lines'
-                }
-              });
+              _this.setRequestParams();
 
             case 3:
             case "end":
@@ -3463,6 +3484,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   methods: {
+    setRequestParams: function setRequestParams() {
+      var filters = this.product ? {
+        product_id: this.product.id
+      } : {};
+      this.$refs.myTable.setRequestParams({
+        order: {
+          column: 'name',
+          ascending: true
+        },
+        customFilters: {
+          model: 'Recipe',
+          filters: filters,
+          "with": ['lines', 'product'],
+          query: this.filter_q
+        }
+      });
+    },
     deleteRecipe: function deleteRecipe(id, e) {
       var _this2 = this;
 
@@ -3475,7 +3513,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         e.preventDefault();
       }
-    }
+    },
+    onSearch: function onSearch(search, loading) {
+      if (search.length) {
+        loading(true);
+        this.search(loading, search, this);
+      }
+    },
+    search: _.debounce(function (loading, search, vm) {
+      fetch(vm.$root.base_url + '/search/' + '?orderBy=name&order=asc&model=Product&&q=' + encodeURI(search)).then(function (res) {
+        res.json().then(function (json) {
+          return vm.filter_products = json;
+        });
+        loading(false);
+      });
+    }, 350)
   }
 });
 
@@ -43024,9 +43076,8 @@ var render = function() {
                         attrs: {
                           href:
                             _vm.$root.base_url +
-                            "/products/" +
-                            data.row.id +
-                            "/recipes/"
+                            "/recipes?product=" +
+                            data.row.id
                         }
                       },
                       [_vm._v("Recetas")]
@@ -43578,249 +43629,296 @@ var render = function() {
         })
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "name" } }, [_vm._v("Nombre")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.recipe.name,
-              expression: "recipe.name"
-            }
-          ],
-          staticClass: "form-control w-auto d-inline",
-          class: {
-            "is-valid": _vm.recipe.name,
-            "is-invalid": !_vm.recipe.name
-          },
-          attrs: { type: "text", id: "name", name: "name" },
-          domProps: { value: _vm.recipe.name },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.recipe, "name", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "detail" } }, [_vm._v("Descripción")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.recipe.detail,
-              expression: "recipe.detail"
-            }
-          ],
-          staticClass: "form-control w-75 d-inline",
-          attrs: { type: "text", id: "detail", name: "detail" },
-          domProps: { value: _vm.recipe.detail },
-          on: {
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.recipe, "detail", $event.target.value)
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
       _c(
         "div",
         { staticClass: "form-group" },
         [
-          _vm._v("\n        Receta para producir "),
-          _c("vue-numeric", {
-            staticClass: "form-control w-auto d-inline",
-            class: {
-              "is-valid": _vm.recipe.quantity > 0,
-              "is-invalid": _vm.recipe.quantity <= 0
-            },
-            attrs: {
-              precision: _vm.$root.precision,
-              separator: ".",
-              "decimal-separator": ",",
-              minus: false
-            },
-            model: {
-              value: _vm.recipe.quantity,
-              callback: function($$v) {
-                _vm.$set(_vm.recipe, "quantity", $$v)
-              },
-              expression: "recipe.quantity"
-            }
-          }),
-          _vm._v("  " + _vm._s(_vm.measures[_vm.product.measure]) + "\n    ")
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form-group" },
-        [
-          _vm._v("\n        Costo Extra "),
-          _c("vue-numeric", {
-            staticClass: "form-control w-auto d-inline",
-            attrs: {
-              precision: _vm.$root.precision,
-              separator: ".",
-              "decimal-separator": ",",
-              minus: false
-            },
-            model: {
-              value: _vm.recipe.extra_cost,
-              callback: function($$v) {
-                _vm.$set(_vm.recipe, "extra_cost", $$v)
-              },
-              expression: "recipe.extra_cost"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form-group" },
-        [
-          _c("label", { attrs: { for: "ingredients" } }, [
-            _vm._v("Buscar ingredientes")
-          ]),
+          _c("label", { attrs: { for: "product" } }, [_vm._v("Producto:")]),
           _vm._v(" "),
           _c("v-select", {
+            staticClass: "w-auto d-inline-block",
+            class: { readonly: _vm.recipe.id },
             attrs: {
-              id: "ingredients",
+              id: "product",
+              placeholder: "Seleccione Producto",
               label: "name",
               filterable: false,
               options: _vm.searchOptions
             },
             on: { search: _vm.onSearch },
             model: {
-              value: _vm.line,
+              value: _vm.product,
               callback: function($$v) {
-                _vm.line = $$v
+                _vm.product = $$v
               },
-              expression: "line"
+              expression: "product"
             }
           })
         ],
         1
       ),
       _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("v-client-table", {
-        ref: "myTable",
-        attrs: {
-          data: _vm.recipe.lines,
-          columns: _vm.columns,
-          options: _vm.tableOptions
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "measure",
-            fn: function(data) {
-              return [
-                _vm._v(
-                  "\n            " +
-                    _vm._s(_vm.measures[data.row.measure]) +
-                    "\n        "
-                )
-              ]
-            }
-          },
-          {
-            key: "detail",
-            fn: function(data) {
-              return [
-                _c("input", {
-                  staticClass: "form-control",
-                  attrs: { type: "text" },
-                  domProps: { value: data.row.pivot.detail },
-                  on: {
-                    change: function($event) {
-                      return _vm.updateLine(
-                        $event.target.value,
-                        data.row.pivot.product_id,
-                        "detail"
-                      )
-                    }
+      _vm.product
+        ? [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "name" } }, [_vm._v("Nombre")]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.recipe.name,
+                    expression: "recipe.name"
                   }
-                })
-              ]
-            }
-          },
-          {
-            key: "quantity",
-            fn: function(data) {
-              return [
+                ],
+                staticClass: "form-control w-auto d-inline",
+                class: {
+                  "is-valid": _vm.recipe.name,
+                  "is-invalid": !_vm.recipe.name
+                },
+                attrs: { type: "text", id: "name", name: "name" },
+                domProps: { value: _vm.recipe.name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.recipe, "name", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "detail" } }, [
+                _vm._v("Descripción")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.recipe.detail,
+                    expression: "recipe.detail"
+                  }
+                ],
+                staticClass: "form-control w-75 d-inline",
+                attrs: { type: "text", id: "detail", name: "detail" },
+                domProps: { value: _vm.recipe.detail },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.recipe, "detail", $event.target.value)
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _vm._v("\n            Receta para producir "),
                 _c("vue-numeric", {
-                  ref: "product_" + data.row.pivot.product_id,
-                  staticClass: "form-control w-auto",
+                  staticClass: "form-control w-auto d-inline",
                   class: {
-                    "is-valid": data.row.pivot.quantity > 0,
-                    "is-invalid": data.row.pivot.quantity <= 0
+                    "is-valid": _vm.recipe.quantity > 0,
+                    "is-invalid": _vm.recipe.quantity <= 0
                   },
                   attrs: {
                     precision: _vm.$root.precision,
                     separator: ".",
                     "decimal-separator": ",",
-                    value: data.row.pivot.quantity,
                     minus: false
                   },
-                  on: {
-                    input: function($event) {
-                      return _vm.updateLine(
-                        $event,
-                        data.row.pivot.product_id,
-                        "quantity"
-                      )
-                    }
+                  model: {
+                    value: _vm.recipe.quantity,
+                    callback: function($$v) {
+                      _vm.$set(_vm.recipe, "quantity", $$v)
+                    },
+                    expression: "recipe.quantity"
+                  }
+                }),
+                _vm._v(
+                  "  " +
+                    _vm._s(_vm.measures[_vm.product.measure]) +
+                    "\n        "
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _vm._v("\n            Costo Extra "),
+                _c("vue-numeric", {
+                  staticClass: "form-control w-auto d-inline",
+                  attrs: {
+                    precision: _vm.$root.precision,
+                    separator: ".",
+                    "decimal-separator": ",",
+                    minus: false
+                  },
+                  model: {
+                    value: _vm.recipe.extra_cost,
+                    callback: function($$v) {
+                      _vm.$set(_vm.recipe, "extra_cost", $$v)
+                    },
+                    expression: "recipe.extra_cost"
                   }
                 })
-              ]
-            }
-          },
-          {
-            key: "actions",
-            fn: function(data) {
-              return [
-                _c(
-                  "a",
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("label", { attrs: { for: "ingredients" } }, [
+                  _vm._v("Buscar ingredientes")
+                ]),
+                _vm._v(" "),
+                _c("v-select", {
+                  attrs: {
+                    id: "ingredients",
+                    label: "name",
+                    filterable: false,
+                    options: _vm.searchOptions
+                  },
+                  on: { search: _vm.onSearch },
+                  model: {
+                    value: _vm.line,
+                    callback: function($$v) {
+                      _vm.line = $$v
+                    },
+                    expression: "line"
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("v-client-table", {
+              ref: "myTable",
+              attrs: {
+                data: _vm.recipe.lines,
+                columns: _vm.columns,
+                options: _vm.tableOptions
+              },
+              scopedSlots: _vm._u(
+                [
                   {
-                    staticClass: "btn btn-danger btn-sm",
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteProduct(data.row.product_id, $event)
-                      }
+                    key: "measure",
+                    fn: function(data) {
+                      return [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(_vm.measures[data.row.measure]) +
+                            "\n            "
+                        )
+                      ]
                     }
                   },
-                  [_vm._v("Borar")]
-                )
-              ]
-            }
-          }
-        ])
-      }),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { type: "submit", disabled: !_vm.validForm }
-        },
-        [_vm._v("Guardar")]
-      )
+                  {
+                    key: "detail",
+                    fn: function(data) {
+                      return [
+                        _c("input", {
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: data.row.pivot.detail },
+                          on: {
+                            change: function($event) {
+                              return _vm.updateLine(
+                                $event.target.value,
+                                data.row.pivot.product_id,
+                                "detail"
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    }
+                  },
+                  {
+                    key: "quantity",
+                    fn: function(data) {
+                      return [
+                        _c("vue-numeric", {
+                          ref: "product_" + data.row.pivot.product_id,
+                          staticClass: "form-control w-auto",
+                          class: {
+                            "is-valid": data.row.pivot.quantity > 0,
+                            "is-invalid": data.row.pivot.quantity <= 0
+                          },
+                          attrs: {
+                            precision: _vm.$root.precision,
+                            separator: ".",
+                            "decimal-separator": ",",
+                            value: data.row.pivot.quantity,
+                            minus: false
+                          },
+                          on: {
+                            input: function($event) {
+                              return _vm.updateLine(
+                                $event,
+                                data.row.pivot.product_id,
+                                "quantity"
+                              )
+                            }
+                          }
+                        })
+                      ]
+                    }
+                  },
+                  {
+                    key: "actions",
+                    fn: function(data) {
+                      return [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "btn btn-danger btn-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.deleteProduct(
+                                  data.row.pivot.product_id,
+                                  $event
+                                )
+                              }
+                            }
+                          },
+                          [_vm._v("Borar")]
+                        )
+                      ]
+                    }
+                  }
+                ],
+                null,
+                false,
+                4134062789
+              )
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "submit", disabled: !_vm.validForm }
+              },
+              [_vm._v("Guardar")]
+            )
+          ]
+        : _vm._e()
     ],
     2
   )
@@ -43850,6 +43948,76 @@ var render = function() {
   return _c(
     "div",
     [
+      _c("h2", [_vm._v("Filtros")]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("label", { attrs: { for: "product" } }, [_vm._v("Producto")]),
+          _vm._v(" "),
+          _c("v-select", {
+            staticClass: "d-inline-block w-auto",
+            attrs: {
+              id: "product",
+              placeholder: "Busque un producto...",
+              label: "name",
+              filterable: false,
+              options: _vm.filter_products
+            },
+            on: {
+              input: function($event) {
+                return _vm.setRequestParams()
+              },
+              search: _vm.onSearch
+            },
+            model: {
+              value: _vm.product,
+              callback: function($$v) {
+                _vm.product = $$v
+              },
+              expression: "product"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", { attrs: { for: "name" } }, [
+          _vm._v("Nombre / Descripción")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.filter_q,
+              expression: "filter_q"
+            }
+          ],
+          staticClass: "form-control d-inline-block w-auto",
+          attrs: { type: "text", id: "name", placeholder: "Puré de Papas" },
+          domProps: { value: _vm.filter_q },
+          on: {
+            keyup: function($event) {
+              return _vm.setRequestParams()
+            },
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.filter_q = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
       _c("v-server-table", {
         ref: "myTable",
         attrs: {
@@ -43916,6 +44084,26 @@ var render = function() {
                     )
                   }),
                   0
+                )
+              ]
+            }
+          },
+          {
+            key: "product.name",
+            fn: function(data) {
+              return [
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href:
+                        _vm.$root.base_url +
+                        "/products/" +
+                        data.row.product.id +
+                        "/edit"
+                    }
+                  },
+                  [_vm._v(_vm._s(data.row.product.name))]
                 )
               ]
             }

@@ -1,4 +1,4 @@
--<template>
+<template>
     <div>
         <v-server-table ref="myTable" :url="this.$root.base_url + '/data'" :columns="columns" :options="options">
             <template slot="total" slot-scope="data">
@@ -142,7 +142,7 @@
                 order:{column:'date',ascending:false},
                 customFilters:{
                     model: 'Purchase',
-                    with: 'lines',
+                    with: ['lines'],
                 }
             })
         },

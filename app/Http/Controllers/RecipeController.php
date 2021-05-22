@@ -2,54 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RecipeRequest;
-use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 
-class RecipeController extends Controller
+class RecipeController extends BaseController
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $model = 'App\Models\Recipe';
+    protected $index_view = 'recipes';
+    protected $form_view = 'forms.recipe';
+    protected $validation_rules = [
+        'quantity' => 'required|gt:0',
+        'extra_cost' => '',
+        'products.*' => 'required|exists:products,id',
+        'qttys.*' => 'required|gt:0',
+        'name' => 'required',
+        'detial' => '',
+    ];
+
+    public function getSuccessStoreMessage(Request $request, $id = null)
     {
-        $this->middleware('auth');
+        return 'Receta "' . $request->name . '" ' . ( $id ? 'actualizada' : 'creada' ) . ' exitosamente !';
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index($product_id)
+    public function index()
     {
-        $product = Product::with('recipes.lines')->findOrFail($product_id);
+        $product = isset($_GET['product']) ? Product::with('recipes.lines')->find($_GET['product']) : null;
 
         return view('recipes', ['product' => $product]);
     }
 
-    public function create($product_id)
+    public function create()
     {
-        $product = Product::findOrFail($product_id);
+        $product = isset($_GET['product']) ? Product::with('recipes.lines')->find($_GET['product']) : null;
         return view('forms.recipe', ['product' => $product, 'recipe' => null ]);
     }
 
-    public function store($id = null, RecipeRequest $request)
+    public function store(Request $request, $id = null)
     {
-        if ( $id )
-        {
-            $recipe = Recipe::findOrFail($id);
-            $recipe->update($request->except(['product_id']));
-        }
-        else
-        {
-            $product = Product::findOrFail($request->product_id);
-            $recipe = $product->recipes()->create($request->all());
-        }
+        parent::store($request, $id);
 
         $lines = [];
 
@@ -57,16 +48,16 @@ class RecipeController extends Controller
             $lines[$value] = ['quantity' => $request->qttys[$key], 'detail' => $request->details[$key], 'entity_id' => session('user.entity_id')];
         }
 
-        $recipe->lines()->sync($lines);
+        $this->instance->lines()->sync($lines);
 
-        return redirect('products/' . $recipe->product_id . '/recipes')->with('success','Receta "' . $recipe->name . '" ' . ( $id ? 'actualizada' : 'creada' ) . ' exitosamente !');
+        return redirect('recipes/' . $this->instance->id . '/edit');
     }
 
     public function edit($id)
     {
         $recipe = Recipe::with(['lines'])->findOrFail($id);
 
-        return view('forms.recipe', ['product' => new ProductResource($recipe->product), 'recipe' => $recipe]);
+        return view('forms.recipe', ['product' => $recipe->product, 'recipe' => $recipe]);
     }
 
     public function destroy($id)

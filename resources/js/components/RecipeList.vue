@@ -1,5 +1,21 @@
 <template>
     <div>
+
+        <h2>Filtros</h2>
+        <hr>
+        <div class="form-group">
+            <label for="product">Producto</label>
+            <v-select @input="setRequestParams()" id="product" placeholder="Busque un producto..." class="d-inline-block w-auto" label="name" :filterable="false" v-model="product" :options="filter_products" @search="onSearch">
+              </v-select>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Nombre / Descripción</label>
+            <input type="text" v-model="filter_q" @keyup="setRequestParams()" id="name" placeholder="Puré de Papas" class="form-control d-inline-block w-auto">
+        </div>
+
+        <hr>
+
         <v-server-table ref="myTable" :url="this.$root.base_url + '/data'" :columns="columns" :options="options">
 
             <template v-slot:child_row="data">
@@ -30,6 +46,10 @@
                 ></vue-numeric> )</small>
                     </li>
                 </ul>
+            </template>
+
+            <template slot="product.name" slot-scope="data">
+                <a :href="$root.base_url + '/products/' + data.row.product.id + '/edit'">{{ data.row.product.name }}</a>
             </template>
 
             <template slot="actions" slot-scope="data">
@@ -66,8 +86,12 @@
     export default {
         data() {
             return {
+                filter_q: '',
+                filter_products: [],
+                product: null,
                 recipes: [],
                 options: {
+                    filterable: false,
                     perPage: 10,
                     headings: {
                         id: 'ID',
@@ -76,6 +100,7 @@
                         quantity: 'Cantidad Producida',
                         extra_cost: 'Costo Extra',
                         actions: 'Acciones',
+                        'product.name': 'Producto',
                     },
                     cellClasses:{
                         quantity: [{
@@ -94,6 +119,7 @@
                 },
                 columns: [
                     'id',
+                    'product.name',
                     'name',
                     'detail',
                     'quantity',
@@ -102,23 +128,31 @@
                 ],
             }
         },
-        props: {product: Object},
 
         async mounted() {
-            this.recipes = this.product.recipes
+
+            this.product = this.$attrs.product
+
             $(".VueTables__search").removeClass('form-inline')
 
-            this.$refs.myTable.setRequestParams({
-                order:{column:'name',ascending:true},
-                customFilters:{
-                    model: 'Recipe',
-                    filters: '{"product_id":"' + this.product.id + '"}',
-                    with: 'lines',
-                }
-            })
+            this.setRequestParams()
         },
 
         methods: {
+
+            setRequestParams: function()
+            {
+                let filters = this.product ? {product_id: this.product.id} : {}
+                this.$refs.myTable.setRequestParams({
+                    order:{column:'name',ascending:true},
+                    customFilters:{
+                        model: 'Recipe',
+                        filters: filters,
+                        with: ['lines', 'product'],
+                        query: this.filter_q
+                    }
+                })
+            },
 
             deleteRecipe(id, e) {
 
@@ -136,7 +170,24 @@
                 {
                     e.preventDefault()
                 }
-            }
+            },
+
+            onSearch(search, loading) {
+                if(search.length) {
+                    loading(true);
+                    this.search(loading, search, this);
+                }
+            },
+
+            search: _.debounce((loading, search, vm) => {
+              fetch(
+                vm.$root.base_url + '/search/' + '?orderBy=name&order=asc&model=Product&&q=' + encodeURI(search)
+              ).then(res => {
+
+                res.json().then(json => (vm.filter_products = json));
+                loading(false);
+              });
+            }, 350)
         }
     }
 </script>

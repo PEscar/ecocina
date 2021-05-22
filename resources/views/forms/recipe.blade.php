@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header"><?= $recipe ? 'Editar' : 'Nueva' ?> Receta de: <strong><?=$product->name?></strong></div>
+                <div class="card-header"><?= $recipe ? 'Editar' : 'Nueva' ?></strong></div>
                     
                 <div class="card-body">
                 	<recipe-form
