@@ -11,7 +11,7 @@
 
         <div class="form-group">
             <label for="product">Producto:</label>
-            <v-select id="product" placeholder="Seleccione Producto" :class="{ readonly: recipe.id }" class="w-auto d-inline-block" label="name" :filterable="false" v-model="product" :options="searchOptions" @search="onSearch">
+            <v-select id="product" placeholder="Buscar" :class="{ readonly: recipe.id }" class="w-auto d-inline-block" label="name" :filterable="false" v-model="product" :options="searchOptions" @search="onSearch">
               </v-select>
         </div>
 
@@ -51,7 +51,7 @@
 
             <div class="form-group">
                 <label for="ingredients">Buscar ingredientes</label>
-                <v-select id="ingredients" label="name" :filterable="false" v-model="line" :options="searchOptions" @search="onSearch">
+                <v-select id="ingredients" class="w-auto d-inline-block" label="name" :filterable="false" v-model="line" :options="searchOptions" @search="onSearch">
                   </v-select>
             </div>
 
@@ -143,6 +143,11 @@
         },
 
         watch: {
+
+            product: function(newProduct)
+            {
+                this.recipe.product_id = newProduct ? newProduct.id : null
+            },
 
             line: function (newLine) {
 

@@ -12,6 +12,7 @@ class RecipeController extends BaseController
     protected $index_view = 'recipes';
     protected $form_view = 'forms.recipe';
     protected $validation_rules = [
+        'product_id' => 'required|exists:products,id',
         'quantity' => 'required|gt:0',
         'extra_cost' => '',
         'products.*' => 'required|exists:products,id',

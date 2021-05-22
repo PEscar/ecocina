@@ -3247,6 +3247,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
+    product: function product(newProduct) {
+      this.recipe.product_id = newProduct ? newProduct.id : null;
+    },
     line: function line(newLine) {
       var _this = this;
 
@@ -3421,6 +3424,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3482,6 +3489,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       }, _callee);
     }))();
+  },
+  computed: {
+    addRoute: function addRoute() {
+      return this.$root.base_url + '/recipes/create' + (this.product ? '?product=' + this.product.id : '');
+    }
   },
   methods: {
     setRequestParams: function setRequestParams() {
@@ -43640,7 +43652,7 @@ var render = function() {
             class: { readonly: _vm.recipe.id },
             attrs: {
               id: "product",
-              placeholder: "Seleccione Producto",
+              placeholder: "Buscar",
               label: "name",
               filterable: false,
               options: _vm.searchOptions
@@ -43786,6 +43798,7 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("v-select", {
+                  staticClass: "w-auto d-inline-block",
                   attrs: {
                     id: "ingredients",
                     label: "name",
@@ -43945,237 +43958,250 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("h2", [_vm._v("Filtros")]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "form-group" },
-        [
-          _c("label", { attrs: { for: "product" } }, [_vm._v("Producto")]),
+  return _c("div", { staticClass: "card" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _vm._v("Recetas"),
+      _c("a", { staticClass: "float-right", attrs: { href: _vm.addRoute } }, [
+        _vm._v("Nueva")
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [
+        _c("h2", [_vm._v("Filtros")]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "form-group" },
+          [
+            _c("label", { attrs: { for: "product" } }, [_vm._v("Producto")]),
+            _vm._v(" "),
+            _c("v-select", {
+              staticClass: "d-inline-block w-auto",
+              attrs: {
+                id: "product",
+                placeholder: "Busque un producto...",
+                label: "name",
+                filterable: false,
+                options: _vm.filter_products
+              },
+              on: {
+                input: function($event) {
+                  return _vm.setRequestParams()
+                },
+                search: _vm.onSearch
+              },
+              model: {
+                value: _vm.product,
+                callback: function($$v) {
+                  _vm.product = $$v
+                },
+                expression: "product"
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "name" } }, [
+            _vm._v("Nombre / Descripción")
+          ]),
           _vm._v(" "),
-          _c("v-select", {
-            staticClass: "d-inline-block w-auto",
-            attrs: {
-              id: "product",
-              placeholder: "Busque un producto...",
-              label: "name",
-              filterable: false,
-              options: _vm.filter_products
-            },
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.filter_q,
+                expression: "filter_q"
+              }
+            ],
+            staticClass: "form-control d-inline-block w-auto",
+            attrs: { type: "text", id: "name", placeholder: "Puré de Papas" },
+            domProps: { value: _vm.filter_q },
             on: {
-              input: function($event) {
+              keyup: function($event) {
                 return _vm.setRequestParams()
               },
-              search: _vm.onSearch
-            },
-            model: {
-              value: _vm.product,
-              callback: function($$v) {
-                _vm.product = $$v
-              },
-              expression: "product"
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.filter_q = $event.target.value
+              }
             }
           })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "name" } }, [
-          _vm._v("Nombre / Descripción")
         ]),
         _vm._v(" "),
-        _c("input", {
-          directives: [
+        _c("hr"),
+        _vm._v(" "),
+        _c("v-server-table", {
+          ref: "myTable",
+          attrs: {
+            url: this.$root.base_url + "/data",
+            columns: _vm.columns,
+            options: _vm.options
+          },
+          scopedSlots: _vm._u([
             {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.filter_q,
-              expression: "filter_q"
-            }
-          ],
-          staticClass: "form-control d-inline-block w-auto",
-          attrs: { type: "text", id: "name", placeholder: "Puré de Papas" },
-          domProps: { value: _vm.filter_q },
-          on: {
-            keyup: function($event) {
-              return _vm.setRequestParams()
-            },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
+              key: "child_row",
+              fn: function(data) {
+                return [
+                  _c("div", [_c("b", [_vm._v("Ingredientes:")])]),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    { staticClass: "fa-ul" },
+                    _vm._l(data.row.lines, function(line) {
+                      return _c(
+                        "li",
+                        [
+                          _c("i", {
+                            staticClass: "fa-li fa",
+                            class: {
+                              "fa-check": line.stock >= line.pivot.quantity,
+                              "text-success": line.stock >= line.pivot.quantity,
+                              "fa-times": line.stock < line.pivot.quantity,
+                              "text-danger": line.stock < line.pivot.quantity
+                            }
+                          }),
+                          _c("strong", [_vm._v(_vm._s(line.name) + ": ")]),
+                          _vm._v(" "),
+                          _c("vue-numeric", {
+                            attrs: {
+                              separator: ".",
+                              "decimal-separator": ",",
+                              precision: _vm.$root.precision,
+                              "read-only": "",
+                              value: line.pivot.quantity
+                            }
+                          }),
+                          _vm._v(" "),
+                          line.stock < line.pivot.quantity
+                            ? _c(
+                                "small",
+                                [
+                                  _vm._v("(faltan "),
+                                  _c("vue-numeric", {
+                                    attrs: {
+                                      separator: ".",
+                                      "decimal-separator": ",",
+                                      precision: _vm.$root.precision,
+                                      "read-only": "",
+                                      value: line.pivot.quantity - line.stock
+                                    }
+                                  }),
+                                  _vm._v(" )")
+                                ],
+                                1
+                              )
+                            : _vm._e()
+                        ],
+                        1
+                      )
+                    }),
+                    0
+                  )
+                ]
               }
-              _vm.filter_q = $event.target.value
-            }
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("v-server-table", {
-        ref: "myTable",
-        attrs: {
-          url: this.$root.base_url + "/data",
-          columns: _vm.columns,
-          options: _vm.options
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "child_row",
-            fn: function(data) {
-              return [
-                _c("div", [_c("b", [_vm._v("Ingredientes:")])]),
-                _vm._v(" "),
-                _c(
-                  "ul",
-                  { staticClass: "fa-ul" },
-                  _vm._l(data.row.lines, function(line) {
-                    return _c(
-                      "li",
-                      [
-                        _c("i", {
-                          staticClass: "fa-li fa",
-                          class: {
-                            "fa-check": line.stock >= line.pivot.quantity,
-                            "text-success": line.stock >= line.pivot.quantity,
-                            "fa-times": line.stock < line.pivot.quantity,
-                            "text-danger": line.stock < line.pivot.quantity
-                          }
-                        }),
-                        _c("strong", [_vm._v(_vm._s(line.name) + ": ")]),
-                        _vm._v(" "),
-                        _c("vue-numeric", {
-                          attrs: {
-                            separator: ".",
-                            "decimal-separator": ",",
-                            precision: _vm.$root.precision,
-                            "read-only": "",
-                            value: line.pivot.quantity
-                          }
-                        }),
-                        _vm._v(" "),
-                        line.stock < line.pivot.quantity
-                          ? _c(
-                              "small",
-                              [
-                                _vm._v("(faltan "),
-                                _c("vue-numeric", {
-                                  attrs: {
-                                    separator: ".",
-                                    "decimal-separator": ",",
-                                    precision: _vm.$root.precision,
-                                    "read-only": "",
-                                    value: line.pivot.quantity - line.stock
-                                  }
-                                }),
-                                _vm._v(" )")
-                              ],
-                              1
-                            )
-                          : _vm._e()
-                      ],
-                      1
-                    )
-                  }),
-                  0
-                )
-              ]
-            }
-          },
-          {
-            key: "product.name",
-            fn: function(data) {
-              return [
-                _c(
-                  "a",
-                  {
-                    attrs: {
-                      href:
-                        _vm.$root.base_url +
-                        "/products/" +
-                        data.row.product.id +
-                        "/edit"
-                    }
-                  },
-                  [_vm._v(_vm._s(data.row.product.name))]
-                )
-              ]
-            }
-          },
-          {
-            key: "actions",
-            fn: function(data) {
-              return [
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-primary btn-sm",
-                    attrs: {
-                      href:
-                        _vm.$root.base_url + "/recipes/" + data.row.id + "/edit"
-                    }
-                  },
-                  [_vm._v("Editar")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "a",
-                  {
-                    staticClass: "btn btn-danger btn-sm",
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteRecipe(data.row.id, $event)
+            },
+            {
+              key: "product.name",
+              fn: function(data) {
+                return [
+                  _c(
+                    "a",
+                    {
+                      attrs: {
+                        href:
+                          _vm.$root.base_url +
+                          "/products/" +
+                          data.row.product.id +
+                          "/edit"
                       }
+                    },
+                    [_vm._v(_vm._s(data.row.product.name))]
+                  )
+                ]
+              }
+            },
+            {
+              key: "actions",
+              fn: function(data) {
+                return [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-primary btn-sm",
+                      attrs: {
+                        href:
+                          _vm.$root.base_url +
+                          "/recipes/" +
+                          data.row.id +
+                          "/edit"
+                      }
+                    },
+                    [_vm._v("Editar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-danger btn-sm",
+                      on: {
+                        click: function($event) {
+                          return _vm.deleteRecipe(data.row.id, $event)
+                        }
+                      }
+                    },
+                    [_vm._v("Borar")]
+                  )
+                ]
+              }
+            },
+            {
+              key: "quantity",
+              fn: function(data) {
+                return [
+                  _c("vue-numeric", {
+                    attrs: {
+                      separator: ".",
+                      "decimal-separator": ",",
+                      precision: _vm.$root.precision,
+                      "read-only": "",
+                      value: data.row.quantity
                     }
-                  },
-                  [_vm._v("Borar")]
-                )
-              ]
+                  })
+                ]
+              }
+            },
+            {
+              key: "extra_cost",
+              fn: function(data) {
+                return [
+                  _c("vue-numeric", {
+                    attrs: {
+                      separator: ".",
+                      "decimal-separator": ",",
+                      precision: _vm.$root.precision,
+                      "read-only": "",
+                      value: data.row.extra_cost
+                    }
+                  })
+                ]
+              }
             }
-          },
-          {
-            key: "quantity",
-            fn: function(data) {
-              return [
-                _c("vue-numeric", {
-                  attrs: {
-                    separator: ".",
-                    "decimal-separator": ",",
-                    precision: _vm.$root.precision,
-                    "read-only": "",
-                    value: data.row.quantity
-                  }
-                })
-              ]
-            }
-          },
-          {
-            key: "extra_cost",
-            fn: function(data) {
-              return [
-                _c("vue-numeric", {
-                  attrs: {
-                    separator: ".",
-                    "decimal-separator": ",",
-                    precision: _vm.$root.precision,
-                    "read-only": "",
-                    value: data.row.extra_cost
-                  }
-                })
-              ]
-            }
-          }
-        ])
-      })
-    ],
-    1
-  )
+          ])
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

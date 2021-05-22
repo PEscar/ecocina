@@ -7,6 +7,7 @@ use App\Models\GlobalModel;
 class Recipe extends GlobalModel
 {
     protected $fillable = [
+        'product_id',
         'extra_cost',
         'quantity',
         'name',

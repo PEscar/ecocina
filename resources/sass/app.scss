@@ -35,6 +35,6 @@
 // Vue select styles
 @import "vue-select/src/scss/vue-select.scss";
 
-.vs__search {
+.vs__search, .vs__search:focus {
 	width: auto;
 }
