@@ -25,7 +25,11 @@
                         <li>Regularizaciones de Stock</li>
                     </ul>
 
-                    <a href="bitcoin:bc1q9zlc5j92h0jk5s7m02y9a9ryy0c8tcy6ftjxu9nuu7c6vzcq0w8qx530rt"><img src="{{ url('img/btc_qr.png') }}" alt="Bitcoin QR Code Generator" height="300" width="300" border="0" /></a>
+                    <a href="bitcoin:bc1q9zlc5j92h0jk5s7m02y9a9ryy0c8tcy6ftjxu9nuu7c6vzcq0w8qx530rt"><img src="{{ url('img/btc_qr.png') }}" alt="BTC QR" height="250" width="250" border="0" /></a>
+
+                    <a href="monero:43kFi9gBv9XG4Vsxe4TEeFaiWVjRWwy9n4KR2A1VaNoZWBQP2gieTro6FKBLPjecNe5DuLXKQyb419UcUop4e3ixNs5n1nE"><img src="{{ url('img/xmr_qr.png') }}" alt="XMR QR" height="250" width="250" border="0" /></a>
+
+                    <a href="litecoin:MWYTQtAVkVhUSfDL5Wgp64LZbtJWyvCTuc"><img src="{{ url('img/ltc_qr.png') }}" alt="LTC QR" height="250" width="250" border="0" /></a>
 
                     <p>Para donar por otros medios, contactanos por email.</p>
             </div>
