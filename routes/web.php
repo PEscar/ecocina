@@ -66,3 +66,11 @@ Route::prefix('purchases')->group(function () {
 	Route::get('/{id}/edit', 'PurchaseController@edit');
 	Route::post('/{id?}', 'PurchaseController@store');
 });
+
+Route::prefix('sales')->group(function () {
+	Route::delete('/{id}', 'SaleController@destroy');
+	Route::get('/', 'SaleController@index');
+	Route::get('/create', 'SaleController@create');	
+	Route::get('/{id}/edit', 'SaleController@edit');
+	Route::post('/{id?}', 'SaleController@store');
+});

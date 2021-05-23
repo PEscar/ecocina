@@ -51,7 +51,7 @@ class RecipeController extends BaseController
 
         $this->instance->lines()->sync($lines);
 
-        return redirect('recipes/' . $this->instance->id . '/edit');
+        return redirect($this->index_view);
     }
 
     public function edit($id)
@@ -59,11 +59,5 @@ class RecipeController extends BaseController
         $recipe = Recipe::with(['lines'])->findOrFail($id);
 
         return view('forms.recipe', ['product' => $recipe->product, 'recipe' => $recipe]);
-    }
-
-    public function destroy($id)
-    {
-        $recipe = Recipe::findOrFail($id);
-        return json_encode($recipe->delete());
     }
 }

@@ -8,7 +8,7 @@ use Faker\Generator as Faker;
 $factory->define(Purchase::class, function (Faker $faker) {
     return [
     	'supplier' => $faker->name,
-    	'date' => $faker->date(),
+    	'date' => $faker->dateTimeThisYear(),
     	'entity_id' => null,
     ];
 });

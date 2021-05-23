@@ -2,15 +2,15 @@
     <form :action="route" method="POST">
 
         <input type="hidden" name="_token" :value="$root.csrf">
-        <input type="hidden" name="date" :value="purchase.date ? $root.moment(purchase.date).format('YYYY-MM-DD') : ''">
-        <input type="hidden" v-for="line in purchase.lines" name="products[]" :value="line.pivot.product_id">
-        <input type="hidden" v-for="line in purchase.lines" name="qttys[]" :value="line.pivot.quantity">
-        <input type="hidden" v-for="line in purchase.lines" name="prices[]" :value="line.pivot.price_per_unit">
-        <input type="hidden" v-for="line in purchase.lines" name="totals[]" :value="line.pivot.total">
+        <input type="hidden" name="date" :value="sale.date ? $root.moment(sale.date).format('YYYY-MM-DD') : ''">
+        <input type="hidden" v-for="line in sale.lines" name="products[]" :value="line.pivot.product_id">
+        <input type="hidden" v-for="line in sale.lines" name="qttys[]" :value="line.pivot.quantity">
+        <input type="hidden" v-for="line in sale.lines" name="prices[]" :value="line.pivot.price_per_unit">
+        <input type="hidden" v-for="line in sale.lines" name="totals[]" :value="line.pivot.total">
 
         <div class="form-group">
-            <label for="supplier">Proveedor</label>
-            <input type="text" v-model="purchase.supplier" id="supplier" class="form-control w-auto d-inline" v-bind:class="{'is-valid': purchase.supplier, 'is-invalid': !purchase.supplier}" name="supplier">
+            <label for="customer">Cliente</label>
+            <input type="text" v-model="sale.customer" id="customer" class="form-control w-auto d-inline" v-bind:class="{'is-valid': sale.customer, 'is-invalid': !sale.customer}" name="customer">
         </div>
 
         <div class="form-group">
@@ -20,9 +20,9 @@
                 :language="$root.datepicker_langs[$root.user_lang]"
                 placeholder="DD/MM/AAAA"
                 class="form-control w-auto d-inline-block"
-                v-model="purchase.date"
+                v-model="sale.date"
                 :format="$root.datepicker_date_format"
-                v-bind:class="{ 'is-valid' : purchase.date, 'is-invalid' : !purchase.date }"
+                v-bind:class="{ 'is-valid' : sale.date, 'is-invalid' : !sale.date }"
                 :highlighted="$root.highlighted_dates"
             ></v-datepicker>
         </div>
@@ -42,11 +42,26 @@
                 decimal-separator=","
                 v-bind:precision="$root.precision"
                 read-only
-                :value="purchase.total"
+                :value="sale.total"
             ></vue-numeric>
         </div>
 
-        <v-client-table ref="myTable" :data="purchase.lines" :columns="columns" :options="tableOptions">
+        <v-client-table ref="myTable" :data="sale.lines" :columns="columns" :options="tableOptions">
+
+            <template slot="name" slot-scope="data">
+                    <a :href="$root.base_url + '/products/' + data.row.id + '/edit'">{{ data.row.name }}</a>
+                </template>
+
+            <template slot="stock" slot-scope="data">
+                <vue-numeric
+                    separator="."
+                    decimal-separator=","
+                    v-bind:precision="$root.precision"
+                    read-only
+                    :value="data.row.stock"
+                ></vue-numeric>
+            </template>
+
             <template slot="measure" slot-scope="data">
                 {{ $root.measures[data.row.measure] }}
             </template>
@@ -62,6 +77,7 @@
                     :ref="'product_q_' + data.row.pivot.product_id"
                     v-bind:class="{'is-valid': data.row.pivot.quantity > 0, 'is-invalid': data.row.pivot.quantity <= 0}"
                     @input="updateLine($event, data.row.pivot.product_id, 'quantity')"
+                    :max="data.row.stock"
                 ></vue-numeric>
             </template>
 
@@ -102,7 +118,7 @@
     export default {
         data() {
             return {
-                purchase: {
+                sale: {
                     lines: [],
                 },
                 line: null, // Selected product
@@ -111,6 +127,7 @@
                 columns: [
                     'name',
                     'measure',
+                    'stock',
                     'pivot.quantity',
                     'pivot.price_per_unit',
                     'pivot.total',
@@ -119,18 +136,18 @@
             }
         },
         props: {
-            editPurchase: Object,
+            editSale: Object,
         },
         computed: {
 
             validForm: function()
             {
-                return this.purchase.lines.length > 0 && this.purchase.lines.filter(item => item.pivot.quantity == 0 || item.pivot.price_per_unit == 0).length == 0 && this.purchase.supplier
+                return this.sale.lines.length > 0 && this.sale.lines.filter(item => item.pivot.quantity == 0 || item.pivot.price_per_unit == 0).length == 0 && this.sale.customer
             },
 
             route: function()
             {
-                return this.$root.base_url + '/purchases' + ( this.purchase.id ? '/' + this.purchase.id : '' )
+                return this.$root.base_url + '/sales' + ( this.sale.id ? '/' + this.sale.id : '' )
             },
         },
 
@@ -139,13 +156,13 @@
             line: function (newLine) {
 
                 // Distinct that recipe product
-                if( newLine && this.purchase.lines.find(item => item.pivot.product_id == newLine.id) )
+                if( newLine && this.sale.lines.find(item => item.pivot.product_id == newLine.id) )
                 {
                     alert('El producto ya se encuentra en esta compra');
                 }
                 else if (newLine)
                 {
-                    let newLineIndex = this.purchase.lines.push({
+                    let newLineIndex = this.sale.lines.push({
 
                         name: newLine.name,
                         measure: newLine.measure,
@@ -161,9 +178,9 @@
                     let index = 'product_q_' + newLine.id
 
                     // Make reactive new property
-                    this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'quantity', 0)
-                    this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'price_per_unit', 0)
-                    this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'total', 0)
+                    this.$set(this.sale.lines[newLineIndex - 1].pivot, 'quantity', 0)
+                    this.$set(this.sale.lines[newLineIndex - 1].pivot, 'price_per_unit', 0)
+                    this.$set(this.sale.lines[newLineIndex - 1].pivot, 'total', 0)
 
                     this.$nextTick(() => {
                         this.$refs[index].$el.focus()
@@ -177,7 +194,7 @@
         created: function()
         {
             // Carga de receta a editar (si la hay)
-            this.purchase = this.editPurchase ? this.editPurchase : {lines: [], date: new Date}
+            this.sale = this.editSale ? this.editSale : {lines: [], date: new Date}
 
             this.tableOptions = this.$root.options
             this.tableOptions.orderBy = {
@@ -190,7 +207,7 @@
 
             updateLine: function(value = null, product_id = null, keyOrigin = null)
             {
-                let line = this.purchase.lines.find(item => item.pivot.product_id == product_id)
+                let line = this.sale.lines.find(item => item.pivot.product_id == product_id)
 
                 if ( keyOrigin == 'quantity' )
                 {
@@ -208,14 +225,14 @@
 
             updateTotal: function()
             {
-                this.purchase.total = this.purchase.lines.reduce( function(a, b){
+                this.sale.total = this.sale.lines.reduce( function(a, b){
                     return a + b.pivot.total;
                 }, 0)
             },
 
             deleteProduct: function(product_id)
             {
-                this.purchase.lines = this.purchase.lines.filter(line => line.id != product_id)
+                this.sale.lines = this.sale.lines.filter(line => line.id != product_id)
                 this.updateTotal()
             },
 
@@ -228,7 +245,7 @@
 
             search: _.debounce((loading, search, vm) => {
               fetch(
-                vm.$root.base_url + '/search/' + '?filters[purchases]=1&orderBy=name&order=asc&model=Product&q=' + encodeURI(search)
+                vm.$root.base_url + '/search/' + '?filters[sales]=1&orderBy=name&order=asc&model=Product&q=' + encodeURI(search)
               ).then(res => {
 
                 res.json().then(json => (vm.searchOptions = json));

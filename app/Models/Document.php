@@ -40,11 +40,11 @@ abstract class Document extends GlobalModel
 
                             if ( isset($value['from']) )
                             {
-                                $query->where($key, '>=', $value['from']);
+                                $query->where($key, '>=', date('Y-m-d', strtotime($value['from'])));
                             }
                             if ( isset($value['to']) )
                             {
-                                $query->where($key, '<=', $value['to']);
+                                $query->where($key, '<=', date('Y-m-d', strtotime($value['to'])));
                             }
                             break;
 

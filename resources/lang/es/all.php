@@ -6,4 +6,5 @@ return [
 	'purchases' => 'Compras',
 	'products' => 'Productos',
 	'recipes' => 'Recetas',
+	'sales' => 'Ventas',
 ];

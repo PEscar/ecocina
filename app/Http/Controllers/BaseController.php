@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use App\Models\Purchase;
 use Illuminate\Http\Request;
 
 abstract class BaseController extends Controller
