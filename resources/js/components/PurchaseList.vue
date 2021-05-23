@@ -158,7 +158,6 @@
         },
 
         computed: {
-
             untilDisabledDates: function()
             {
                 return this.filter_from ? {to: this.filter_from} : {}
@@ -168,7 +167,6 @@
             {
                 return this.filter_to ? {from: this.filter_to} : {}
             }
-
         },
 
         methods: {

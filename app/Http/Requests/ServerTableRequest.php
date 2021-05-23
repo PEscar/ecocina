@@ -27,7 +27,7 @@ class ServerTableRequest extends FormRequest
             'query' => '',
             'limit' => '',
             'page' => '',
-            'model' => 'required|in:Recipe,Product,Purchase,Sale',
+            'model' => 'required|in:Recipe,Product,Purchase,Sale,Expense',
             'orderBy' => '',
             'filters' => '',
             'with' => '',

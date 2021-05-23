@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             ProductsAndRecipesSeeder::class,
             PurchasesSeeder::class,
             SalesSeeder::class,
+            ExpensesSeeder:: class,
         ]);
     }
 }

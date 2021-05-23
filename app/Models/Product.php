@@ -45,9 +45,6 @@ class Product extends GlobalModel
     // SCOPES
 
     public function scopeSearch($query, $search) {
-        if(empty($search))
-            return;
-
         $query->where('name', 'like', '%'.$search.'%');
         $query->orWhere('detail', 'like', '%'.$search.'%');
     }

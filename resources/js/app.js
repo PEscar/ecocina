@@ -48,6 +48,8 @@ Vue.component('purchase-list', require('./components/PurchaseList.vue').default)
 Vue.component('purchase-form', require('./components/PurchaseForm.vue').default);
 Vue.component('sale-list', require('./components/SaleList.vue').default);
 Vue.component('sale-form', require('./components/SaleForm.vue').default);
+Vue.component('expense-form', require('./components/ExpenseForm.vue').default);
+Vue.component('expense-list', require('./components/ExpenseList.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

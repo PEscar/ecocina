@@ -45,6 +45,7 @@
                             <li class="nav-item navbar-brand <?= Request::is('recipes*') ? 'active' : '' ?>"><a class="nav-link" href="{{ url('recipes') }}">{{ __('all.recipes') }}</a></li>
                             <li class="nav-item navbar-brand <?= Request::is('purchases*') ? 'active' : '' ?>"><a class="nav-link" href="{{ url('purchases') }}">{{ __('all.purchases') }}</a></li>
                             <li class="nav-item navbar-brand <?= Request::is('sales*') ? 'active' : '' ?>"><a class="nav-link" href="{{ url('sales') }}">{{ __('all.sales') }}</a></li>
+                            <li class="nav-item navbar-brand <?= Request::is('expenses*') ? 'active' : '' ?>"><a class="nav-link" href="{{ url('expenses') }}">{{ __('all.expenses') }}</a></li>
                         @endif
                     </ul>
 

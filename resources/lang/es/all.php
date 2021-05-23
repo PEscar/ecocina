@@ -7,4 +7,5 @@ return [
 	'products' => 'Productos',
 	'recipes' => 'Recetas',
 	'sales' => 'Ventas',
+	'expenses' => 'Gastos',
 ];

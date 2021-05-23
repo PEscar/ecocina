@@ -74,3 +74,12 @@ Route::prefix('sales')->group(function () {
 	Route::get('/{id}/edit', 'SaleController@edit');
 	Route::post('/{id?}', 'SaleController@store');
 });
+
+Route::prefix('expenses')->group(function () {
+
+	Route::delete('/{id}', 'ExpenseController@destroy');
+	Route::get('/', 'ExpenseController@index');
+	Route::get('/create', 'ExpenseController@create');
+	Route::get('/{id}/edit', 'ExpenseController@edit');
+	Route::post('/{id?}', 'ExpenseController@store');
+});
