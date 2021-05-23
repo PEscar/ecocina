@@ -2750,8 +2750,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      measures: [],
-      // Labels
       purchase: {
         lines: []
       },
@@ -2807,7 +2805,7 @@ __webpack_require__.r(__webpack_exports__);
       })) {
         alert('El producto ya se encuentra en esta compra');
       } else if (newLine) {
-        var algo = this.purchase.lines.push({
+        var newLineIndex = this.purchase.lines.push({
           name: newLine.name,
           measure: newLine.measure,
           pivot: {
@@ -2816,15 +2814,13 @@ __webpack_require__.r(__webpack_exports__);
             quantity: 0,
             price_per_unit: 0
           }
-        });
-        console.log('algo: ', algo); // Focus en dinamically generated input
+        }); // Focus en dinamically generated input
 
-        var index = 'product_q_' + newLine.id;
-        console.log(index); // Make reactive new property
+        var index = 'product_q_' + newLine.id; // Make reactive new property
 
-        this.$set(this.purchase.lines[algo - 1].pivot, 'quantity', 0);
-        this.$set(this.purchase.lines[algo - 1].pivot, 'price_per_unit', 0);
-        this.$set(this.purchase.lines[algo - 1].pivot, 'total', 0);
+        this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'quantity', 0);
+        this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'price_per_unit', 0);
+        this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'total', 0);
         this.$nextTick(function () {
           _this.$refs[index].$el.focus();
         });
@@ -2836,11 +2832,7 @@ __webpack_require__.r(__webpack_exports__);
     // Carga de receta a editar (si la hay)
     this.purchase = this.editPurchase ? this.editPurchase : {
       lines: []
-    }; // Etiquetas de unidades de medida.
-
-    this.measures[1] = 'Unidad/es';
-    this.measures[2] = 'Kilo/s';
-    this.measures[3] = 'Litro/s';
+    };
   },
   methods: {
     updateLine: function updateLine() {
@@ -3172,8 +3164,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       product: null,
-      measures: [],
-      // Labels
       recipe: {
         lines: []
       },
@@ -3250,11 +3240,7 @@ __webpack_require__.r(__webpack_exports__);
       quantity: 0,
       product_id: null
     };
-    this.product = this.editRecipe ? this.editRecipe.product : this.$attrs.product; // Etiquetas de unidades de medida.
-
-    this.measures[1] = 'Unidad/es';
-    this.measures[2] = 'Kilo/s';
-    this.measures[3] = 'Litro/s';
+    this.product = this.editRecipe ? this.editRecipe.product : this.$attrs.product;
   },
   methods: {
     updateLine: function updateLine(value, product_id, key) {
@@ -3399,19 +3385,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       filter_products: [],
       product: null,
       recipes: [],
-      options: {
-        filterable: false,
-        perPage: 10,
-        headings: {
-          id: 'ID',
-          name: 'Nombre',
-          detail: 'Descripción',
-          quantity: 'Cantidad Producida',
-          extra_cost: 'Costo Extra',
-          actions: 'Acciones',
-          'product.name': 'Producto'
-        }
-      },
+      options: {},
       columns: ['id', 'product.name', 'name', 'detail', 'quantity', 'extra_cost', 'actions']
     };
   },
@@ -3424,11 +3398,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           switch (_context.prev = _context.next) {
             case 0:
               _this.product = _this.$attrs.product;
+              _this.options = _this.$root.options;
+              _this.options.sortable = ['name', 'detail', 'quantity', 'extra_cost'];
               $(".VueTables__search").removeClass('form-inline');
 
               _this.setRequestParams();
 
-            case 3:
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -64841,7 +64817,7 @@ var render = function() {
               return [
                 _vm._v(
                   "\n            " +
-                    _vm._s(_vm.measures[data.row.measure]) +
+                    _vm._s(_vm.$root.measures[data.row.measure]) +
                     "\n        "
                 )
               ]
@@ -65428,7 +65404,7 @@ var render = function() {
                 }),
                 _vm._v(
                   "  " +
-                    _vm._s(_vm.measures[_vm.product.measure]) +
+                    _vm._s(_vm.$root.measures[_vm.product.measure]) +
                     "\n        "
                 )
               ],
@@ -65506,7 +65482,7 @@ var render = function() {
                       return [
                         _vm._v(
                           "\n                " +
-                            _vm._s(_vm.measures[data.row.measure]) +
+                            _vm._s(_vm.$root.measures[data.row.measure]) +
                             "\n            "
                         )
                       ]
@@ -65589,7 +65565,7 @@ var render = function() {
                 ],
                 null,
                 false,
-                4134062789
+                213191913
               )
             }),
             _vm._v(" "),
@@ -85982,6 +85958,11 @@ var app = new Vue({
             }
           }]
         }
+      },
+      measures: {
+        1: 'Unidad/es',
+        2: 'Kilo/s',
+        3: 'Litro/s'
       }
     };
   },

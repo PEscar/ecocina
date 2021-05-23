@@ -38,7 +38,7 @@
 
         <v-client-table ref="myTable" :data="purchase.lines" :columns="columns" :options="tableOptions">
             <template slot="measure" slot-scope="data">
-                {{ measures[data.row.measure] }}
+                {{ $root.measures[data.row.measure] }}
             </template>
 
             <template slot="pivot.quantity" slot-scope="data">
@@ -92,7 +92,6 @@
     export default {
         data() {
             return {
-                measures: [], // Labels
                 purchase: {
                     lines: []
                 },
@@ -156,7 +155,7 @@
                 }
                 else if (newLine)
                 {
-                    let algo = this.purchase.lines.push({
+                    let newLineIndex = this.purchase.lines.push({
 
                         name: newLine.name,
                         measure: newLine.measure,
@@ -168,17 +167,13 @@
                         }
                     })
 
-                    console.log('algo: ', algo)
-
                     // Focus en dinamically generated input
                     let index = 'product_q_' + newLine.id
 
-                    console.log(index)
-
                     // Make reactive new property
-                    this.$set(this.purchase.lines[algo - 1].pivot, 'quantity', 0)
-                    this.$set(this.purchase.lines[algo - 1].pivot, 'price_per_unit', 0)
-                    this.$set(this.purchase.lines[algo - 1].pivot, 'total', 0)
+                    this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'quantity', 0)
+                    this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'price_per_unit', 0)
+                    this.$set(this.purchase.lines[newLineIndex - 1].pivot, 'total', 0)
 
                     this.$nextTick(() => {
                         this.$refs[index].$el.focus()
@@ -193,11 +188,6 @@
         {
             // Carga de receta a editar (si la hay)
             this.purchase = this.editPurchase ? this.editPurchase : {lines: []}
-
-            // Etiquetas de unidades de medida.
-            this.measures[1] = 'Unidad/es'
-            this.measures[2] = 'Kilo/s'
-            this.measures[3] = 'Litro/s'
         },
 
         methods: {

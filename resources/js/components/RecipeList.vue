@@ -94,19 +94,7 @@
                 filter_products: [],
                 product: null,
                 recipes: [],
-                options: {
-                    filterable: false,
-                    perPage: 10,
-                    headings: {
-                        id: 'ID',
-                        name: 'Nombre',
-                        detail: 'Descripción',
-                        quantity: 'Cantidad Producida',
-                        extra_cost: 'Costo Extra',
-                        actions: 'Acciones',
-                        'product.name': 'Producto',
-                    },
-                },
+                options: {},
                 columns: [
                     'id',
                     'product.name',
@@ -122,6 +110,8 @@
         async mounted() {
 
             this.product = this.$attrs.product
+            this.options = this.$root.options
+            this.options.sortable = ['name', 'detail', 'quantity', 'extra_cost']
 
             $(".VueTables__search").removeClass('form-inline')
 

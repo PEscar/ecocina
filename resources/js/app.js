@@ -109,6 +109,11 @@ const app = new Vue({
                 }]
             },
         },
+        measures:{
+            1: 'Unidad/es',
+            2: 'Kilo/s',
+            3: 'Litro/s',
+        }
 	}),
 	mounted: function()
 	{

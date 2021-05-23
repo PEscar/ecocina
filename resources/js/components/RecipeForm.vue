@@ -35,7 +35,7 @@
                     v-bind:minus="false"
                     class="form-control w-auto d-inline"
                     v-bind:class="{'is-valid': recipe.quantity > 0, 'is-invalid': recipe.quantity <= 0}"
-                ></vue-numeric>&nbsp;&nbsp;{{ measures[product.measure] }}
+                ></vue-numeric>&nbsp;&nbsp;{{ $root.measures[product.measure] }}
             </div>
 
             <div class="form-group">
@@ -60,7 +60,7 @@
             <v-client-table ref="myTable" :data="recipe.lines" :columns="columns" :options="tableOptions">
 
                 <template slot="measure" slot-scope="data">
-                    {{ measures[data.row.measure] }}
+                    {{ $root.measures[data.row.measure] }}
                 </template>
 
                 <template slot="detail" slot-scope="data">
@@ -97,7 +97,6 @@
         data() {
             return {
                 product: null,
-                measures: [], // Labels
                 recipe: {
                     lines: []
                 },
@@ -191,11 +190,6 @@
             // Carga de receta a editar (si la hay)
             this.recipe = this.editRecipe ? this.editRecipe : {lines: [], quantity: 0, product_id: null}
             this.product = this.editRecipe ? this.editRecipe.product : this.$attrs.product
-
-            // Etiquetas de unidades de medida.
-            this.measures[1] = 'Unidad/es'
-            this.measures[2] = 'Kilo/s'
-            this.measures[3] = 'Litro/s'
         },
 
         methods: {
