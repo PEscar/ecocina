@@ -69,18 +69,22 @@ class Product extends GlobalModel
 
     // METHODS
 
-    public function inStock($quantity)
+    public function inStock($quantity, $total_cost)
     {
-        \Log::info('sumando: ' . $quantity);
+        $divisor = $this->stock - $quantity;
+
+        $this->average_cost = $divisor > 0 ? ( ( $this->average_cost * $this->stock ) + $total_cost ) / $divisor : 0;
         $this->stock += $quantity;
         $this->save();
 
         return $this;
     }
 
-    public function outStock($quantity)
+    public function outStock($quantity, $total_cost)
     {
-        \Log::info('quitando: ' . $quantity);
+        $divisor = $this->stock - $quantity;
+
+        $this->average_cost = $divisor > 0 ? ( ( $this->average_cost * $this->stock ) - $total_cost ) / $divisor : 0;
         $this->stock -= $quantity;
         $this->save();
 

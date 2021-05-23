@@ -59,6 +59,22 @@
 
             <v-client-table ref="myTable" :data="recipe.lines" :columns="columns" :options="tableOptions">
 
+                <!-- <template slot="average_cost" slot-scope="data">
+                    <div>
+                        <vue-numeric
+                            separator="."
+                            decimal-separator=","
+                            v-bind:precision="$root.precision"
+                            read-only
+                            :value=data.row.average_cost
+                        ></vue-numeric>
+
+                        <span v-if="data.row.average_cost == 0">
+                            0
+                        </span>
+                    </div>
+                </template> -->
+
                 <template slot="measure" slot-scope="data">
                     {{ $root.measures[data.row.measure] }}
                 </template>
@@ -102,24 +118,12 @@
                 },
                 line: {}, // Selected product
                 searchOptions: [],
-                tableOptions: {
-                    headings: {
-                        name: 'Nombre',
-                        measure: 'U. Medida',
-                        actions: 'Acciones',
-                        quantity: 'Cantidad',
-                        detail: 'Detalle',
-                    },
-                    filterable: false,
-                    orderBy:{
-                        column: 'name',
-                        ascending: true
-                    },
-                },
+                tableOptions: {},
                 columns: [
                     'name',
                     'measure',
                     'quantity',
+                    // 'average_cost',
                     'detail',
                     'actions',
                 ]
@@ -190,6 +194,12 @@
             // Carga de receta a editar (si la hay)
             this.recipe = this.editRecipe ? this.editRecipe : {lines: [], quantity: 0, product_id: null}
             this.product = this.editRecipe ? this.editRecipe.product : this.$attrs.product
+
+            this.tableOptions = this.$root.options
+            this.tableOptions.orderBy = {
+                column: 'name',
+                ascending: true
+            }
         },
 
         methods: {

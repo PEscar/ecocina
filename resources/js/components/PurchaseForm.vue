@@ -23,6 +23,7 @@
                 v-model="purchase.date"
                 :format="$root.datepicker_date_format"
                 v-bind:class="{ 'is-valid' : purchase.date, 'is-invalid' : !purchase.date }"
+                :highlighted="$root.highlighted_dates"
             ></v-datepicker>
         </div>
 
@@ -102,31 +103,11 @@
         data() {
             return {
                 purchase: {
-                    lines: []
+                    lines: [],
                 },
                 line: null, // Selected product
                 searchOptions: [],
-                tableOptions: {
-                    headings: {
-                        name: 'Nombre',
-                        measure: 'U. Medida',
-                        actions: 'Acciones',
-                        'pivot.quantity': 'Cantidad',
-                        'pivot.price_per_unit': 'Precio U.',
-                        'pivot.total': 'Total',
-                    },
-                    filterable: false,
-                    cellClasses:{
-                        'pivot.total': [{
-                            class:'text-right',
-                            condition: row => true
-                        }],
-                    },
-                    orderBy:{
-                        column: 'name',
-                        ascending: true   
-                    },
-                },
+                tableOptions: {},
                 columns: [
                     'name',
                     'measure',
@@ -196,7 +177,12 @@
         created: function()
         {
             // Carga de receta a editar (si la hay)
-            this.purchase = this.editPurchase ? this.editPurchase : {lines: []}
+            this.purchase = this.editPurchase ? this.editPurchase : {lines: [], date: new Date}
+
+            this.tableOptions.orderBy = {
+                column: 'name',
+                ascending: true
+            }
         },
 
         methods: {

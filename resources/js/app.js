@@ -59,6 +59,11 @@ const app = new Vue({
     data: () => ({
     	date_format: 'DD/MM/YYYY',
         datepicker_date_format: 'dd/MM/yyyy',
+        highlighted_dates: {
+            dates: [
+                new Date(),
+            ],
+        },
     	moment: moment,
         user_lang: document.documentElement.lang,
         datepicker_langs: {
@@ -73,26 +78,31 @@ const app = new Vue({
             filterable: false,
             sortable: [],
             headings: {
-            	date: 'Fecha',
+                date: 'Fecha',
                 'pivot.id': 'ID',
                 'pivot.price_per_unit': 'Precio por Unidad',
                 'pivot.quantity': 'Cantidad',
                 'pivot.total': 'Total',
                 'product.name': 'Producto',
                 actions: 'Acciones',
+                average_cost: 'Costo Promedio',
                 detail: 'Descripción',
                 extra_cost: 'Costo Extra',
                 id: 'ID',
                 measure: 'U. Medida',
                 name: 'Nombre',
                 productions: 'Producción',
+                purchases: 'Compras',
                 quantity: 'Cantidad Producida',
                 sales: 'Ventas',
-                purchases: 'Compras',
                 supplier: 'Proveedor',
                 total: 'Total',
             },
             cellClasses:{
+                'average_cost': [{
+                    class:'text-right',
+                    condition: row => true
+                }],
                 total: [{
                     class:'text-right',
                     condition: row => true

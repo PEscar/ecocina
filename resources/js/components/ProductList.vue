@@ -47,6 +47,22 @@
                 </div>
             </template>
 
+            <template slot="average_cost" slot-scope="data">
+                <div>
+                    <vue-numeric
+                        separator="."
+                        decimal-separator=","
+                        v-bind:precision="$root.precision"
+                        read-only
+                        :value=data.row.average_cost
+                    ></vue-numeric>
+
+                    <span v-if="data.row.average_cost == 0">
+                        0
+                    </span>
+                </div>
+            </template>
+
             <template v-slot:child_row="data">
                 <div><b>Descripción:</b> {{data.row.detail}}</div>
             </template>
@@ -76,6 +92,7 @@
                     'detail',
                     'measure',
                     'stock',
+                    'average_cost',
                     'sales',
                     'purchases',
                     'productions',
@@ -88,7 +105,7 @@
         {
             this.options = this.$root.options
             this.options.headings.name = 'Nombre'
-            this.options.sortable = ['name', 'detail', 'purchases', 'productions', 'sales', 'stock', 'measure']
+            this.options.sortable = ['name', 'detail', 'purchases', 'productions', 'sales', 'stock', 'measure', 'average_cost', 'id']
 
             this.setRequestParams()
         },

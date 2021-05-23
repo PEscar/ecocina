@@ -43,12 +43,12 @@ class StockMovementLine extends GlobalModel
 
     public function updateProductStock()
     {
-		$this->type == self::STOCK_MOVEMENT_TYPE_IN ? $this->product->inStock($this->quantity) : $this->product->outStock($this->quantity);
+		$this->type == self::STOCK_MOVEMENT_TYPE_IN ? $this->product->inStock($this->quantity, $this->parentable->total) : $this->product->outStock($this->quantity, $this->parentable->total);
     }
 
     public function revertStockMovementLine()
     {
-		$this->type == self::STOCK_MOVEMENT_TYPE_IN ? $this->product->outStock($this->quantity) : $this->product->inStock($this->quantity);
+		$this->type == self::STOCK_MOVEMENT_TYPE_IN ? $this->product->outStock($this->quantity, $this->parentable->total) : $this->product->inStock($this->quantity, $this->parentable->total);
     }
 
     // END METHOSS

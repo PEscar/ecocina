@@ -23,6 +23,7 @@
                     :format="$root.datepicker_date_format"
                      @input="setRequestParams()"
                      :disabledDates="fromDisabledDates"
+                     :highlighted="$root.highlighted_dates"
                 ></v-datepicker>
             </div>
 
@@ -37,6 +38,7 @@
                     :format="$root.datepicker_date_format"
                      @input="setRequestParams()"
                      :disabledDates="untilDisabledDates"
+                     :highlighted="$root.highlighted_dates"
                 ></v-datepicker>
             </div>
 
@@ -135,7 +137,7 @@
                     'total',
                     'actions',
                 ],
-                childColumns: ['name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total'],
+                childColumns: ['id', 'name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total'],
             }
         },
 
@@ -145,10 +147,10 @@
             this.options = this.$root.options
             this.childOptions = {...this.$root.options}
 
-            this.options.sortable = ['date', 'supplier']
+            this.options.sortable = ['id', 'date', 'supplier']
 
             this.childOptions.headings.name = 'Producto'
-            this.childOptions.sortable = ['name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total']
+            this.childOptions.sortable = ['id', 'name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total']
             this.childOptions.orderBy = {
                 column: 'name',
                 ascending: true

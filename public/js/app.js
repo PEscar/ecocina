@@ -2602,19 +2602,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       filter_q: '',
       products: [],
       options: {},
-      columns: ['id', 'name', 'detail', 'measure', 'stock', 'sales', 'purchases', 'productions', 'actions']
+      columns: ['id', 'name', 'detail', 'measure', 'stock', 'average_cost', 'sales', 'purchases', 'productions', 'actions']
     };
   },
   mounted: function mounted() {
     this.options = this.$root.options;
     this.options.headings.name = 'Nombre';
-    this.options.sortable = ['name', 'detail', 'purchases', 'productions', 'sales', 'stock', 'measure'];
+    this.options.sortable = ['name', 'detail', 'purchases', 'productions', 'sales', 'stock', 'measure', 'average_cost', 'id'];
     this.setRequestParams();
   },
   methods: {
@@ -2756,6 +2772,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2765,29 +2782,7 @@ __webpack_require__.r(__webpack_exports__);
       line: null,
       // Selected product
       searchOptions: [],
-      tableOptions: {
-        headings: {
-          name: 'Nombre',
-          measure: 'U. Medida',
-          actions: 'Acciones',
-          'pivot.quantity': 'Cantidad',
-          'pivot.price_per_unit': 'Precio U.',
-          'pivot.total': 'Total'
-        },
-        filterable: false,
-        cellClasses: {
-          'pivot.total': [{
-            "class": 'text-right',
-            condition: function condition(row) {
-              return true;
-            }
-          }]
-        },
-        orderBy: {
-          column: 'name',
-          ascending: true
-        }
-      },
+      tableOptions: {},
       columns: ['name', 'measure', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total', 'actions']
     };
   },
@@ -2840,7 +2835,12 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     // Carga de receta a editar (si la hay)
     this.purchase = this.editPurchase ? this.editPurchase : {
-      lines: []
+      lines: [],
+      date: new Date()
+    };
+    this.tableOptions.orderBy = {
+      column: 'name',
+      ascending: true
     };
   },
   methods: {
@@ -3028,6 +3028,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3037,16 +3039,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       options: {},
       childOptions: {},
       columns: ['id', 'date', 'supplier', 'total', 'actions'],
-      childColumns: ['name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total']
+      childColumns: ['id', 'name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total']
     };
   },
   mounted: function mounted() {
     this.setRequestParams();
     this.options = this.$root.options;
     this.childOptions = _objectSpread({}, this.$root.options);
-    this.options.sortable = ['date', 'supplier'];
+    this.options.sortable = ['id', 'date', 'supplier'];
     this.childOptions.headings.name = 'Producto';
-    this.childOptions.sortable = ['name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total'];
+    this.childOptions.sortable = ['id', 'name', 'pivot.quantity', 'pivot.price_per_unit', 'pivot.total'];
     this.childOptions.orderBy = {
       column: 'name',
       ascending: true
@@ -3204,6 +3206,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -3214,21 +3232,9 @@ __webpack_require__.r(__webpack_exports__);
       line: {},
       // Selected product
       searchOptions: [],
-      tableOptions: {
-        headings: {
-          name: 'Nombre',
-          measure: 'U. Medida',
-          actions: 'Acciones',
-          quantity: 'Cantidad',
-          detail: 'Detalle'
-        },
-        filterable: false,
-        orderBy: {
-          column: 'name',
-          ascending: true
-        }
-      },
-      columns: ['name', 'measure', 'quantity', 'detail', 'actions']
+      tableOptions: {},
+      columns: ['name', 'measure', 'quantity', // 'average_cost',
+      'detail', 'actions']
     };
   },
   props: {
@@ -3285,6 +3291,11 @@ __webpack_require__.r(__webpack_exports__);
       product_id: null
     };
     this.product = this.editRecipe ? this.editRecipe.product : this.$attrs.product;
+    this.tableOptions = this.$root.options;
+    this.tableOptions.orderBy = {
+      column: 'name',
+      ascending: true
+    };
   },
   methods: {
     updateLine: function updateLine(value, product_id, key) {
@@ -64618,6 +64629,34 @@ var render = function() {
             }
           },
           {
+            key: "average_cost",
+            fn: function(data) {
+              return [
+                _c(
+                  "div",
+                  [
+                    _c("vue-numeric", {
+                      attrs: {
+                        separator: ".",
+                        "decimal-separator": ",",
+                        precision: _vm.$root.precision,
+                        "read-only": "",
+                        value: data.row.average_cost
+                      }
+                    }),
+                    _vm._v(" "),
+                    data.row.average_cost == 0
+                      ? _c("span", [
+                          _vm._v("\n                    0\n                ")
+                        ])
+                      : _vm._e()
+                  ],
+                  1
+                )
+              ]
+            }
+          },
+          {
             key: "child_row",
             fn: function(data) {
               return [
@@ -64798,7 +64837,8 @@ var render = function() {
               "clear-button": true,
               language: _vm.$root.datepicker_langs[_vm.$root.user_lang],
               placeholder: "DD/MM/AAAA",
-              format: _vm.$root.datepicker_date_format
+              format: _vm.$root.datepicker_date_format,
+              highlighted: _vm.$root.highlighted_dates
             },
             model: {
               value: _vm.purchase.date,
@@ -65080,7 +65120,8 @@ var render = function() {
                 language: _vm.$root.datepicker_langs[_vm.$root.user_lang],
                 placeholder: "DD/MM/AAAA",
                 format: _vm.$root.datepicker_date_format,
-                disabledDates: _vm.fromDisabledDates
+                disabledDates: _vm.fromDisabledDates,
+                highlighted: _vm.$root.highlighted_dates
               },
               on: {
                 input: function($event) {
@@ -65112,7 +65153,8 @@ var render = function() {
                 language: _vm.$root.datepicker_langs[_vm.$root.user_lang],
                 placeholder: "DD/MM/AAAA",
                 format: _vm.$root.datepicker_date_format,
-                disabledDates: _vm.untilDisabledDates
+                disabledDates: _vm.untilDisabledDates,
+                highlighted: _vm.$root.highlighted_dates
               },
               on: {
                 input: function($event) {
@@ -88470,6 +88512,9 @@ var app = new Vue({
     return {
       date_format: 'DD/MM/YYYY',
       datepicker_date_format: 'dd/MM/yyyy',
+      highlighted_dates: {
+        dates: [new Date()]
+      },
       moment: moment__WEBPACK_IMPORTED_MODULE_5___default.a,
       user_lang: document.documentElement.lang,
       datepicker_langs: {
@@ -88497,19 +88542,26 @@ var app = new Vue({
           'pivot.total': 'Total',
           'product.name': 'Producto',
           actions: 'Acciones',
+          average_cost: 'Costo Promedio',
           detail: 'Descripción',
           extra_cost: 'Costo Extra',
           id: 'ID',
           measure: 'U. Medida',
           name: 'Nombre',
           productions: 'Producción',
+          purchases: 'Compras',
           quantity: 'Cantidad Producida',
           sales: 'Ventas',
-          purchases: 'Compras',
           supplier: 'Proveedor',
           total: 'Total'
         },
         cellClasses: {
+          'average_cost': [{
+            "class": 'text-right',
+            condition: function condition(row) {
+              return true;
+            }
+          }],
           total: [{
             "class": 'text-right',
             condition: function condition(row) {

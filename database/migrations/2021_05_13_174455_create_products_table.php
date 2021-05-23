@@ -21,6 +21,7 @@ class CreateProductsTable extends Migration
             $table->text('detail')->nullable();
             $table->tinyInteger('measure');
             $table->float('stock', 16, 3)->default(0);
+            $table->float('average_cost', 16, 3)->default(0);
             $table->boolean('sales')->default(false);
             $table->boolean('purchases')->default(false);
             $table->boolean('productions')->default(false);
