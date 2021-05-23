@@ -46,6 +46,12 @@
                         v-bind:precision="$root.precision"
                         read-only
                         :value="line.pivot.quantity - line.stock"
+                    ></vue-numeric> )</small> <small v-if="line.stock >= line.pivot.quantity">(hay <vue-numeric
+                        separator="."
+                        decimal-separator=","
+                        v-bind:precision="$root.precision"
+                        read-only
+                        :value="line.stock"
                     ></vue-numeric> )</small>
                         </li>
                     </ul>
@@ -169,7 +175,7 @@
 
             search: _.debounce((loading, search, vm) => {
               fetch(
-                vm.$root.base_url + '/search/' + '?orderBy=name&order=asc&model=Product&&q=' + encodeURI(search)
+                vm.$root.base_url + '/search/' + '?filters[purchases]=1&orderBy=name&order=asc&model=Product&&q=' + encodeURI(search)
               ).then(res => {
 
                 res.json().then(json => (vm.filter_products = json));

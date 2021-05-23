@@ -2,6 +2,7 @@
     <form :action="route" method="POST">
 
         <input type="hidden" name="_token" :value="$root.csrf">
+        <input type="hidden" name="date" :value="purchase.date ? $root.moment(purchase.date).format('YYYY-MM-DD') : ''">
         <input type="hidden" v-for="line in purchase.lines" name="products[]" :value="line.pivot.product_id">
         <input type="hidden" v-for="line in purchase.lines" name="qttys[]" :value="line.pivot.quantity">
         <input type="hidden" v-for="line in purchase.lines" name="prices[]" :value="line.pivot.price_per_unit">
@@ -14,12 +15,20 @@
 
         <div class="form-group">
             <label for="date">Fecha</label>
-            <input type="text" v-bind:class="{ 'is-valid' : purchase.date, 'is-invalid' : !purchase.date }"  v-model="purchase.date" id="date" class="form-control w-auto d-inline" name="date">
+            <v-datepicker
+                :clear-button=true
+                :language="$root.datepicker_langs[$root.user_lang]"
+                placeholder="DD/MM/AAAA"
+                class="form-control w-auto d-inline-block"
+                v-model="purchase.date"
+                :format="$root.datepicker_date_format"
+                v-bind:class="{ 'is-valid' : purchase.date, 'is-invalid' : !purchase.date }"
+            ></v-datepicker>
         </div>
 
         <div class="form-group">
-            <label for="product">Buscar ingredientes</label>
-            <v-select class="w-auto" id="product" label="name" :filterable="false" v-model="line" :options="searchOptions" @search="onSearch">
+            <label for="product">Agregar Productos</label>
+            <v-select class="w-auto d-inline-block" placeholder="Buscar" id="product" label="name" :filterable="false" v-model="line" :options="searchOptions" @search="onSearch">
               </v-select>
         </div>
 
@@ -95,7 +104,7 @@
                 purchase: {
                     lines: []
                 },
-                line: {}, // Selected product
+                line: null, // Selected product
                 searchOptions: [],
                 tableOptions: {
                     headings: {
@@ -232,7 +241,7 @@
 
             search: _.debounce((loading, search, vm) => {
               fetch(
-                vm.$root.base_url + '/search/' + '?orderBy=name&order=asc&model=Product&q=' + encodeURI(search)
+                vm.$root.base_url + '/search/' + '?filters[purchases]=1&orderBy=name&order=asc&model=Product&q=' + encodeURI(search)
               ).then(res => {
 
                 res.json().then(json => (vm.searchOptions = json));

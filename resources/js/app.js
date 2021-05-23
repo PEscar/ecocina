@@ -14,6 +14,8 @@ import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 import vSelect from 'vue-select';
 import VueNumeric from 'vue-numeric'
 import moment from 'moment';
+import Datepicker from 'vuejs-datepicker';
+import {en, es} from 'vuejs-datepicker/dist/locale'
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -25,6 +27,8 @@ Vue.use(ServerTable, {}, false, 'bootstrap4')
 Vue.use(VueAxios, axios);
 Vue.component('v-select', vSelect)
 Vue.use(VueNumeric)
+Vue.component('v-datepicker', Datepicker)
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -54,7 +58,13 @@ const app = new Vue({
     el: '#app',
     data: () => ({
     	date_format: 'DD/MM/YYYY',
+        datepicker_date_format: 'dd/MM/yyyy',
     	moment: moment,
+        user_lang: document.documentElement.lang,
+        datepicker_langs: {
+            es: es,
+            en: en
+        },
 		csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 		base_url: document.querySelector('meta[name="base-url"]').getAttribute('content'),
 		precision: parseInt(document.querySelector('meta[name="precision"]').getAttribute('content')), // For qttys
@@ -78,7 +88,7 @@ const app = new Vue({
                 productions: 'Producción',
                 quantity: 'Cantidad Producida',
                 sales: 'Ventas',
-                shoppings: 'Compras',
+                purchases: 'Compras',
                 supplier: 'Proveedor',
                 total: 'Total',
             },

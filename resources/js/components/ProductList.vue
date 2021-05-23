@@ -21,8 +21,8 @@
                 <span v-else class="badge badge-danger">No</span>
             </template>
 
-            <template slot="shoppings" slot-scope="data">
-                <span v-if="data.row.shoppings" class="badge badge-success">Si</span>
+            <template slot="purchases" slot-scope="data">
+                <span v-if="data.row.purchases" class="badge badge-success">Si</span>
                 <span v-else class="badge badge-danger">No</span>
             </template>
 
@@ -77,7 +77,7 @@
                     'measure',
                     'stock',
                     'sales',
-                    'shoppings',
+                    'purchases',
                     'productions',
                     'actions',
                 ]
@@ -88,7 +88,7 @@
         {
             this.options = this.$root.options
             this.options.headings.name = 'Nombre'
-            this.options.sortable = ['name', 'detail']
+            this.options.sortable = ['name', 'detail', 'purchases', 'productions', 'sales', 'stock', 'measure']
 
             this.setRequestParams()
         },

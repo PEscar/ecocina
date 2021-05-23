@@ -14,7 +14,30 @@
 
             <div class="form-group">
                 <label for="from">Desde</label>
-                <input type="text" v-model="filter_from" @keyup="setRequestParams()" id="from" placeholder="Juan Pérez" class="form-control d-inline-block w-auto">
+                <v-datepicker
+                    :clear-button=true
+                    :language="$root.datepicker_langs[$root.user_lang]"
+                    placeholder="DD/MM/AAAA"
+                    class="form-control w-auto d-inline-block"
+                    v-model="filter_from"
+                    :format="$root.datepicker_date_format"
+                     @input="setRequestParams()"
+                     :disabledDates="fromDisabledDates"
+                ></v-datepicker>
+            </div>
+
+            <div class="form-group">
+                <label for="from">Hasta</label>
+                <v-datepicker
+                    :clear-button=true
+                    :language="$root.datepicker_langs[$root.user_lang]"
+                    placeholder="DD/MM/AAAA"
+                    class="form-control w-auto d-inline-block"
+                    v-model="filter_to"
+                    :format="$root.datepicker_date_format"
+                     @input="setRequestParams()"
+                     :disabledDates="untilDisabledDates"
+                ></v-datepicker>
             </div>
 
             <hr>
@@ -130,6 +153,20 @@
                 column: 'name',
                 ascending: true
             }
+        },
+
+        computed: {
+
+            untilDisabledDates: function()
+            {
+                return this.filter_from ? {to: this.filter_from} : {}
+            },
+
+            fromDisabledDates: function()
+            {
+                return this.filter_to ? {from: this.filter_to} : {}
+            }
+
         },
 
         methods: {

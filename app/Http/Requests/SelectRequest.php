@@ -27,7 +27,8 @@ class SelectRequest extends FormRequest
             'orderBy' => 'required',
             'order' => 'required|in:asc,desc',
             'model' => 'required|in:Product',
-            'q' => ''
+            'q' => '',
+            'filters' => '',
         ];
     }
 }

@@ -23,7 +23,7 @@ class SelectController extends Controller
      */
     public function index(SelectRequest $request)
     {
-        extract(request()->only(['orderBy', 'order', 'model', 'q']));
+        extract(request()->only(['orderBy', 'order', 'model', 'q', 'filters']));
 
         $model = 'App\Models\\' . $model;
 
@@ -33,6 +33,12 @@ class SelectController extends Controller
         {
             $data->search($request->q);
         }
+
+        if ( isset($filters) && !empty($filters) )
+        {
+            $data->filters($filters);
+        }
+
         return json_encode($data->get());
     }
 }

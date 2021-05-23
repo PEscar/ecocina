@@ -14,7 +14,7 @@ class Product extends GlobalModel
         'name',
         'detail',
         'sales',
-        'shoppings',
+        'purchases',
         'productions',
         'measure',
     ];
@@ -52,6 +52,19 @@ class Product extends GlobalModel
         $query->orWhere('detail', 'like', '%'.$search.'%');
     }
 
+    public function scopeFilters($query, $filters) {
+
+        if ( is_array($filters) )
+        {
+            foreach ($filters as $key => $value) {
+
+                if ( in_array($key, ['purchases', 'sales', 'productions']) )
+                {
+                    $query->where($key, $value);
+                }
+            }
+        }
+    }
     // END SCOPES
 
     // METHODS

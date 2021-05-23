@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;
@@ -21,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('measure');
             $table->float('stock', 16, 3)->default(0);
             $table->boolean('sales')->default(false);
-            $table->boolean('shoppings')->default(false);
+            $table->boolean('purchases')->default(false);
             $table->boolean('productions')->default(false);
             $table->timestamps();
 

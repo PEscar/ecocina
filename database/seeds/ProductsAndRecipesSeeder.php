@@ -16,12 +16,12 @@ class ProductsAndRecipesSeeder extends Seeder
     {
     	$entity = Entity::first();
 
-        $pizza = factory(Product::class)->create(['name' => 'Pizza Margarita', 'measure' => 1, 'detail' => 'Pizza Margarita con Olivas', 'stock' => 0, 'sales' => 1, 'shoppings' => 1, 'productions' => 1]);
-        $harina_t = factory(Product::class)->create(['name' => 'Harina de Trigo', 'measure' => 2, 'detail' => 'Harina de Trigo 000', 'stock' => 0, 'sales' => 1, 'shoppings' => 1, 'productions' => 0]);
-        $aceite_g = factory(Product::class)->create(['name' => 'Aceite de Girasol', 'measure' => 3, 'detail' => 'Aceite de Girasol', 'stock' => 0, 'sales' => 1, 'shoppings' => 1, 'productions' => 0]);
-        $pure_t = factory(Product::class)->create(['name' => 'Puré de Tomate', 'measure' => 2, 'detail' => 'Tomate Triturado', 'stock' => 0, 'sales' => 1, 'shoppings' => 1, 'productions' => 0]);
-        $muzza = factory(Product::class)->create(['name' => 'Mozzarella', 'measure' => 2, 'detail' => 'Muzzarella común', 'stock' => 0, 'sales' => 1, 'shoppings' => 1, 'productions' => 0]);
-        $olivas = factory(Product::class)->create(['name' => 'Olivas', 'measure' => 2, 'detail' => 'Olivas verdes con hueso', 'stock' => 0, 'sales' => 1, 'shoppings' => 1, 'productions' => 0]);
+        $pizza = factory(Product::class)->create(['name' => 'Pizza Margarita', 'measure' => 1, 'detail' => 'Pizza Margarita con Olivas', 'stock' => 0, 'sales' => 1, 'purchases' => 1, 'productions' => 1]);
+        $harina_t = factory(Product::class)->create(['name' => 'Harina de Trigo', 'measure' => 2, 'detail' => 'Harina de Trigo 000', 'stock' => 0, 'sales' => 1, 'purchases' => 1, 'productions' => 0]);
+        $aceite_g = factory(Product::class)->create(['name' => 'Aceite de Girasol', 'measure' => 3, 'detail' => 'Aceite de Girasol', 'stock' => 0, 'sales' => 1, 'purchases' => 1, 'productions' => 0]);
+        $pure_t = factory(Product::class)->create(['name' => 'Puré de Tomate', 'measure' => 2, 'detail' => 'Tomate Triturado', 'stock' => 0, 'sales' => 1, 'purchases' => 1, 'productions' => 0]);
+        $muzza = factory(Product::class)->create(['name' => 'Mozzarella', 'measure' => 2, 'detail' => 'Muzzarella común', 'stock' => 0, 'sales' => 1, 'purchases' => 1, 'productions' => 0]);
+        $olivas = factory(Product::class)->create(['name' => 'Olivas', 'measure' => 2, 'detail' => 'Olivas verdes con hueso', 'stock' => 0, 'sales' => 1, 'purchases' => 1, 'productions' => 0]);
 
         $recipe = factory(Recipe::class)->create(['name' => 'Pizza Margarita Mediana x4', 'quantity' => 4, 'detail' => 'Receta con poca muzza + 15 euros de imprevistos', 'extra_cost' => 15, 'product_id' => $pizza->id]);
 

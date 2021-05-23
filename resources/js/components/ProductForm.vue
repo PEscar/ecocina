@@ -48,9 +48,9 @@
             </div>
             &nbsp;&nbsp;&nbsp;
             <div class="form-check d-inline-block">
-                <input type="hidden" name="shoppings" v-if="!product.shoppings" value="0">
-                <input name="shoppings" class="form-check-input" id="shoppings" v-model="product.shoppings" type="checkbox" value="1">
-                <label class="form-check-label" for="shoppings">
+                <input type="hidden" name="purchases" v-if="!product.purchases" value="0">
+                <input name="purchases" class="form-check-input" id="purchases" v-model="product.purchases" type="checkbox" value="1">
+                <label class="form-check-label" for="purchases">
                 Compras
                 </label>
             </div>
@@ -63,7 +63,7 @@
                 </label>
             </div>
 
-            <small v-if="!product.sales && !product.shoppings && !product.productions" class="form-text text-danger">Debes seleccionar por lo menos un uso del producto.</small>
+            <small v-if="!product.sales && !product.purchases && !product.productions" class="form-text text-danger">Debes seleccionar por lo menos un uso del producto.</small>
         </div>
 
         <button type="submit" v-bind:disabled="!validForm" class="btn btn-primary">Guardar</button>
@@ -83,7 +83,7 @@
         computed: {
             validForm: function()
             {
-                return this.product.name && ( this.product.sales || this.product.shoppings || this.product.productions ) && this.product.measure
+                return this.product.name && ( this.product.sales || this.product.purchases || this.product.productions ) && this.product.measure
             },
 
             route: function()
