@@ -41,9 +41,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         @if ( auth()->user() )
-                            <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('products') }}">{{ __('all.products') }}</a></li>
-                            <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('recipes') }}">{{ __('all.recipes') }}</a></li>
-                            <li class="nav-item navbar-brand"><a class="nav-link" href="{{ url('purchases') }}">{{ __('all.purchases') }}</a></li>
+                            <li class="nav-item navbar-brand <?= Request::is('products*') ? 'active' : '' ?>"><a class="nav-link" href="{{ url('products') }}">{{ __('all.products') }}</a></li>
+                            <li class="nav-item navbar-brand <?= Request::is('recipes*') ? 'active' : '' ?>"><a class="nav-link" href="{{ url('recipes') }}">{{ __('all.recipes') }}</a></li>
+                            <li class="nav-item navbar-brand <?= Request::is('purchases*') ? 'active' : '' ?>"><a class="nav-link" href="{{ url('purchases') }}">{{ __('all.purchases') }}</a></li>
                         @endif
                     </ul>
 

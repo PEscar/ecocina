@@ -106,20 +106,6 @@
                         actions: 'Acciones',
                         'product.name': 'Producto',
                     },
-                    cellClasses:{
-                        quantity: [{
-                            class:'text-right',
-                            condition: row => true
-                        }],
-                        extra_cost: [{
-                            class:'text-right',
-                            condition: row => true
-                        }]
-                    },
-                    orderBy:{
-                        column: 'name',
-                        ascending: true   
-                    },
                 },
                 columns: [
                     'id',

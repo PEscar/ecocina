@@ -1,5 +1,13 @@
 <template>
     <div>
+        <h2>Filtros</h2>
+        <hr>
+        <div class="form-group">
+            <label for="name">Nombre / Descripción</label>
+            <input type="text" v-model="filter_q" @keyup="setRequestParams()" id="name" placeholder="Puré de Papas" class="form-control d-inline-block w-auto">
+        </div>
+
+        <hr>
         <v-server-table ref="myTable" :url="this.$root.base_url + '/data'" :columns="columns" :options="options">
 
             <template slot="measure" slot-scope="data">
@@ -59,38 +67,9 @@
     export default {
         data() {
             return {
+                filter_q : '',
                 products: [],
-                options: {
-                    sortable: ['name'],
-                    perPage: 10,
-                    headings: {
-                        sales: 'Ventas',
-                        shoppings: 'Compras',
-                        productions: 'Producción',
-                        name: 'Nombre',
-                        id: 'ID',
-                        measure: 'U. Medida',
-                        actions: 'Acciones',
-                        detail: 'Descripción',
-                    },
-                    requestFunction(data) {
-
-                        data.model = 'Product'
-                        data.orderBy = 'name'
-
-                        return axios.get(this.url, {
-                            params: data
-                        }).catch(function (e) {
-                            this.dispatch('error', e);
-                        });
-                    },
-                    cellClasses:{
-                        stock: [{
-                            class:'text-right',
-                            condition: row => true
-                        }]
-                    }
-                },
+                options: {},
                 columns: [
                     'id',
                     'name',
@@ -105,7 +84,27 @@
             }
         },
 
+        mounted: function()
+        {
+            this.options = this.$root.options
+            this.options.headings.name = 'Nombre'
+            this.options.sortable = ['name', 'detail']
+
+            this.setRequestParams()
+        },
+
         methods: {
+
+            setRequestParams: function()
+            {
+                this.$refs.myTable.setRequestParams({
+                    order:{column:'name',ascending:true},
+                    customFilters:{
+                        model: 'Product',
+                        query: this.filter_q,
+                    }
+                })
+            },
 
             deleteProduct(id, e) {
 

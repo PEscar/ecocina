@@ -26,5 +26,35 @@ abstract class Document extends GlobalModel
     	return $this->lines()->sum('total');
     }
 
+    public function scopeFilters($query, $filters) {
+        if ( is_array($filters) )
+        {
+            foreach ($filters as $key => $value) {
+
+                $av_filters = ['date']; // Available filters
+
+                if ( in_array($key, $av_filters) )
+                {
+                    switch ($key) {
+                        case 'date':
+
+                            if ( isset($value['from']) )
+                            {
+                                $query->where($key, '>=', $value['from']);
+                            }
+                            if ( isset($value['to']) )
+                            {
+                                $query->where($key, '<=', $value['to']);
+                            }
+                            break;
+
+                        default:
+                            $query->where($key, $value);
+                            break;
+                    }
+                }
+            }
+        }
+    }
     // APPENDS
 }

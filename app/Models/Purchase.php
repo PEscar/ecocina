@@ -26,9 +26,6 @@ class Purchase extends StockMovementGenerator
 	// SCOPES
 
     public function scopeSearch($query, $search) {
-        if(empty($search))
-            return;
-
         $query->where('supplier', 'like', '%'.$search.'%');
     }
 

@@ -13,15 +13,15 @@ import axios from 'axios';
 import {ServerTable, ClientTable, Event} from 'vue-tables-2';
 import vSelect from 'vue-select';
 import VueNumeric from 'vue-numeric'
-
+import moment from 'moment';
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.use(ClientTable);
-Vue.use(ServerTable);
+Vue.use(ClientTable, {}, false, 'bootstrap4')
+Vue.use(ServerTable, {}, false, 'bootstrap4')
 Vue.use(VueAxios, axios);
 Vue.component('v-select', vSelect)
 Vue.use(VueNumeric)
@@ -53,9 +53,62 @@ Vue.component('purchase-form', require('./components/PurchaseForm.vue').default)
 const app = new Vue({
     el: '#app',
     data: () => ({
+    	date_format: 'DD/MM/YYYY',
+    	moment: moment,
 		csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
 		base_url: document.querySelector('meta[name="base-url"]').getAttribute('content'),
 		precision: parseInt(document.querySelector('meta[name="precision"]').getAttribute('content')), // For qttys
+		options: {
+            sortIcon: { base:'fas', up:'fa-sort-down', down:'fa-sort-up', is:'fa-sort' },
+            filterable: false,
+            sortable: [],
+            headings: {
+            	date: 'Fecha',
+                'pivot.id': 'ID',
+                'pivot.price_per_unit': 'Precio por Unidad',
+                'pivot.quantity': 'Cantidad',
+                'pivot.total': 'Total',
+                'product.name': 'Producto',
+                actions: 'Acciones',
+                detail: 'Descripción',
+                extra_cost: 'Costo Extra',
+                id: 'ID',
+                measure: 'U. Medida',
+                name: 'Nombre',
+                productions: 'Producción',
+                quantity: 'Cantidad Producida',
+                sales: 'Ventas',
+                shoppings: 'Compras',
+                supplier: 'Proveedor',
+                total: 'Total',
+            },
+            cellClasses:{
+                total: [{
+                    class:'text-right',
+                    condition: row => true
+                }],
+                date: [{
+                    class:'text-center',
+                    condition: row => true
+                }],
+                'pivot.price_per_unit': [{
+                    class:'text-right',
+                    condition: row => true
+                }],
+                'pivot.quantity': [{
+                    class:'text-right',
+                    condition: row => true
+                }],
+                'pivot.total': [{
+                    class:'text-right',
+                    condition: row => true
+                }],
+                stock: [{
+                    class:'text-right',
+                    condition: row => true
+                }]
+            },
+        },
 	}),
 	mounted: function()
 	{
