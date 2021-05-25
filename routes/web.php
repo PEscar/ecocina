@@ -83,3 +83,12 @@ Route::prefix('expenses')->group(function () {
 	Route::get('/{id}/edit', 'ExpenseController@edit');
 	Route::post('/{id?}', 'ExpenseController@store');
 });
+
+Route::prefix('productions')->group(function () {
+
+	Route::delete('/{id}', 'ProductionController@destroy');
+	Route::get('/', 'ProductionController@index');
+	Route::get('/create', 'ProductionController@create');
+	Route::get('/{id}/edit', 'ProductionController@edit');
+	Route::post('/{id?}', 'ProductionController@store');
+});

@@ -8,4 +8,5 @@ return [
 	'recipes' => 'Recetas',
 	'sales' => 'Ventas',
 	'expenses' => 'Gastos',
+	'productions' => 'Producciones',
 ];

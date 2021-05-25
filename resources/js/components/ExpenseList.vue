@@ -84,8 +84,8 @@
                 options: {},
                 columns: [
                     'id',
-                    'name',
                     'date',
+                    'name',
                     'total',
                     'actions',
                 ]

@@ -28,14 +28,14 @@ class RecipeController extends BaseController
 
     public function index()
     {
-        $product = isset($_GET['product']) ? Product::with('recipes.lines')->find($_GET['product']) : null;
+        $product = isset($_GET['product']) ? Product::productions()->with('recipes.lines')->find($_GET['product']) : null;
 
         return view('recipes', ['product' => $product]);
     }
 
     public function create()
     {
-        $product = isset($_GET['product']) ? Product::with('recipes.lines')->find($_GET['product']) : null;
+        $product = isset($_GET['product']) ? Product::productions()->with('recipes.lines')->find($_GET['product']) : null;
         return view('forms.recipe', ['product' => $product, 'recipe' => null ]);
     }
 

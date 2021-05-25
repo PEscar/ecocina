@@ -149,6 +149,7 @@
 
                         name: newLine.name,
                         measure: newLine.measure,
+                        stock: newLine.stock,
                         pivot: {
                             product_id: newLine.id,
                             total: 0,
@@ -215,7 +216,7 @@
 
             deleteProduct: function(product_id)
             {
-                this.purchase.lines = this.purchase.lines.filter(line => line.id != product_id)
+                this.purchase.lines = this.purchase.lines.filter(line => line.pivot.product_id != product_id)
                 this.updateTotal()
             },
 

@@ -29,6 +29,7 @@ class SelectRequest extends FormRequest
             'model' => 'required|in:Product',
             'q' => '',
             'filters' => '',
+            'with' => '',
         ];
     }
 }

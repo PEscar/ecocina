@@ -62,31 +62,53 @@ class Product extends GlobalModel
             }
         }
     }
+
+    public function scopeProductions($query)
+    {
+        return $query->where('productions', 1);
+    }
+
+    public function scopeSales($query)
+    {
+        return $query->where('sales', 1);
+    }
+
+    public function scopePurchases($query)
+    {
+        return $query->where('purchases', 1);
+    }
+
     // END SCOPES
 
     // METHODS
 
-    public function inStock($quantity, $total_cost)
+    public function updateStock($quantity, $total_cost, $in = true, $update_average_cost = false)
     {
-        $divisor = $this->stock - $quantity;
+        // dump('stock precio: ' . $this->stock);
+        // dump('promedio viejo: ' . $this->average_cost);
 
-        $this->average_cost = $divisor > 0 ? ( ( $this->average_cost * $this->stock ) + $total_cost ) / $divisor : 0;
-        $this->stock += $quantity;
+        // dump('quantity: ' . $quantity);
+        // dump('total_cost: ' . $total_cost);
+        // dump('in: ' . $in);
+        // dump('update_average_cost: ' . $update_average_cost);
+
+        if ($update_average_cost)
+        {
+            if ( $in )
+            {
+                $actual_total_cost = ( $this->average_cost * $this->stock ) + $total_cost;
+                $this->average_cost = $actual_total_cost / ( $this->stock + $quantity );
+            }
+            else
+            {
+                $actual_total_cost = ( $this->average_cost * $this->stock ) - $total_cost;
+                $this->average_cost = $actual_total_cost / ( $this->stock - $quantity );
+            }
+        }
+
+        $this->stock = $in ? $this->stock + $quantity : $this->stock - $quantity;
         $this->save();
 
         return $this;
     }
-
-    public function outStock($quantity, $total_cost)
-    {
-        $divisor = $this->stock - $quantity;
-
-        $this->average_cost = $divisor > 0 ? ( ( $this->average_cost * $this->stock ) - $total_cost ) / $divisor : 0;
-        $this->stock -= $quantity;
-        $this->save();
-
-        return $this;
-    }
-
-    // END METHODS
 }

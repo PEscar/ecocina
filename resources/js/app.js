@@ -51,6 +51,9 @@ Vue.component('sale-form', require('./components/SaleForm.vue').default);
 Vue.component('expense-form', require('./components/ExpenseForm.vue').default);
 Vue.component('expense-list', require('./components/ExpenseList.vue').default);
 
+Vue.component('production-form', require('./components/ProductionForm.vue').default);
+// Vue.component('expense-list', require('./components/ExpenseList.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -130,7 +133,19 @@ const app = new Vue({
                 stock: [{
                     class:'text-right',
                     condition: row => true
-                }]
+                }],
+                quantity: [{
+                    class:'text-right',
+                    condition: row => true
+                }],
+                extra_cost: [{
+                    class:'text-right',
+                    condition: row => true
+                }],
+                cost: [{
+                    class:'text-right',
+                    condition: row => true
+                }],
             },
         },
         measures:{

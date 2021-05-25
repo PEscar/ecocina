@@ -9,4 +9,5 @@ class PurchaseLine extends StockMovementLineGenerator
 {
 	protected $headerModel = 'App\Models\Purchase';
 	protected $table = 'purchase_lines';
+	public $update_product_average_cost = true;
 }

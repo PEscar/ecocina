@@ -62,6 +62,8 @@
                 </template>
 
                 <template slot="actions" slot-scope="data">
+                    <a class="btn btn-success btn-sm" :href="$root.base_url + '/productions/create?recipe=' + data.row.id">Producir</a>
+
                     <a class="btn btn-primary btn-sm" :href="$root.base_url + '/recipes/' + data.row.id + '/edit'">Editar</a>
 
                     <a @click="deleteRecipe(data.row.id, $event)" class="btn btn-danger btn-sm">Borar</a>

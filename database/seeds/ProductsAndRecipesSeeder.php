@@ -28,10 +28,22 @@ class ProductsAndRecipesSeeder extends Seeder
         $lines = [];
 
         $lines[$harina_t->id] = ['quantity' => 1, 'detail' => 'harina p/4 pizzas', 'entity_id' => $entity->id];
-        $lines[$aceite_g->id] = ['quantity' => 0.025, 'detail' => 'una cucharada', 'entity_id' => $entity->id];
-        $lines[$pure_t->id] = ['quantity' => 0.150, 'detail' => 'para la salsa', 'entity_id' => $entity->id];
+        $lines[$aceite_g->id] = ['quantity' => 0.02, 'detail' => 'una cucharada', 'entity_id' => $entity->id];
+        $lines[$pure_t->id] = ['quantity' => 0.15, 'detail' => 'para la salsa', 'entity_id' => $entity->id];
         $lines[$muzza->id] = ['quantity' => 0.8, 'detail' => 'la justa', 'entity_id' => $entity->id];
         $lines[$olivas->id] = ['quantity' => 0.2, 'detail' => '1 x porción', 'entity_id' => $entity->id];
+
+        $recipe->lines()->sync($lines);
+
+        $recipe = factory(Recipe::class)->create(['name' => 'Pizza Margarita Mediana x2', 'quantity' => 2, 'detail' => 'Receta con poca muzza + 7 euros de imprevistos', 'extra_cost' => 7, 'product_id' => $pizza->id]);
+
+        $lines = [];
+
+        $lines[$harina_t->id] = ['quantity' => 0.5, 'detail' => 'harina p/4 pizzas', 'entity_id' => $entity->id];
+        $lines[$aceite_g->id] = ['quantity' => 0.01, 'detail' => 'una cucharada', 'entity_id' => $entity->id];
+        $lines[$pure_t->id] = ['quantity' => 0.77, 'detail' => 'para la salsa', 'entity_id' => $entity->id];
+        $lines[$muzza->id] = ['quantity' => 0.4, 'detail' => 'la justa', 'entity_id' => $entity->id];
+        $lines[$olivas->id] = ['quantity' => 0.1, 'detail' => '1 x porción', 'entity_id' => $entity->id];
 
         $recipe->lines()->sync($lines);
     
