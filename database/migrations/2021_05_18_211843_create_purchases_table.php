@@ -25,7 +25,7 @@ class CreatePurchasesTable extends Migration
             $table->foreignId('product_id');
             $table->float('quantity', 16, 3)->default(0);
             $table->float('price_per_unit', 16, 3)->default(0);
-            $table->float('total', 16, 3)->default(0);
+            $table->float('total', 16, 7)->default(0);
             $table->timestamps();
 
             $table->foreign('entity_id')->references('id')->on('entities')->onDelete('cascade');

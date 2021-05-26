@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Expense;
-use Illuminate\Http\Request;
-
 class ExpenseController extends BaseController
 {
     protected $model = 'App\Models\Expense';
@@ -16,8 +13,8 @@ class ExpenseController extends BaseController
         'total' => 'required|gt:0',
     ];
 
-    public function getSuccessStoreMessage(Request $request, $id = null)
+    public function getSuccessStoreMessage($instance)
     {
-        return 'Gasto "' . $request->name . '" ' . ( $id ? 'actualizado' : 'creado' ) . ' exitosamente !';
+        return 'Gasto "' . $instance->name . '" ' . ( $instance->wasRecentlyCreated ? 'creado' : 'actualizado' ) . ' exitosamente !';
     }
 }

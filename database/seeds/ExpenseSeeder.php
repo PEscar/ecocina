@@ -5,7 +5,7 @@ use App\Models\Expense;
 
 use Illuminate\Database\Seeder;
 
-class ExpensesSeeder extends Seeder
+class ExpenseSeeder extends Seeder
 {
     /**
      * Seed the application's database.

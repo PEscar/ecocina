@@ -51,7 +51,7 @@ abstract class BaseController extends Controller
         }
         $this->instance = $instance;
 
-        return redirect($this->index_view)->with('success', $this->getSuccessStoreMessage($request));
+        return redirect($this->index_view)->with('success', $this->getSuccessStoreMessage($instance));
     }
 
     public function destroy($id)
@@ -60,7 +60,7 @@ abstract class BaseController extends Controller
         return json_encode($instance->delete());
     }
 
-    abstract function getSuccessStoreMessage(Request $request, $id = null);
+    abstract function getSuccessStoreMessage($instance);
 
     public function validateRequest(Request $request)
     {

@@ -9,6 +9,6 @@ $factory->define(Expense::class, function (Faker $faker) {
     return [
         'name' => $faker->name(),
         'date' => $faker->dateTimeThisYear(),
-        'total' => $faker->randomFloat(2, 0, 100),
+        'total' => $faker->randomFloat(3, 0, 100),
     ];
 });

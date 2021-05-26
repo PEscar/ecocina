@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(SaleLine::class, function (Faker $faker) {
 
-	$qtty = $faker->randomFloat(2, 0, 100);
-	$price_per_unit = $faker->randomFloat(2, 0, 100);
+	$qtty = $faker->randomFloat(3, 0, 100);
+	$price_per_unit = $faker->randomFloat(3, 0, 100);
 
     return [
     	'entity_id' => null,

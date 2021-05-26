@@ -21,10 +21,10 @@ class DatabaseSeeder extends Seeder
         $entity = $user->entity()->save($entity);
 
         $this->call([
-            ProductsAndRecipesSeeder::class,
-            // PurchasesSeeder::class,
-            // SalesSeeder::class,
-            ExpensesSeeder:: class,
+            ProductAndRecipeSeeder::class,
+            PurchaseSeeder::class,
+            // SaleSeeder::class,
+            ExpenseSeeder:: class,
         ]);
     }
 }

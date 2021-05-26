@@ -82,7 +82,7 @@ class Product extends GlobalModel
 
     // METHODS
 
-    public function updateStock($quantity, $total_cost, $in = true, $update_average_cost = false)
+    public function updateStock($quantity, $total_cost = 0, $in = true, $update_average_cost = false)
     {
         // dump('stock precio: ' . $this->stock);
         // dump('promedio viejo: ' . $this->average_cost);
@@ -96,18 +96,20 @@ class Product extends GlobalModel
         {
             if ( $in )
             {
+                $divisor = ($this->stock + $quantity) > 0 ? $this->stock + $quantity : 1;
                 $actual_total_cost = ( $this->average_cost * $this->stock ) + $total_cost;
-                $this->average_cost = $actual_total_cost / ( $this->stock + $quantity );
+                $this->average_cost = $actual_total_cost / ( $divisor );
             }
             else
             {
+                $divisor = ($this->stock - $quantity) > 0 ? $this->stock - $quantity : 1;
                 $actual_total_cost = ( $this->average_cost * $this->stock ) - $total_cost;
-                $this->average_cost = $actual_total_cost / ( $this->stock - $quantity );
+                $this->average_cost = $actual_total_cost / ( $divisor );
             }
         }
 
         $this->stock = $in ? $this->stock + $quantity : $this->stock - $quantity;
-        $this->save();
+        $this->average_cost = $this->stock > 0 ? $this->average_cost : 0;
 
         return $this;
     }

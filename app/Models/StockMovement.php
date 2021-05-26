@@ -23,10 +23,10 @@ class StockMovement extends GlobalModel
 	// PERFORMS
 
 	protected function performDeleteOnModel() {
-
 		$this->lines()->each(function($item){
 			$item->delete();
 		});
+		parent::performDeleteOnModel();
     }
 
 	// END PERFORMS

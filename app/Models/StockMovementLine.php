@@ -52,6 +52,7 @@ class StockMovementLine extends GlobalModel
         // dump('parentable->update_product_average_cost: ' . $this->parentable->update_product_average_cost);
 
     	$this->product->updateStock($this->quantity, $this->parentable->total, $sum, $this->parentable->update_product_average_cost);
+        $this->product->save();
     }
 
     public function revertStockMovementLine()
@@ -60,6 +61,7 @@ class StockMovementLine extends GlobalModel
         $sum = $this->type == 'out';
 
         $this->product->updateStock($this->quantity, $this->parentable->total, $sum, $this->parentable->update_product_average_cost);
+        $this->product->save();
     }
 
     // END METHOSS

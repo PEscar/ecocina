@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class PurchaseController extends DocumentController
 {
 	protected $model = 'App\Models\Purchase';
@@ -18,9 +16,8 @@ class PurchaseController extends DocumentController
         'date' => 'required|date',
     ];
 
-    public function getSuccessStoreMessage(Request $request, $id = null)
+    public function getSuccessStoreMessage($instance)
     {
-        $id = $request->route()->parameter('id', \DB::table('purchases')->max('id'));
-        return 'Compra "#' . $id . '" ' . ( $id ? 'actualizada' : 'creada' ) . ' exitosamente !';
+        return 'Compra #' . $instance->id . ' ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
     }
 }

@@ -22,9 +22,9 @@ class ProductionController extends BaseController
         'total' => 'required',
     ];
 
-    public function getSuccessStoreMessage(Request $request, $id = null)
+    public function getSuccessStoreMessage($instance)
     {
-        return 'Producción "' . $request->name . '" ' . ( $id ? 'actualizada' : 'creada' ) . ' exitosamente !';
+        return 'Producción "' . $request->name . '" ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
     }
 
     public function index()

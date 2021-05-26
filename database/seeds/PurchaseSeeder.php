@@ -6,7 +6,7 @@ use App\Models\Purchase;
 use App\Models\PurchaseLine;
 use Illuminate\Database\Seeder;
 
-class PurchasesSeeder extends Seeder
+class PurchaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -17,7 +17,7 @@ class PurchasesSeeder extends Seeder
     {
         $entity = Entity::first();
 
-        factory(Purchase::class, 5)->create()->each(function ($purchasedeliverynote){
+        factory(Purchase::class, 15)->create()->each(function ($purchasedeliverynote){
             Product::all()->random(3)->each(function ($item, $key) use ($purchasedeliverynote) {
                 factory(PurchaseLine::class)->create(['product_id' => $item->id, 'header_id' => $purchasedeliverynote->id]);
             });

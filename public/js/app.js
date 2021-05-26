@@ -3060,6 +3060,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -66340,6 +66350,30 @@ var render = function() {
                     precision: _vm.$root.precision,
                     "read-only": "",
                     value: _vm.total_cost
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _vm._v(
+                  "\n            Costo por " +
+                    _vm._s(_vm.$root.measures[_vm.product.measure]) +
+                    " producida: "
+                ),
+                _c("vue-numeric", {
+                  attrs: {
+                    separator: ".",
+                    "decimal-separator": ",",
+                    precision: _vm.$root.precision,
+                    "read-only": "",
+                    value:
+                      _vm.total_cost /
+                      (_vm.production.times * _vm.recipe.quantity)
                   }
                 })
               ],

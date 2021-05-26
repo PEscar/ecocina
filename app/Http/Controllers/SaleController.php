@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 class SaleController extends DocumentController
 {
 	protected $model = 'App\Models\Sale';
@@ -18,9 +16,8 @@ class SaleController extends DocumentController
         'date' => 'required|date',
     ];
 
-    public function getSuccessStoreMessage(Request $request, $id = null)
+    public function getSuccessStoreMessage($instance)
     {
-        $id = $request->route()->parameter('id', \DB::table('sales')->max('id'));
-        return 'Venta "#' . $id . '" ' . ( $id ? 'actualizada' : 'creada' ) . ' exitosamente !';
+        return 'Venta #' . $instance->id . ' ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
     }
 }

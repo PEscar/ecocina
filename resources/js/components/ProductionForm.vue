@@ -71,6 +71,16 @@
                     :value="total_cost"
                 ></vue-numeric>
             </div>
+
+            <div class="form-group">
+                Costo por {{ $root.measures[product.measure] }} producida: <vue-numeric
+                    separator="."
+                    decimal-separator=","
+                    v-bind:precision="$root.precision"
+                    read-only
+                    :value="total_cost / (production.times * recipe.quantity)"
+                ></vue-numeric>
+            </div>
         </template>
 
         <v-client-table v-if="recipe" :data="recipe.lines" :columns="childColumns" :options="childOptions">

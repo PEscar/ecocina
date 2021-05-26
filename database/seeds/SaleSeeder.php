@@ -6,7 +6,7 @@ use App\Models\Sale;
 use App\Models\SaleLine;
 use Illuminate\Database\Seeder;
 
-class SalesSeeder extends Seeder
+class SaleSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -17,7 +17,7 @@ class SalesSeeder extends Seeder
     {
         $entity = Entity::first();
 
-        factory(Sale::class, 1)->create()->each(function ($purchasedeliverynote){
+        factory(Sale::class, 15)->create()->each(function ($purchasedeliverynote){
             Product::all()->random(3)->each(function ($item, $key) use ($purchasedeliverynote) {
                 factory(SaleLine::class)->create(['product_id' => $item->id, 'header_id' => $purchasedeliverynote->id]);
             });

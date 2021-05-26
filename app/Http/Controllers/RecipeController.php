@@ -21,9 +21,9 @@ class RecipeController extends BaseController
         'detial' => '',
     ];
 
-    public function getSuccessStoreMessage(Request $request, $id = null)
+    public function getSuccessStoreMessage($instance)
     {
-        return 'Receta "' . $request->name . '" ' . ( $id ? 'actualizada' : 'creada' ) . ' exitosamente !';
+        return 'Receta "' . $instance->name . '" ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
     }
 
     public function index()

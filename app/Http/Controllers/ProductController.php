@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
-
 class ProductController extends BaseController
 {
     protected $model = 'App\Models\Product';
@@ -19,8 +16,8 @@ class ProductController extends BaseController
         'measure' => 'required|max:3',
     ];
 
-    public function getSuccessStoreMessage(Request $request, $id = null)
+    public function getSuccessStoreMessage($instance)
     {
-        return 'Producto "' . $request->name . '" ' . ( $id ? 'actualizado' : 'creado' ) . ' exitosamente !';
+        return 'Producto "' . $instance->name . '" ' . ( $instance->wasRecentlyCreated ? 'creado' : 'actualizado' ) . ' exitosamente !';
     }
 }
