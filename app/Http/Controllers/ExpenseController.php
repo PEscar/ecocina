@@ -15,6 +15,6 @@ class ExpenseController extends BaseController
 
     public function getSuccessStoreMessage($instance)
     {
-        return 'Gasto "' . $instance->name . '" ' . ( $instance->wasRecentlyCreated ? 'creado' : 'actualizado' ) . ' exitosamente !';
+        return 'Gasto #' . $instance->id . ' ' . ( $instance->wasRecentlyCreated ? 'creado' : 'actualizado' ) . ' exitosamente !';
     }
 }

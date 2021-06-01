@@ -40,10 +40,6 @@
                         read-only
                         :value=data.row.stock
                     ></vue-numeric>
-
-                    <span v-if="data.row.stock == 0">
-                        0
-                    </span>
                 </div>
             </template>
 
@@ -56,10 +52,6 @@
                         read-only
                         :value=data.row.average_cost
                     ></vue-numeric>
-
-                    <span v-if="data.row.average_cost == 0">
-                        0
-                    </span>
                 </div>
             </template>
 

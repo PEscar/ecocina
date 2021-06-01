@@ -23,7 +23,7 @@ class RecipeController extends BaseController
 
     public function getSuccessStoreMessage($instance)
     {
-        return 'Receta "' . $instance->name . '" ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
+        return 'Receta #' . $instance->id . ' ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
     }
 
     public function index()

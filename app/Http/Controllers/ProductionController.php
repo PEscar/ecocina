@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class ProductionController extends BaseController
 {
     protected $model = 'App\Models\Production';
-    protected $index_view = 'recipes';
-    protected $form_view = 'forms.recipe';
+    protected $index_view = 'productions';
+    protected $form_view = 'forms.production';
     protected $validation_rules = [
         'recipe_id' => 'required|exists:recipes,id',
         'recipe_quantity' => 'required',
@@ -24,7 +24,7 @@ class ProductionController extends BaseController
 
     public function getSuccessStoreMessage($instance)
     {
-        return 'Producción "' . $request->name . '" ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
+        return 'Producción #' . $instance->id . ' ' . ( $instance->wasRecentlyCreated ? 'creada' : 'actualizada' ) . ' exitosamente !';
     }
 
     public function index()

@@ -14,6 +14,31 @@ class Recipe extends GlobalModel
         'detail',
     ];
 
+    protected $appends = ['lines_cost', 'total_cost'];
+
+    // APPENDS
+
+    public function getLinesCostAttribute()
+    {
+        $average_costs = $this->lines()->pluck('average_cost');
+        $quantities = $this->lines()->pluck('recipe_line.quantity');
+
+        $lines_cost = 0;
+
+        foreach ($average_costs as $key => $average_cost) {
+            $lines_cost += $average_cost * $quantities[$key];
+        }
+
+        return $lines_cost;
+    }
+
+    public function getTotalCostAttribute()
+    {
+        return $this->lines_cost + $this->extra_cost;
+    }
+
+    // END APPENDS
+
     // RELATIONS
 
     public function product()
@@ -23,7 +48,7 @@ class Recipe extends GlobalModel
 
     public function lines()
     {
-        return $this->belongsToMany(Product::class, 'recipe_line')->withPivot('quantity', 'detail', 'entity_id')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'recipe_line')->using(RecipeLine::class)->withPivot('quantity', 'detail', 'entity_id')->withTimestamps();
     }
 
     // END RELATIONS

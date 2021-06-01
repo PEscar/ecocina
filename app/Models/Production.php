@@ -21,6 +21,17 @@ class Production extends GlobalModel
         'total',
     ];
 
+    protected $appends = ['cost_per_unit'];
+
+    // APPENDS
+
+    public function getCostPerUnitAttribute()
+    {
+        return $this->total / $this->quantity;
+    }
+
+    // END APPRENDS
+
     // RELATIONS
 
     public function recipe()
@@ -33,15 +44,10 @@ class Production extends GlobalModel
         return $this->morphOne(StockMovement::class, 'parentable');
     }
 
-    public function stockMovementLine()
+    public function stockMovementLines()
     {
-        return $this->morphOne(StockMovementLine::class, 'parentable');
+        return $this->morphMany(StockMovementLine::class, 'parentable');
     }
-
-    // public function lines()
-    // {
-    //     return $this->belongsToMany(Product::class, 'recipe_line')->withPivot('quantity', 'detail', 'entity_id')->withTimestamps();
-    // }
 
     // END RELATIONS
 
@@ -50,7 +56,7 @@ class Production extends GlobalModel
     protected function performInsert(Builder $query, array $options = []) {
         parent::performInsert($query, $options);
         $this->registerStockMovement();
-        $this->registerStockMovementLine();
+        $this->registerStockMovementLines();
     }
 
     protected function performDeleteOnModel() {
@@ -70,17 +76,65 @@ class Production extends GlobalModel
         $this->stockMovement()->save($sm);
     }
 
-    public function registerStockMovementLine()
+    public function registerStockMovementLines()
     {
-        // Registro moviemiento
+        // Register movement IN
         $sml = new StockMovementLine;
-        $sml->type = $this->stock_movement_type;
+        $sml->type = 'in';
         $sml->entity_id = $this->entity_id;
         $sml->stock_movement_id = $this->stockMovement->id;
         $sml->product_id = $this->recipe->product_id;
         $sml->quantity = $this->quantity;
-        $this->stockMovementLine()->save($sml);
+        $this->stockMovementLines()->save($sml);
+
+        // Register moevements OUT
+        $this->recipe->lines()->each(function($line){
+            $sml = new StockMovementLine;
+            $sml->type = 'out';
+            $sml->entity_id = $this->entity_id;
+            $sml->stock_movement_id = $this->stockMovement->id;
+            $sml->product_id = $line->id;
+            $sml->quantity = $line->pivot->quantity * $this->times;
+            $this->stockMovementLines()->save($sml);
+        });
     }
 
     // END METHODS
+
+    // SCOPES
+
+    public function scopeFilters($query, $filters) {
+        if ( is_array($filters) )
+        {
+            foreach ($filters as $key => $value) {
+
+                $av_filters = ['created_at']; // Available filters
+
+                if ( in_array($key, $av_filters) )
+                {
+                    switch ($key) {
+                        case 'created_at':
+
+                            if ( isset($value['from']) )
+                            {
+                                // dump(date('Y-m-d 00:00:00', strtotime($value['from'])));
+                                $query->where($key, '>=', date('Y-m-d 00:00:00', strtotime($value['from'])));
+                            }
+                            if ( isset($value['to']) )
+                            {
+                                // dump(date('Y-m-d 23:59:59', strtotime($value['to'])));
+                                $query->where($key, '<=', date('Y-m-d 23:59:59', strtotime($value['to'])));
+                            }
+                            break;
+
+                        default:
+                            $query->where($key, $value);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    // END SOPCES
 }

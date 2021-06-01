@@ -18,6 +18,6 @@ class ProductController extends BaseController
 
     public function getSuccessStoreMessage($instance)
     {
-        return 'Producto "' . $instance->name . '" ' . ( $instance->wasRecentlyCreated ? 'creado' : 'actualizado' ) . ' exitosamente !';
+        return 'Producto #' . $instance->id . ' ' . ( $instance->wasRecentlyCreated ? 'creado' : 'actualizado' ) . ' exitosamente !';
     }
 }

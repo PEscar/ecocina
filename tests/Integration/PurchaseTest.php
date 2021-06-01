@@ -12,7 +12,7 @@ class PurchaseTest extends TestCase
 {
 	use DatabaseTransactions;
 
-    public function testStockMovementGeneratedWhenPurchaseCreated()
+    public function testStockMovementInGeneratedWhenPurchaseCreated()
     {
     	$product = factory(Product::class)->create();
 
@@ -105,12 +105,7 @@ class PurchaseTest extends TestCase
         $old_average = $product->average_cost;
 
         $lines = [];
-        $lines[$product->id] = [
-            'quantity' => 18,
-            'price_per_unit' => 2,
-            'total' => 18 * 2,
-            'entity_id' => session('user.entity_id'),
-        ];
+        $lines[$product->id] = factory(PurchaseLine::class)->make()->toArray();
 
         $purchase = factory(Purchase::class)->create();
         $purchase->lines()->attach($lines);
@@ -123,6 +118,6 @@ class PurchaseTest extends TestCase
         $product->refresh();
 
         $this->assertEquals($old_stock, $product->stock);
-        $this->assertEquals($old_average, $product->average_cost);
+        $this->assertEquals($old_average, round($product->average_cost, 3));
     }
 }

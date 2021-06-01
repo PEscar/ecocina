@@ -50,8 +50,8 @@ Vue.component('sale-list', require('./components/SaleList.vue').default);
 Vue.component('sale-form', require('./components/SaleForm.vue').default);
 Vue.component('expense-form', require('./components/ExpenseForm.vue').default);
 Vue.component('expense-list', require('./components/ExpenseList.vue').default);
-
 Vue.component('production-form', require('./components/ProductionForm.vue').default);
+Vue.component('production-list', require('./components/ProductionList.vue').default);
 // Vue.component('expense-list', require('./components/ExpenseList.vue').default);
 
 /**
@@ -63,8 +63,9 @@ Vue.component('production-form', require('./components/ProductionForm.vue').defa
 const app = new Vue({
     el: '#app',
     data: () => ({
-    	date_format: 'DD/MM/YYYY',
+        date_format: 'D/MM/YYYY',
         datepicker_date_format: 'dd/MM/yyyy',
+        datepicker_filter_format: 'YYYY-MM-D',
         highlighted_dates: {
             dates: [
                 new Date(),
@@ -104,6 +105,7 @@ const app = new Vue({
                 sales: 'Ventas',
                 supplier: 'Proveedor',
                 total: 'Total',
+                type: 'Tipo',
             },
             cellClasses:{
                 'average_cost': [{
@@ -146,12 +148,21 @@ const app = new Vue({
                     class:'text-right',
                     condition: row => true
                 }],
+                cost_per_unit: [{
+                    class:'text-right',
+                    condition: row => true
+                }],
             },
         },
         measures:{
             1: 'Unidad/es',
             2: 'Kilo/s',
             3: 'Litro/s',
+        },
+        sing_measures:{
+            1: 'Unidad',
+            2: 'Kilo',
+            3: 'Litro',
         }
 	}),
 	mounted: function()

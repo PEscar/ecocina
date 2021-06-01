@@ -10,7 +10,7 @@ class ProductTest extends TestCase
 {
 	use DatabaseTransactions;
 
-	// IN
+	// INs
 
     public function testStockIn()
     {
@@ -51,7 +51,8 @@ class ProductTest extends TestCase
     	$this->assertEquals(4, $product->average_cost);
     }
 
-    // OUT
+    // OUTs
+
     public function testStockOut()
     {
     	$product = factory(Product::class)->make();
@@ -66,7 +67,6 @@ class ProductTest extends TestCase
     public function testStockOutAverageCostCorrectlyUpdated()
     {
     	$product = factory(Product::class)->make(['stock' => 4, 'average_cost' => 4]);
-    	$old_stock = $product->stock;
     	$old_average = $product->average_cost;
 
     	$decreased_stock = 1;
@@ -80,15 +80,13 @@ class ProductTest extends TestCase
     public function testStockOutAverageCostCorrectlyNotUpdated()
     {
     	$product = factory(Product::class)->make();
-    	$old_stock = $product->stock;
     	$old_average = $product->average_cost;
 
-    	$decreased_stock = 4;
+        $decreased_stock = $product->stock / 2;
     	$decreased_total_cost = $decreased_stock * 2;
 
     	$product->updateStock($decreased_stock, $decreased_total_cost, false, false);
 
-        $this->assertEquals($old_stock - $decreased_stock, $product->stock);
     	$this->assertEquals($old_average, $product->average_cost);
     }
 }

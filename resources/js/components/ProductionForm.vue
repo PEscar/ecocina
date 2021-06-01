@@ -2,13 +2,13 @@
     <form :action="route" method="POST">
 
         <input type="hidden" name="_token" :value="$root.csrf">
-        <input type="text" name="recipe_id" :value="production.recipe_id">
-        <input type="text" name="recipe_quantity" :value="production.recipe_quantity">
-        <input type="text" name="recipe_extra_cost" :value="production.recipe_extra_cost">
-        <input type="text" name="recipe_lines_cost" :value="lines_cost">
-        <input type="text" name="times" :value="production.times">
-        <input type="text" name="quantity" :value="production.times * recipe.quantity">
-        <input type="text" name="total" :value="total_cost">
+        <input type="hidden" name="recipe_id" :value="production.recipe_id">
+        <input type="hidden" name="recipe_quantity" :value="production.recipe_quantity">
+        <input type="hidden" name="recipe_extra_cost" :value="production.recipe_extra_cost">
+        <input type="hidden" name="recipe_lines_cost" :value="recipe.lines_cost">
+        <input type="hidden" name="times" :value="production.times">
+        <input type="hidden" name="quantity" :value="production.times * recipe.quantity">
+        <input type="hidden" name="total" :value="recipe.total_cost">
 
         <div class="form-group">
             <label for="product">Producto:</label>
@@ -68,7 +68,7 @@
                     decimal-separator=","
                     v-bind:precision="$root.precision"
                     read-only
-                    :value="total_cost"
+                    :value="recipe.total_cost"
                 ></vue-numeric>
             </div>
 
@@ -78,7 +78,7 @@
                     decimal-separator=","
                     v-bind:precision="$root.precision"
                     read-only
-                    :value="total_cost / (production.times * recipe.quantity)"
+                    :value="recipe.total_cost / (production.times * recipe.quantity)"
                 ></vue-numeric>
             </div>
         </template>
@@ -130,10 +130,6 @@
                         read-only
                         :value=data.row.average_cost
                     ></vue-numeric>
-
-                    <span v-if="data.row.average_cost == 0">
-                        0
-                    </span>
                 </div>
             </template>
 
@@ -146,10 +142,6 @@
                         read-only
                         :value="data.row.average_cost * data.row.pivot.quantity * production.times"
                     ></vue-numeric>
-
-                    <span v-if="data.row.average_cost == 0">
-                        0
-                    </span>
                 </div>
             </template>
 
@@ -181,22 +173,6 @@
             }
         },
         computed: {
-
-            lines_cost: function()
-            {
-                let lines_cost = 0
-
-                this.recipe.lines.forEach(function (line) {
-                  lines_cost += line.average_cost * line.pivot.quantity
-                });
-
-                return lines_cost
-            },
-
-            total_cost: function()
-            {
-                return this.production.times * ( this.recipe.extra_cost + this.lines_cost )
-            },
 
             validForm: function()
             {

@@ -26,6 +26,10 @@ abstract class Document extends GlobalModel
     	return $this->lines()->sum('total');
     }
 
+    // END APPENDS
+
+    // SCOPES
+
     public function scopeFilters($query, $filters) {
         if ( is_array($filters) )
         {
@@ -56,5 +60,6 @@ abstract class Document extends GlobalModel
             }
         }
     }
-    // APPENDS
+
+    // END SCOPES
 }

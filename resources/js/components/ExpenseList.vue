@@ -56,10 +56,6 @@
                             read-only
                             :value=data.row.total
                         ></vue-numeric>
-
-                        <span v-if="data.row.total == 0">
-                            0
-                        </span>
                     </div>
                 </template>
 
@@ -120,8 +116,8 @@
                 let filters = {}
 
                 filters.date = {}
-                filters.date.from = this.filter_from || null
-                filters.date.to = this.filter_to || null
+                filters.date.from = this.filter_from ? this.$root.moment(this.filter_from).format(this.$root.datepicker_filter_format) : null
+                filters.date.to = this.filter_to ? this.$root.moment(this.filter_to).format(this.$root.datepicker_filter_format) : null
 
                 this.$refs.myTable.setRequestParams({
                     order:{column:'date',ascending:false},

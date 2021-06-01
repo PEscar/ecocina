@@ -22,7 +22,7 @@ class CreateProductionsTable extends Migration
             $table->float('recipe_lines_cost', 16, 3)->default(0);
             $table->smallInteger('times', false, true)->default(0);
             $table->float('quantity', 16, 3)->default(0);
-            $table->float('total', 16, 3)->default(0);
+            $table->float('total', 16, 7)->default(0);
             $table->tinyInteger('status')->default(1)->comment('1: planified | 2: launched | 3: finished');
             $table->dateTime('planified_date')->nullable();
             $table->dateTime('launch_date')->nullable();
