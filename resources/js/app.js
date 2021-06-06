@@ -63,6 +63,7 @@ Vue.component('production-list', require('./components/ProductionList.vue').defa
 const app = new Vue({
     el: '#app',
     data: () => ({
+        cost_decimals: 4,
         date_format: 'D/MM/YYYY',
         datepicker_date_format: 'dd/MM/yyyy',
         datepicker_filter_format: 'YYYY-MM-D',

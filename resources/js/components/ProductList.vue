@@ -32,7 +32,7 @@
             </template>
 
             <template slot="stock" slot-scope="data">
-                <div>
+                <template v-if="data.row.stock > 0">
                     <vue-numeric
                         separator="."
                         decimal-separator=","
@@ -40,19 +40,27 @@
                         read-only
                         :value=data.row.stock
                     ></vue-numeric>
-                </div>
+                </template>
+
+                <template v-else>
+                    0
+                </template>
             </template>
 
             <template slot="average_cost" slot-scope="data">
-                <div>
+                <template v-if="data.row.average_cost > 0">
                     <vue-numeric
                         separator="."
                         decimal-separator=","
-                        v-bind:precision="$root.precision"
+                        v-bind:precision="$root.cost_decimals"
                         read-only
                         :value=data.row.average_cost
                     ></vue-numeric>
-                </div>
+                </template>
+
+                <template v-else>
+                    0
+                </template>
             </template>
 
             <template v-slot:child_row="data">

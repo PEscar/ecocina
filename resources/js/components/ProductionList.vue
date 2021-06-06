@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <div class="card-header">Compras<a :href="$root.base_url + '/purchases/create'" class="float-right">Nueva</a></div>
+        <div class="card-header">Compras<!-- <a :href="$root.base_url + '/productions/create'" class="float-right">Nueva</a> --></div>
 
         <div class="card-body">
 

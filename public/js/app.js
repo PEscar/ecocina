@@ -2832,6 +2832,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -66242,21 +66250,19 @@ var render = function() {
             key: "stock",
             fn: function(data) {
               return [
-                _c(
-                  "div",
-                  [
-                    _c("vue-numeric", {
-                      attrs: {
-                        separator: ".",
-                        "decimal-separator": ",",
-                        precision: _vm.$root.precision,
-                        "read-only": "",
-                        value: data.row.stock
-                      }
-                    })
-                  ],
-                  1
-                )
+                data.row.stock > 0
+                  ? [
+                      _c("vue-numeric", {
+                        attrs: {
+                          separator: ".",
+                          "decimal-separator": ",",
+                          precision: _vm.$root.precision,
+                          "read-only": "",
+                          value: data.row.stock
+                        }
+                      })
+                    ]
+                  : [_vm._v("\n                0\n            ")]
               ]
             }
           },
@@ -66264,21 +66270,19 @@ var render = function() {
             key: "average_cost",
             fn: function(data) {
               return [
-                _c(
-                  "div",
-                  [
-                    _c("vue-numeric", {
-                      attrs: {
-                        separator: ".",
-                        "decimal-separator": ",",
-                        precision: _vm.$root.precision,
-                        "read-only": "",
-                        value: data.row.average_cost
-                      }
-                    })
-                  ],
-                  1
-                )
+                data.row.average_cost > 0
+                  ? [
+                      _c("vue-numeric", {
+                        attrs: {
+                          separator: ".",
+                          "decimal-separator": ",",
+                          precision: _vm.$root.cost_decimals,
+                          "read-only": "",
+                          value: data.row.average_cost
+                        }
+                      })
+                    ]
+                  : [_vm._v("\n                0\n            ")]
               ]
             }
           },
@@ -66554,14 +66558,14 @@ var render = function() {
               "div",
               { staticClass: "form-group" },
               [
-                _vm._v("\n            Costo extra Receta: "),
+                _vm._v("\n            Costo total Receta: "),
                 _c("vue-numeric", {
                   attrs: {
                     separator: ".",
                     "decimal-separator": ",",
-                    precision: _vm.$root.precision,
+                    precision: _vm.$root.cost_decimals,
                     "read-only": "",
-                    value: _vm.recipe.extra_cost
+                    value: _vm.recipe.total_cost
                   }
                 })
               ],
@@ -66577,9 +66581,9 @@ var render = function() {
                   attrs: {
                     separator: ".",
                     "decimal-separator": ",",
-                    precision: _vm.$root.precision,
+                    precision: _vm.$root.cost_decimals,
                     "read-only": "",
-                    value: _vm.recipe.total_cost
+                    value: _vm.recipe.total_cost * _vm.production.times
                   }
                 })
               ],
@@ -66592,18 +66596,16 @@ var render = function() {
               [
                 _vm._v(
                   "\n            Costo por " +
-                    _vm._s(_vm.$root.measures[_vm.product.measure]) +
+                    _vm._s(_vm.$root.sing_measures[_vm.product.measure]) +
                     " producida: "
                 ),
                 _c("vue-numeric", {
                   attrs: {
                     separator: ".",
                     "decimal-separator": ",",
-                    precision: _vm.$root.precision,
+                    precision: _vm.$root.cost_decimals,
                     "read-only": "",
-                    value:
-                      _vm.recipe.total_cost /
-                      (_vm.production.times * _vm.recipe.quantity)
+                    value: _vm.recipe.total_cost / _vm.recipe.quantity
                   }
                 })
               ],
@@ -66650,10 +66652,10 @@ var render = function() {
                         {
                           class: {
                             "text-success":
-                              data.row.stock >
+                              data.row.stock >=
                               data.row.pivot.quantity * _vm.production.times,
                             "text-danger":
-                              data.row.pivot.quantity * _vm.production.times >=
+                              data.row.pivot.quantity * _vm.production.times >
                               data.row.stock
                           }
                         },
@@ -66717,7 +66719,7 @@ var render = function() {
                             attrs: {
                               separator: ".",
                               "decimal-separator": ",",
-                              precision: _vm.$root.precision,
+                              precision: _vm.$root.cost_decimals,
                               "read-only": "",
                               value: data.row.average_cost
                             }
@@ -66739,7 +66741,7 @@ var render = function() {
                             attrs: {
                               separator: ".",
                               "decimal-separator": ",",
-                              precision: _vm.$root.precision,
+                              precision: _vm.$root.cost_decimals,
                               "read-only": "",
                               value:
                                 data.row.average_cost *
@@ -66768,7 +66770,7 @@ var render = function() {
               ],
               null,
               false,
-              136581
+              2346773349
             )
           })
         : _vm._e(),
@@ -66808,17 +66810,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card" }, [
-    _c("div", { staticClass: "card-header" }, [
-      _vm._v("Compras"),
-      _c(
-        "a",
-        {
-          staticClass: "float-right",
-          attrs: { href: _vm.$root.base_url + "/purchases/create" }
-        },
-        [_vm._v("Nueva")]
-      )
-    ]),
+    _c("div", { staticClass: "card-header" }, [_vm._v("Compras")]),
     _vm._v(" "),
     _c(
       "div",
@@ -91608,6 +91600,7 @@ var app = new Vue({
   el: '#app',
   data: function data() {
     return {
+      cost_decimals: 4,
       date_format: 'D/MM/YYYY',
       datepicker_date_format: 'dd/MM/yyyy',
       datepicker_filter_format: 'YYYY-MM-D',

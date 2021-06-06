@@ -53,12 +53,12 @@
             </div>
 
             <div class="form-group">
-                Costo extra Receta: <vue-numeric
+                Costo total Receta: <vue-numeric
                     separator="."
                     decimal-separator=","
-                    v-bind:precision="$root.precision"
+                    v-bind:precision="$root.cost_decimals"
                     read-only
-                    :value="recipe.extra_cost"
+                    :value="recipe.total_cost"
                 ></vue-numeric>
             </div>
 
@@ -66,19 +66,19 @@
                 Costo total producción: <vue-numeric
                     separator="."
                     decimal-separator=","
-                    v-bind:precision="$root.precision"
+                    v-bind:precision="$root.cost_decimals"
                     read-only
-                    :value="recipe.total_cost"
+                    :value="recipe.total_cost * production.times"
                 ></vue-numeric>
             </div>
 
             <div class="form-group">
-                Costo por {{ $root.measures[product.measure] }} producida: <vue-numeric
+                Costo por {{ $root.sing_measures[product.measure] }} producida: <vue-numeric
                     separator="."
                     decimal-separator=","
-                    v-bind:precision="$root.precision"
+                    v-bind:precision="$root.cost_decimals"
                     read-only
-                    :value="recipe.total_cost / (production.times * recipe.quantity)"
+                    :value="recipe.total_cost / recipe.quantity"
                 ></vue-numeric>
             </div>
         </template>
@@ -90,7 +90,7 @@
             </template>
 
             <template slot="pivot.quantity" slot-scope="data">
-                <span v-bind:class="{'text-success': data.row.stock > (data.row.pivot.quantity * production.times), 'text-danger': (data.row.pivot.quantity * production.times) >= data.row.stock}">
+                <span v-bind:class="{'text-success': data.row.stock >= (data.row.pivot.quantity * production.times), 'text-danger': (data.row.pivot.quantity * production.times) > data.row.stock}">
                     <vue-numeric
                         separator="."
                         decimal-separator=","
@@ -126,7 +126,7 @@
                     <vue-numeric
                         separator="."
                         decimal-separator=","
-                        v-bind:precision="$root.precision"
+                        v-bind:precision="$root.cost_decimals"
                         read-only
                         :value=data.row.average_cost
                     ></vue-numeric>
@@ -138,7 +138,7 @@
                     <vue-numeric
                         separator="."
                         decimal-separator=","
-                        v-bind:precision="$root.precision"
+                        v-bind:precision="$root.cost_decimals"
                         read-only
                         :value="data.row.average_cost * data.row.pivot.quantity * production.times"
                     ></vue-numeric>

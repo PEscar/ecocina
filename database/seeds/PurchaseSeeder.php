@@ -17,8 +17,8 @@ class PurchaseSeeder extends Seeder
     {
         $entity = Entity::first();
 
-        factory(Purchase::class, 15)->create()->each(function ($purchasedeliverynote){
-            Product::all()->random(3)->each(function ($item, $key) use ($purchasedeliverynote) {
+        factory(Purchase::class, 5)->create()->each(function ($purchasedeliverynote){
+            Product::purchases()->random(2)->each(function ($item, $key) use ($purchasedeliverynote) {
                 factory(PurchaseLine::class)->create(['product_id' => $item->id, 'header_id' => $purchasedeliverynote->id]);
             });
         });
