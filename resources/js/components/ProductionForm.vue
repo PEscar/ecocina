@@ -1,21 +1,23 @@
 <template>
     <form :action="route" method="POST">
 
-        <input type="hidden" name="_token" :value="$root.csrf">
-        <input type="hidden" name="recipe_id" :value="production.recipe_id">
-        <input type="hidden" name="recipe_quantity" :value="production.recipe_quantity">
-        <input type="hidden" name="recipe_extra_cost" :value="production.recipe_extra_cost">
-        <!-- <input type="hidden" name="recipe_lines_cost" :value="recipe.lines_cost"> -->
-        <input type="hidden" name="times" :value="production.times">
-        <input type="hidden" name="quantity" :value="production.times * recipe.quantity">
-        <input type="hidden" name="total" :value="recipe.total_cost * production.times">
+        <div class="d-none">
+            <input type="hidden" name="_token" :value="$root.csrf">
+            <input type="hidden" name="recipe_id" :value="production.recipe_id">
+            <input type="hidden" name="recipe_quantity" :value="production.recipe_quantity">
+            <input type="hidden" name="recipe_extra_cost" :value="production.recipe_extra_cost">
+            <!-- <input type="hidden" name="recipe_lines_cost" :value="recipe.lines_cost"> -->
+            <input type="hidden" name="times" :value="production.times">
+            <input type="hidden" name="quantity" :value="production.times * recipe.quantity">
+            <input type="hidden" name="total" :value="recipe.total_cost * production.times">
 
-        {{ recipe.lines }}
+            {{ recipe.lines }}
 
-        products<br><input type="text" v-for="line in recipe.lines" name="products[]" :value="line.pivot.product_id"><br>
-        qttys<input type="text" v-for="line in recipe.lines" name="qttys[]" :value="line.pivot.quantity * production.times"><br>
-        prices<input type="text" v-for="line in recipe.lines" name="prices[]" :value="line.average_cost"><br>
-        totals<input type="text" v-for="line in recipe.lines" name="totals[]" :value="line.pivot.quantity * production.times * line.average_cost"><br>
+            products<br><input type="text" v-for="line in recipe.lines" name="products[]" :value="line.pivot.product_id"><br>
+            qttys<input type="text" v-for="line in recipe.lines" name="qttys[]" :value="line.pivot.quantity * production.times"><br>
+            prices<input type="text" v-for="line in recipe.lines" name="prices[]" :value="line.average_cost"><br>
+            totals<input type="text" v-for="line in recipe.lines" name="totals[]" :value="line.pivot.quantity * production.times * line.average_cost"><br>
+        </div>
 
         <div class="form-group">
             <label for="product">Producto:</label>
@@ -115,7 +117,12 @@
                     v-bind:precision="$root.precision"
                     read-only
                     :value=data.row.stock
+                    v-if="data.row.stock > 0"
                 ></vue-numeric>
+
+                <template v-else>
+                    0
+                </template>
             </template>
 
             <template slot="quantity_recipe" slot-scope="data">
@@ -136,7 +143,12 @@
                         v-bind:precision="$root.cost_decimals"
                         read-only
                         :value=data.row.average_cost
+                        v-if="data.row.average_cost > 0"
                     ></vue-numeric>
+
+                    <template v-else>
+                        0
+                    </template>
                 </div>
             </template>
 
@@ -148,7 +160,12 @@
                         v-bind:precision="$root.cost_decimals"
                         read-only
                         :value="data.row.average_cost * data.row.pivot.quantity * production.times"
+                        v-if="data.row.average_cost * data.row.pivot.quantity * production.times > 0"
                     ></vue-numeric>
+
+                    <template v-else>
+                        0
+                    </template>
                 </div>
             </template>
 

@@ -3065,6 +3065,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -66386,76 +66403,85 @@ var render = function() {
     "form",
     { attrs: { action: _vm.route, method: "POST" } },
     [
-      _c("input", {
-        attrs: { type: "hidden", name: "_token" },
-        domProps: { value: _vm.$root.csrf }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: "recipe_id" },
-        domProps: { value: _vm.production.recipe_id }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: "recipe_quantity" },
-        domProps: { value: _vm.production.recipe_quantity }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: "recipe_extra_cost" },
-        domProps: { value: _vm.production.recipe_extra_cost }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: "times" },
-        domProps: { value: _vm.production.times }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: "quantity" },
-        domProps: { value: _vm.production.times * _vm.recipe.quantity }
-      }),
-      _vm._v(" "),
-      _c("input", {
-        attrs: { type: "hidden", name: "total" },
-        domProps: { value: _vm.recipe.total_cost * _vm.production.times }
-      }),
-      _vm._v("\n\n    " + _vm._s(_vm.recipe.lines) + "\n\n    products"),
-      _c("br"),
-      _vm._l(_vm.recipe.lines, function(line) {
-        return _c("input", {
-          attrs: { type: "text", name: "products[]" },
-          domProps: { value: line.pivot.product_id }
-        })
-      }),
-      _c("br"),
-      _vm._v("\n    qttys"),
-      _vm._l(_vm.recipe.lines, function(line) {
-        return _c("input", {
-          attrs: { type: "text", name: "qttys[]" },
-          domProps: { value: line.pivot.quantity * _vm.production.times }
-        })
-      }),
-      _c("br"),
-      _vm._v("\n    prices"),
-      _vm._l(_vm.recipe.lines, function(line) {
-        return _c("input", {
-          attrs: { type: "text", name: "prices[]" },
-          domProps: { value: line.average_cost }
-        })
-      }),
-      _c("br"),
-      _vm._v("\n    totals"),
-      _vm._l(_vm.recipe.lines, function(line) {
-        return _c("input", {
-          attrs: { type: "text", name: "totals[]" },
-          domProps: {
-            value:
-              line.pivot.quantity * _vm.production.times * line.average_cost
-          }
-        })
-      }),
-      _c("br"),
+      _c(
+        "div",
+        { staticClass: "d-none" },
+        [
+          _c("input", {
+            attrs: { type: "hidden", name: "_token" },
+            domProps: { value: _vm.$root.csrf }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "hidden", name: "recipe_id" },
+            domProps: { value: _vm.production.recipe_id }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "hidden", name: "recipe_quantity" },
+            domProps: { value: _vm.production.recipe_quantity }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "hidden", name: "recipe_extra_cost" },
+            domProps: { value: _vm.production.recipe_extra_cost }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "hidden", name: "times" },
+            domProps: { value: _vm.production.times }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "hidden", name: "quantity" },
+            domProps: { value: _vm.production.times * _vm.recipe.quantity }
+          }),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "hidden", name: "total" },
+            domProps: { value: _vm.recipe.total_cost * _vm.production.times }
+          }),
+          _vm._v(
+            "\n\n        " + _vm._s(_vm.recipe.lines) + "\n\n        products"
+          ),
+          _c("br"),
+          _vm._l(_vm.recipe.lines, function(line) {
+            return _c("input", {
+              attrs: { type: "text", name: "products[]" },
+              domProps: { value: line.pivot.product_id }
+            })
+          }),
+          _c("br"),
+          _vm._v("\n        qttys"),
+          _vm._l(_vm.recipe.lines, function(line) {
+            return _c("input", {
+              attrs: { type: "text", name: "qttys[]" },
+              domProps: { value: line.pivot.quantity * _vm.production.times }
+            })
+          }),
+          _c("br"),
+          _vm._v("\n        prices"),
+          _vm._l(_vm.recipe.lines, function(line) {
+            return _c("input", {
+              attrs: { type: "text", name: "prices[]" },
+              domProps: { value: line.average_cost }
+            })
+          }),
+          _c("br"),
+          _vm._v("\n        totals"),
+          _vm._l(_vm.recipe.lines, function(line) {
+            return _c("input", {
+              attrs: { type: "text", name: "totals[]" },
+              domProps: {
+                value:
+                  line.pivot.quantity * _vm.production.times * line.average_cost
+              }
+            })
+          }),
+          _c("br")
+        ],
+        2
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -66718,15 +66744,17 @@ var render = function() {
                   key: "stock",
                   fn: function(data) {
                     return [
-                      _c("vue-numeric", {
-                        attrs: {
-                          separator: ".",
-                          "decimal-separator": ",",
-                          precision: _vm.$root.precision,
-                          "read-only": "",
-                          value: data.row.stock
-                        }
-                      })
+                      data.row.stock > 0
+                        ? _c("vue-numeric", {
+                            attrs: {
+                              separator: ".",
+                              "decimal-separator": ",",
+                              precision: _vm.$root.precision,
+                              "read-only": "",
+                              value: data.row.stock
+                            }
+                          })
+                        : [_vm._v("\n                0\n            ")]
                     ]
                   }
                 },
@@ -66753,17 +66781,23 @@ var render = function() {
                       _c(
                         "div",
                         [
-                          _c("vue-numeric", {
-                            attrs: {
-                              separator: ".",
-                              "decimal-separator": ",",
-                              precision: _vm.$root.cost_decimals,
-                              "read-only": "",
-                              value: data.row.average_cost
-                            }
-                          })
+                          data.row.average_cost > 0
+                            ? _c("vue-numeric", {
+                                attrs: {
+                                  separator: ".",
+                                  "decimal-separator": ",",
+                                  precision: _vm.$root.cost_decimals,
+                                  "read-only": "",
+                                  value: data.row.average_cost
+                                }
+                              })
+                            : [
+                                _vm._v(
+                                  "\n                    0\n                "
+                                )
+                              ]
                         ],
-                        1
+                        2
                       )
                     ]
                   }
@@ -66775,20 +66809,29 @@ var render = function() {
                       _c(
                         "div",
                         [
-                          _c("vue-numeric", {
-                            attrs: {
-                              separator: ".",
-                              "decimal-separator": ",",
-                              precision: _vm.$root.cost_decimals,
-                              "read-only": "",
-                              value:
-                                data.row.average_cost *
-                                data.row.pivot.quantity *
-                                _vm.production.times
-                            }
-                          })
+                          data.row.average_cost *
+                            data.row.pivot.quantity *
+                            _vm.production.times >
+                          0
+                            ? _c("vue-numeric", {
+                                attrs: {
+                                  separator: ".",
+                                  "decimal-separator": ",",
+                                  precision: _vm.$root.cost_decimals,
+                                  "read-only": "",
+                                  value:
+                                    data.row.average_cost *
+                                    data.row.pivot.quantity *
+                                    _vm.production.times
+                                }
+                              })
+                            : [
+                                _vm._v(
+                                  "\n                    0\n                "
+                                )
+                              ]
                         ],
-                        1
+                        2
                       )
                     ]
                   }
@@ -66808,7 +66851,7 @@ var render = function() {
               ],
               null,
               false,
-              2346773349
+              752103451
             )
           })
         : _vm._e(),
