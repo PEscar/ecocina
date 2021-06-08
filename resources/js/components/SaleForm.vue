@@ -233,7 +233,7 @@
 
             deleteProduct: function(product_id)
             {
-                this.sale.lines = this.sale.lines.filter(line => line.pivot.product_id != product_id)
+                this.sale.lines = this.sale.lines.filter(line => line.product_id != product_id)
                 this.updateTotal()
             },
 

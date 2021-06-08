@@ -7,7 +7,7 @@ use App\Models\Production;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 
-class ProductionController extends BaseController
+class ProductionController extends DocumentController
 {
     protected $model = 'App\Models\Production';
     protected $index_view = 'productions';
@@ -16,7 +16,7 @@ class ProductionController extends BaseController
         'recipe_id' => 'required|exists:recipes,id',
         'recipe_quantity' => 'required',
         'recipe_extra_cost' => 'required',
-        'recipe_lines_cost' => 'required',
+        // 'recipe_lines_cost' => 'required',
         'times' => 'required|gt:0',
         'quantity' => 'required',
         'total' => 'required',
@@ -48,6 +48,33 @@ class ProductionController extends BaseController
         }
 
         return view('forms.production', ['recipe' => $recipe, 'product' => $product]);
+    }
+
+    protected function fillDocumentLines(Request $request)
+    {
+        // Get out lines, and set type = out
+        $lines = parent::fillDocumentLines($request);
+
+        // Add stock_movement_type = out to all lines
+        foreach ($lines as $key => $line) {
+            $lines[$key]['stock_movement_type'] = 'out';
+            $lines[$key]['update_product_average_cost'] = false;
+        }
+
+        // Create line of produced article
+        $recipe = Recipe::findOrFail($request->recipe_id);
+
+        // Add line type in
+        $lines[$recipe->product->id] = [
+            'quantity' => $request->quantity,
+            'price_per_unit' => $request->total / $request->quantity,
+            'total' => $request->total,
+            'entity_id' => session('user.entity_id'),
+            'stock_movement_type' => 'in',
+            'update_product_average_cost' => true,
+        ];
+
+        return $lines;
     }
 
     // public function store(Request $request, $id = null)

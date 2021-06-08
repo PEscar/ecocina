@@ -3058,6 +3058,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4474,7 +4481,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     deleteProduct: function deleteProduct(product_id) {
       this.sale.lines = this.sale.lines.filter(function (line) {
-        return line.pivot.product_id != product_id;
+        return line.product_id != product_id;
       });
       this.updateTotal();
     },
@@ -66400,11 +66407,6 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("input", {
-        attrs: { type: "hidden", name: "recipe_lines_cost" },
-        domProps: { value: _vm.recipe.lines_cost }
-      }),
-      _vm._v(" "),
-      _c("input", {
         attrs: { type: "hidden", name: "times" },
         domProps: { value: _vm.production.times }
       }),
@@ -66416,8 +66418,44 @@ var render = function() {
       _vm._v(" "),
       _c("input", {
         attrs: { type: "hidden", name: "total" },
-        domProps: { value: _vm.recipe.total_cost }
+        domProps: { value: _vm.recipe.total_cost * _vm.production.times }
       }),
+      _vm._v("\n\n    " + _vm._s(_vm.recipe.lines) + "\n\n    products"),
+      _c("br"),
+      _vm._l(_vm.recipe.lines, function(line) {
+        return _c("input", {
+          attrs: { type: "text", name: "products[]" },
+          domProps: { value: line.pivot.product_id }
+        })
+      }),
+      _c("br"),
+      _vm._v("\n    qttys"),
+      _vm._l(_vm.recipe.lines, function(line) {
+        return _c("input", {
+          attrs: { type: "text", name: "qttys[]" },
+          domProps: { value: line.pivot.quantity * _vm.production.times }
+        })
+      }),
+      _c("br"),
+      _vm._v("\n    prices"),
+      _vm._l(_vm.recipe.lines, function(line) {
+        return _c("input", {
+          attrs: { type: "text", name: "prices[]" },
+          domProps: { value: line.average_cost }
+        })
+      }),
+      _c("br"),
+      _vm._v("\n    totals"),
+      _vm._l(_vm.recipe.lines, function(line) {
+        return _c("input", {
+          attrs: { type: "text", name: "totals[]" },
+          domProps: {
+            value:
+              line.pivot.quantity * _vm.production.times * line.average_cost
+          }
+        })
+      }),
+      _c("br"),
       _vm._v(" "),
       _c(
         "div",

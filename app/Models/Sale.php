@@ -8,7 +8,6 @@ use App\Models\StockMovementGenerator;
 class Sale extends StockMovementGenerator
 {
 	protected $lines_table = 'sale_lines';
-	public $stock_movement_type = 'out';
 
 	protected $fillable = [
 		'customer',

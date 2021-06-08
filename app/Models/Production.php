@@ -4,19 +4,20 @@ namespace App\Models;
 
 use App\Models\GlobalModel;
 use App\Models\StockMovementLine;
+use App\Models\StockMovementGenerator;
 use Illuminate\Database\Eloquent\Builder;
 
-class Production extends GlobalModel
+class Production extends StockMovementGenerator
 {
-    protected $stock_movement_type = 'in';
     public $update_product_average_cost = true;
+    protected $lines_table = 'production_lines';
 
     protected $fillable = [
         'recipe_id',
         'times',
         'recipe_quantity',
         'recipe_extra_cost',
-        'recipe_lines_cost',
+        // 'recipe_lines_cost',
         'quantity',
         'total',
     ];
@@ -39,67 +40,12 @@ class Production extends GlobalModel
     	return $this->belongsTo(Recipe::class);
     }
 
-    public function stockMovement()
+    public function lines()
     {
-        return $this->morphOne(StockMovement::class, 'parentable');
-    }
-
-    public function stockMovementLines()
-    {
-        return $this->morphMany(StockMovementLine::class, 'parentable');
+        return $this->belongsToMany(Product::class, $this->lines_table, 'header_id', 'product_id')->using(ProductionLine::class)->withPivot('id', 'stock_movement_type', 'update_product_average_cost', 'quantity', 'price_per_unit', 'total', 'entity_id')->withTimestamps();
     }
 
     // END RELATIONS
-
-    // PERFORMS
-
-    protected function performInsert(Builder $query, array $options = []) {
-        parent::performInsert($query, $options);
-        $this->registerStockMovement();
-        $this->registerStockMovementLines();
-    }
-
-    protected function performDeleteOnModel() {
-        $this->stockMovement->delete();
-        parent::performDeleteOnModel();
-    }
-
-    // END PERFORMS
-
-    // METHODS
-
-    public function registerStockMovement()
-    {
-        $sm = new StockMovement;
-        $sm->entity_id = $this->entity_id;
-        $sm->date = date('Y-m-d');
-        $this->stockMovement()->save($sm);
-    }
-
-    public function registerStockMovementLines()
-    {
-        // Register movement IN
-        $sml = new StockMovementLine;
-        $sml->type = 'in';
-        $sml->entity_id = $this->entity_id;
-        $sml->stock_movement_id = $this->stockMovement->id;
-        $sml->product_id = $this->recipe->product_id;
-        $sml->quantity = $this->quantity;
-        $this->stockMovementLines()->save($sml);
-
-        // Register moevements OUT
-        $this->recipe->lines()->each(function($line){
-            $sml = new StockMovementLine;
-            $sml->type = 'out';
-            $sml->entity_id = $this->entity_id;
-            $sml->stock_movement_id = $this->stockMovement->id;
-            $sml->product_id = $line->id;
-            $sml->quantity = $line->pivot->quantity * $this->times;
-            $this->stockMovementLines()->save($sml);
-        });
-    }
-
-    // END METHODS
 
     // SCOPES
 

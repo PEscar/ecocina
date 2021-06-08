@@ -5,10 +5,17 @@
         <input type="hidden" name="recipe_id" :value="production.recipe_id">
         <input type="hidden" name="recipe_quantity" :value="production.recipe_quantity">
         <input type="hidden" name="recipe_extra_cost" :value="production.recipe_extra_cost">
-        <input type="hidden" name="recipe_lines_cost" :value="recipe.lines_cost">
+        <!-- <input type="hidden" name="recipe_lines_cost" :value="recipe.lines_cost"> -->
         <input type="hidden" name="times" :value="production.times">
         <input type="hidden" name="quantity" :value="production.times * recipe.quantity">
-        <input type="hidden" name="total" :value="recipe.total_cost">
+        <input type="hidden" name="total" :value="recipe.total_cost * production.times">
+
+        {{ recipe.lines }}
+
+        products<br><input type="text" v-for="line in recipe.lines" name="products[]" :value="line.pivot.product_id"><br>
+        qttys<input type="text" v-for="line in recipe.lines" name="qttys[]" :value="line.pivot.quantity * production.times"><br>
+        prices<input type="text" v-for="line in recipe.lines" name="prices[]" :value="line.average_cost"><br>
+        totals<input type="text" v-for="line in recipe.lines" name="totals[]" :value="line.pivot.quantity * production.times * line.average_cost"><br>
 
         <div class="form-group">
             <label for="product">Producto:</label>

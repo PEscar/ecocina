@@ -41,7 +41,7 @@ class CreatePurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('purchase_delivery_note_lines');
-        Schema::dropIfExists('purchase_delivery_notes');
+        Schema::dropIfExists('purchase_lines');
+        Schema::dropIfExists('purchases');
     }
 }

@@ -18,7 +18,7 @@ class SaleSeeder extends Seeder
         $entity = Entity::first();
 
         factory(Sale::class, 15)->create()->each(function ($purchasedeliverynote){
-            Product::sales()->get()->random(3)->each(function ($item, $key) use ($purchasedeliverynote) {
+            Product::sales()->get()->random(1)->each(function ($item, $key) use ($purchasedeliverynote) {
                 factory(SaleLine::class)->create(['product_id' => $item->id, 'header_id' => $purchasedeliverynote->id, 'quantity' => $item->stock / 10]);
             });
         });

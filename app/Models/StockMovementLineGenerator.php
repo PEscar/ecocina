@@ -33,7 +33,7 @@ abstract class StockMovementLineGenerator extends DocumentLine implements StockM
     {
         // Registro moviemiento
         $sml = new StockMovementLine;
-        $sml->type = $this->header->stock_movement_type;
+        $sml->type = $this->stock_movement_type; // in case of sale/purchase lines, its a class attribute. in case of stock regularizations / production lines, its recorded on db respective db table
         $sml->entity_id = $this->entity_id;
         $sml->stock_movement_id = $this->header->stockMovement->id;
         $sml->product_id = $this->product_id;

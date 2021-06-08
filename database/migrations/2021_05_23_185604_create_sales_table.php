@@ -41,7 +41,7 @@ public function up()
      */
     public function down()
     {
-        Schema::dropIfExists('sale_delivery_note_lines');
-        Schema::dropIfExists('sale_delivery_notes');
+        Schema::dropIfExists('sale_lines');
+        Schema::dropIfExists('sales');
     }
 }

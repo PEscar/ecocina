@@ -10,6 +10,21 @@ abstract class DocumentController extends BaseController
     {
         parent::store($request, $id);
 
+        $lines = $this->fillDocumentLines($request);
+
+        // Delete old lines
+        $this->instance->lines()->each(function ($item){
+            $item->pivot->delete();
+        });
+
+        // Insert new ones
+        $this->instance->lines()->attach($lines);
+
+        return redirect($this->index_view);
+    }
+
+    protected function fillDocumentLines(Request $request)
+    {
         $lines = [];
 
         foreach ($request->products as $key => $value)
@@ -22,14 +37,6 @@ abstract class DocumentController extends BaseController
             ];
         }
 
-        // Delete old lines
-        $this->instance->lines()->each(function ($item){
-            $item->pivot->delete();
-        });
-
-        // Insert new ones
-        $this->instance->lines()->attach($lines);
-
-        return redirect($this->index_view);
+        return $lines;
     }
 }
