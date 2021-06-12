@@ -7,40 +7,21 @@ use App\Models\StockMovementLine;
 use App\Models\StockMovementGenerator;
 use Illuminate\Database\Eloquent\Builder;
 
-class Production extends StockMovementGenerator
+class Regularization extends StockMovementGenerator
 {
-    protected $lines_table = 'production_lines';
+    protected $lines_table = 'regularization_lines';
 
     protected $fillable = [
-        'recipe_id',
-        'times',
-        'recipe_quantity',
-        'recipe_extra_cost',
-        'quantity',
-        'total',
+        'detail'
     ];
 
-    protected $appends = ['cost_per_unit'];
-
-    // APPENDS
-
-    public function getCostPerUnitAttribute()
-    {
-        return $this->total / $this->quantity;
-    }
-
-    // END APPRENDS
+    protected $appends = [];
 
     // RELATIONS
 
-    public function recipe()
-    {
-    	return $this->belongsTo(Recipe::class);
-    }
-
     public function lines()
     {
-        return $this->belongsToMany(Product::class, $this->lines_table, 'header_id', 'product_id')->using(ProductionLine::class)->withPivot('id', 'stock_movement_type', 'update_product_average_cost', 'quantity', 'price_per_unit', 'total', 'entity_id')->withTimestamps();
+        return $this->belongsToMany(Product::class, $this->lines_table, 'header_id', 'product_id')->using(RegularizationLine::class)->withPivot('id', 'stock_movement_type', 'update_product_average_cost', 'quantity', 'entity_id')->withTimestamps();
     }
 
     // END RELATIONS

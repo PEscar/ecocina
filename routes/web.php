@@ -92,3 +92,12 @@ Route::prefix('productions')->group(function () {
 	Route::get('/{id}/edit', 'ProductionController@edit');
 	Route::post('/{id?}', 'ProductionController@store');
 });
+
+Route::prefix('regularizations')->group(function () {
+
+	Route::delete('/{id}', 'RegularizationController@destroy');
+	Route::get('/', 'RegularizationController@index');
+	Route::get('/create', 'RegularizationController@create');
+	Route::get('/{id}/edit', 'RegularizationController@edit');
+	Route::post('/{id?}', 'RegularizationController@store');
+});

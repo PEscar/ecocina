@@ -37,6 +37,9 @@ class ProductionController extends DocumentController
 
     public function create()
     {
+        $recipe = null;
+        $product = null;
+
         if ( isset($_GET['recipe']) && $_GET['recipe'] )
         {
             $recipe = isset($_GET['recipe']) ? Recipe::with(['lines', 'product.recipes.lines'])->find($_GET['recipe']) : null;
@@ -76,28 +79,4 @@ class ProductionController extends DocumentController
 
         return $lines;
     }
-
-    // public function store(Request $request, $id = null)
-    // {
-    //     parent::store($request, $id);
-        // dd($request->all());
-        // parent::store($request, $id);
-
-        // $lines = [];
-
-        // foreach ($request->products as $key => $value) {
-        //     $lines[$value] = ['quantity' => $request->qttys[$key], 'detail' => $request->details[$key], 'entity_id' => session('user.entity_id')];
-        // }
-
-        // $this->instance->lines()->sync($lines);
-
-        // return redirect($this->index_view);
-    // }
-
-    // public function edit($id)
-    // {
-    //     $recipe = Recipe::with(['lines'])->findOrFail($id);
-
-    //     return view('forms.recipe', ['product' => $recipe->product, 'recipe' => $recipe]);
-    // }
 }

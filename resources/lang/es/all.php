@@ -9,4 +9,5 @@ return [
 	'sales' => 'Ventas',
 	'expenses' => 'Gastos',
 	'productions' => 'Producciones',
+	'regularizations' => 'Regularizaciones',
 ];

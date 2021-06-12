@@ -52,7 +52,8 @@ Vue.component('expense-form', require('./components/ExpenseForm.vue').default);
 Vue.component('expense-list', require('./components/ExpenseList.vue').default);
 Vue.component('production-form', require('./components/ProductionForm.vue').default);
 Vue.component('production-list', require('./components/ProductionList.vue').default);
-// Vue.component('expense-list', require('./components/ExpenseList.vue').default);
+Vue.component('regularization-form', require('./components/RegularizationForm.vue').default);
+Vue.component('regularization-list', require('./components/RegularizationList.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -110,6 +111,10 @@ const app = new Vue({
             },
             cellClasses:{
                 'average_cost': [{
+                    class:'text-right',
+                    condition: row => true
+                }],
+                'new_average_cost': [{
                     class:'text-right',
                     condition: row => true
                 }],

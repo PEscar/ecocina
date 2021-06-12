@@ -43,10 +43,10 @@ class StockMovementLine extends GlobalModel
 
     public function updateProductStock()
     {
-    	$update_product_average_cost = $this->parentable->update_product_average_cost; // in case of sale/purchase lines, its a class attribute. in case of stock regularizations / production lines, its recorded on db respective db table
-    	$sum = $this->type == 'in';
+        $update_product_average_cost = $this->parentable->update_product_average_cost; // in case of sale/purchase lines, its a class attribute. in case of stock regularizations / production lines, its recorded on db respective db table
+        $sum = $this->type == 'in';
 
-    	$this->product->updateStock($this->quantity, $this->parentable->total, $sum, $this->parentable->update_product_average_cost);
+        $this->product->updateStock($this->quantity, $this->parentable->total ?? 0, $sum, $this->parentable->update_product_average_cost);
         $this->product->save();
     }
 
@@ -55,7 +55,7 @@ class StockMovementLine extends GlobalModel
         $update_product_average_cost = $this->parentable->update_product_average_cost; // in case of sale/purchase lines, its a class attribute. in case of stock regularizations / production lines, its recorded on db respective db table
         $sum = $this->type == 'out';
 
-        $this->product->updateStock($this->quantity, $this->parentable->total, $sum, $this->parentable->update_product_average_cost);
+        $this->product->updateStock($this->quantity, $this->parentable->total ?? 0, $sum, $this->parentable->update_product_average_cost);
         $this->product->save();
     }
 
