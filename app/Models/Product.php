@@ -9,6 +9,8 @@ class Product extends GlobalModel
 	const MU_UNIT = 1;
 	const MU_KG = 2;
 	const MU_LT = 3;
+    const MU_M = 4;
+    const MU_M2 = 5;
 
     protected $fillable = [
         'name',

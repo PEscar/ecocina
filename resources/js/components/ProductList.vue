@@ -14,6 +14,8 @@
                 <span v-if="data.row.measure == 1" class="badge badge-secondary">Unidades</span>
                 <span v-if="data.row.measure == 2" class="badge badge-secondary">Kilo</span>
                 <span v-if="data.row.measure == 3" class="badge badge-secondary">Litro</span>
+                <span v-if="data.row.measure == 4" class="badge badge-secondary">Metro</span>
+                <span v-if="data.row.measure == 5" class="badge badge-secondary">Metro^2</span>
             </template>
 
             <template slot="sales" slot-scope="data">

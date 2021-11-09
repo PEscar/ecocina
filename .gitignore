@@ -22,3 +22,10 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 pending.txt
+
+# AGREGADOS
+public/css/app.css
+public/js/app.js
+public/mix-manifest.json
+public/fonts/vendor/*
+public/webfonts/*

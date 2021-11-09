@@ -34,6 +34,20 @@
                 Litro
                 </label>
             </div>
+            &nbsp;&nbsp;&nbsp;
+            <div class="form-radio d-inline">
+                <input name="measure" class="form-radio-input" id="m" v-model="product.measure" type="radio" value="4">
+                <label class="form-radio-label" for="4">
+                Metro
+                </label>
+            </div>
+            &nbsp;&nbsp;&nbsp;
+            <div class="form-radio d-inline">
+                <input name="measure" class="form-radio-input" id="m2" v-model="product.measure" type="radio" value="5">
+                <label class="form-radio-label" for="m2">
+                Metro^2
+                </label>
+            </div>
 
             <small v-if="!product.measure" class="form-text text-danger">Debes seleccionar unidad de medida.</small>
         </div>

@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-body text-center">
 
-                    <h2>
+                    <!--<h2>
                         Bienvenido a ECocina !
                     </h2>
 
@@ -31,7 +31,7 @@
 
                     <a href="litecoin:MWYTQtAVkVhUSfDL5Wgp64LZbtJWyvCTuc"><img src="{{ url('img/ltc_qr.png') }}" alt="LTC QR" height="250" width="250" border="0" /></a>
 
-                    <p>Para donar por otros medios, contactanos por email.</p>
+                    <p>Para donar por otros medios, contactanos por email.</p>-->
             </div>
         </div>
     </div>
