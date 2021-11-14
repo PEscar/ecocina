@@ -29,3 +29,4 @@ public/js/app.js
 public/mix-manifest.json
 public/fonts/vendor/*
 public/webfonts/*
+sftp-config.json

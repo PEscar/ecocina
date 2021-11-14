@@ -1,16 +1,16 @@
 <template>
     <div class="card">
-        <div class="card-header">Compras<!-- <a :href="$root.base_url + '/productions/create'" class="float-right">Nueva</a> --></div>
+        <div class="card-header">Producciones<a :href="$root.base_url + '/productions/create'" class="float-right">Nueva</a></div>
 
         <div class="card-body">
 
             <h2>Filtros</h2>
             <hr>
-<!-- 
+
             <div class="form-group">
                 <label for="supplier">Proveedor</label>
                 <input type="text" v-model="filter_q" @keyup="setRequestParams()" id="supplier" placeholder="Juan Pérez" class="form-control d-inline-block w-auto">
-            </div> -->
+            </div>
 
             <div class="form-group">
                 <label for="from">Desde</label>

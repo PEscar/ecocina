@@ -121,23 +121,26 @@
 
             @yield('content')
         </main>
-    </div>
-    <br><br><br><br>
-    <div class="text-center text-lg-start bg-light text-muted footer">
 
-        <!-- Copyright -->
-        <div class="text-center pt-4" style="background-color: rgba(0, 0, 0, 0.05);">
-            © 2021 Copyright Pedro Scarselletta
-        </div>
+        <br><br><br><br>
+            <div class="text-center text-lg-start bg-light text-muted footer">
 
-        <div class="text-center" style="background-color: rgba(0, 0, 0, 0.05);">
-            <a class="text-reset fw-bold" target="_blank" href="https://www.linkedin.com/in/pedro-scarselletta/"><i class="fab fa-linkedin"></i></a>
-            <a class="text-reset fw-bold" target="_blank" href="mailto:pedroscarselletta@gmail.com"><i class="fas fa-envelope"></i></a>
-            <!-- <i class="fab fa-github-square"></i> -->
-            <!-- <a class="text-reset fw-bold" href="https://wa.me/+34600739891"><i class="fab fa-whatsapp-square"></i></a> -->
-        </div>
-        <!-- Copyright -->
+                <!-- Copyright -->
+                <div class="text-center pt-3" style="background-color: rgba(0, 0, 0, 0.05);">
+                    © 2021 Copyright Pedro Scarselletta
+                </div>
+
+                <div class="text-center" style="background-color: rgba(0, 0, 0, 0.05);">
+                    <a class="text-reset fw-bold" target="_blank" href="https://www.linkedin.com/in/pedro-scarselletta/"><i class="fab fa-linkedin"></i></a>
+                    <a class="text-reset fw-bold" target="_blank" href="mailto:pedroscarselletta@gmail.com"><i class="fas fa-envelope"></i></a>
+                    <!-- <i class="fab fa-github-square"></i> -->
+                    <!-- <a class="text-reset fw-bold" href="https://wa.me/+34600739891"><i class="fab fa-whatsapp-square"></i></a> -->
+                </div>
+                <!-- Copyright -->
+
+                <!-- <feedback></feedback> -->
+            </div>
+            <!-- Footer -->
     </div>
-    <!-- Footer -->
 </body>
 </html>

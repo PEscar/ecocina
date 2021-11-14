@@ -8,15 +8,19 @@
             <input type="hidden" name="recipe_extra_cost" :value="production.recipe_extra_cost">
             <!-- <input type="hidden" name="recipe_lines_cost" :value="recipe.lines_cost"> -->
             <input type="hidden" name="times" :value="production.times">
-            <input type="hidden" name="quantity" :value="production.times * recipe.quantity">
-            <input type="hidden" name="total" :value="recipe.total_cost * production.times">
 
-            {{ recipe.lines }}
+            <div v-if="recipe">
+                <input type="hidden" name="quantity" :value="production.times * recipe.quantity">
+                <input type="hidden" name="total" :value="recipe.total_cost * production.times">
 
-            products<br><input type="text" v-for="line in recipe.lines" name="products[]" :value="line.pivot.product_id"><br>
-            qttys<input type="text" v-for="line in recipe.lines" name="qttys[]" :value="line.pivot.quantity * production.times"><br>
-            prices<input type="text" v-for="line in recipe.lines" name="prices[]" :value="line.average_cost"><br>
-            totals<input type="text" v-for="line in recipe.lines" name="totals[]" :value="line.pivot.quantity * production.times * line.average_cost"><br>
+                {{ recipe.lines }}
+
+                products<br><input type="text" v-for="line in recipe.lines" name="products[]" :value="line.pivot.product_id"><br>
+                qttys<input type="text" v-for="line in recipe.lines" name="qttys[]" :value="line.pivot.quantity * production.times"><br>
+                prices<input type="text" v-for="line in recipe.lines" name="prices[]" :value="line.average_cost"><br>
+                totals<input type="text" v-for="line in recipe.lines" name="totals[]" :value="line.pivot.quantity * production.times * line.average_cost">
+            </div>
+            <br>
         </div>
 
         <div class="form-group">
@@ -246,7 +250,7 @@
 
             // Preselectes
             this.product = this.$attrs.product
-            this.recipe = this.$attrs.recipe ? this.product.recipes.find(item => item.id == this.$attrs.recipe.id) : null
+            // this.recipe = this.$attrs.recipe ? this.product.recipes.find(item => item.id == this.$attrs.recipe.id) : null
         },
 
         methods: {
@@ -260,7 +264,7 @@
 
             search: _.debounce((loading, search, vm) => {
               fetch(
-                vm.$root.base_url + '/search/' + '?filters[productions]=1&with[]=recipes&orderBy=name&order=asc&model=Product&q=' + encodeURI(search)
+                vm.$root.base_url + '/search/' + '?filters[productions]=1&with[]=recipes.lines&orderBy=name&order=asc&model=Product&q=' + encodeURI(search)
               ).then(res => {
 
                 res.json().then(json => (vm.products = json));
