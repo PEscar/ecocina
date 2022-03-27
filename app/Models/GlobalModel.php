@@ -38,7 +38,7 @@ class GlobalModel extends Model
 
     protected static function getUserEntity()
     {
-        return session('user.entity_id') ? session('user.entity_id') : null;
+        return \Auth::user() ? \Auth::user()->entity->id : null;
     }
 
     // RELATIONS
