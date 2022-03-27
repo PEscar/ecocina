@@ -250,6 +250,7 @@
 
             // Preselectes
             this.product = this.$attrs.product
+            this.recipe = this.$attrs.recipe
             // this.recipe = this.$attrs.recipe ? this.product.recipes.find(item => item.id == this.$attrs.recipe.id) : null
         },
 
