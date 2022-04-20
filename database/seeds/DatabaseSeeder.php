@@ -8,6 +8,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run()
     {
+        // Create Pesonal Access Client
+        \Artisan::call('passport:install');
+
         $user = factory(User::class)->create(['name' => 'Test User', 'email' => 'user@test.com']);
 
         $entity = new Entity;

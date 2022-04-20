@@ -1,26 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 
 abstract class DocumentController extends BaseController
 {
-    public function store(Request $request, $id = null)
+    public function store(Request $request)
     {
-        parent::store($request, $id);
+        parent::store($request);
 
         $lines = $this->fillDocumentLines($request);
 
-        // Delete old lines
-        $this->instance->lines()->each(function ($item){
-            $item->pivot->delete();
-        });
+        $this->instance->lines()->sync($lines);
+        $this->instance->load('lines');
 
-        // Insert new ones
-        $this->instance->lines()->attach($lines);
+        return response($this->instance, 201);
+    }
 
-        return redirect($this->index_view);
+    public function update(Request $request, $id)
+    {
+        parent::update($request, $id);
+
+        $lines = $this->fillDocumentLines($request);
+
+        $this->instance->lines()->sync($lines);
+        $this->instance->load('lines');
+
+        return response($this->instance, 201);
     }
 
     protected function fillDocumentLines(Request $request)

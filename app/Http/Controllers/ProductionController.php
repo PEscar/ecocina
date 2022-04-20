@@ -72,7 +72,7 @@ class ProductionController extends DocumentController
             'quantity' => $request->quantity,
             'price_per_unit' => $request->total / $request->quantity,
             'total' => $request->total,
-            'entity_id' => session('user.entity_id'),
+            'entity_id' => $this->model::getUserEntity(),
             'stock_movement_type' => 'in',
             'update_product_average_cost' => true,
         ];

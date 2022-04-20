@@ -33,7 +33,7 @@ class RegularizationController extends DocumentController
         {
             $lines[$value] = [
                 'quantity' => $request->qttys[$key],
-                'entity_id' => session('user.entity_id'),
+                'entity_id' => $this->model::getUserEntity(),
                 'stock_movement_type' => $request->types[$key],
                 'update_product_average_cost' => $request->update_product_average_cost[$key],
             ];

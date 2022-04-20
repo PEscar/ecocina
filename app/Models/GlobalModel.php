@@ -9,7 +9,8 @@ class GlobalModel extends Model
 {
     protected static $entityField = 'entity_id';
 
-    protected static function boot(){
+    protected static function boot()
+    {
         parent::boot();
         $entityField = static::$entityField;
         if(!empty($entityField)){
@@ -26,8 +27,9 @@ class GlobalModel extends Model
             });
         }
     }
-    
-    protected function performInsert(Builder $query, array $options = []) {
+
+    protected function performInsert(Builder $query, array $options = [])
+    {
         if(!empty(static::$entityField))
         {
             $this->attributes[static::$entityField] = static::getUserEntity();
@@ -38,7 +40,7 @@ class GlobalModel extends Model
 
     protected static function getUserEntity()
     {
-        return session('user.entity_id') ? session('user.entity_id') : null;
+        return \Auth::user() ? \Auth::user()->entity->id : null;
     }
 
     // RELATIONS

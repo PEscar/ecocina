@@ -23,7 +23,6 @@ class PurchaseTest extends TestCase
             'quantity' => 18,
             'price_per_unit' => 2,
             'total' => 18 * 2,
-            'entity_id' => session('user.entity_id'),
         ];
 
         $purchase->lines()->attach($lines);
@@ -54,7 +53,6 @@ class PurchaseTest extends TestCase
             'quantity' => 18,
             'price_per_unit' => 2,
             'total' => 18 * 2,
-            'entity_id' => session('user.entity_id'),
         ];
 
         $purchase->lines()->attach($lines);
@@ -88,7 +86,6 @@ class PurchaseTest extends TestCase
             'quantity' => 18,
             'price_per_unit' => 2,
             'total' => 18 * 2,
-            'entity_id' => session('user.entity_id'),
         ];
 
         factory(Purchase::class)->create()->lines()->attach($lines);
